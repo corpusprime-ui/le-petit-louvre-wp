@@ -16,11 +16,13 @@
     heroVideo.pause();
     heroVideo.currentTime = 0;
 
-    const scrub = ScrollTrigger.create({
-      trigger : heroScrub,
-      start   : 'top top',
-      end     : 'bottom bottom',
-      scrub   : 1,
+    ScrollTrigger.create({
+      trigger      : heroScrub,
+      start        : 'top top',
+      end          : 'bottom bottom',
+      pin          : '#hero',
+      anticipatePin: 1,
+      scrub        : 1,
       onUpdate(self) {
         if (heroVideo.readyState >= 2 && heroVideo.duration) {
           heroVideo.currentTime = heroVideo.duration * self.progress;
