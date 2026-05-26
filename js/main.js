@@ -69,7 +69,7 @@
      Intersection Observer — scroll reveals
   ------------------------------------------ */
   const revealTargets = document.querySelectorAll(
-    '.reveal, .reveal-left, .reveal-right, .reveal-scale, .quote-text, .sep-line'
+    '.reveal, .reveal-left, .reveal-right, .reveal-scale, .quote-text, .sep-line, .pres-photo'
   );
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {

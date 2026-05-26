@@ -132,6 +132,22 @@
     .d5 { --rd: 480ms; }
     .d6 { --rd: 600ms; }
 
+    /* ── Slide depuis hors-écran gauche — photo présentation ── */
+    .pres-photo {
+      clip-path: inset(0 100% 0 0);
+      transform: translateX(-80px);
+      opacity: 0;
+      transition:
+        clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--rd, 0s),
+        transform  0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--rd, 0s),
+        opacity    0.5s ease var(--rd, 0s);
+    }
+    .pres-photo.in-view {
+      clip-path: inset(0 0% 0 0);
+      transform: translateX(0);
+      opacity: 1;
+    }
+
     /* ==========================================
        STICKY NAV
     ========================================== */
@@ -186,7 +202,7 @@
     /* ── Hero scrub — conteneur tall qui crée la distance de scroll ── */
     .hero-scrub {
       position: relative;
-      height: 350vh;
+      height: 250vh;
     }
 
     .hero {
