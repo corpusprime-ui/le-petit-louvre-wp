@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 57 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Scroll to top">
+<circle id="Ellipse 43" cx="28.5" cy="28.5" r="28" transform="rotate(90 28.5 28.5)" fill="var(--fill-0, #606930)" stroke="var(--stroke-0, #606930)"/>
+<g id="Vector">
+<path d="M29 20L29 37ZM29 20L36 26.375ZM29 20L22 26.375Z" fill="var(--fill-0, white)"/>
+<path d="M29 20L29 37M22 26.375L29 20L36 26.375" stroke="var(--stroke-0, white)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>

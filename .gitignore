@@ -1,0 +1,16 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Dépendances PHP
+vendor/
+composer.phar
+
+# Images générées automatiquement (WebP par EWWW)
+img/*.webp
+img/*-thumb.jpg
+img/optimize.py
+screenshot.png.webp
+
+# Cache
+css/main.min.css

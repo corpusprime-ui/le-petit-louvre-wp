@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 220" fill="none" stroke="#8fa33c" stroke-linecap="round" stroke-linejoin="round">
+
+  <!-- Huître 1 — ouverte, vue de dessus -->
+  <g transform="translate(10, 6)">
+    <!-- Coquille extérieure irrégulière -->
+    <path d="M8 58 C2 40 16 16 50 10 C82 4 128 2 162 14 C190 24 206 44 202 63
+             C198 82 178 95 150 100 C118 106 76 105 48 97 C22 89 13 74 8 58Z"
+          stroke-width="1.6"/>
+    <!-- Nervures radiales depuis la charnière -->
+    <path d="M107 6  Q103 42 100 94" stroke-width="0.85"/>
+    <path d="M127 4  Q124 40 120 94" stroke-width="0.85"/>
+    <path d="M147 8  Q140 43 134 94" stroke-width="0.85"/>
+    <path d="M165 18 Q154 48 144 93" stroke-width="0.85"/>
+    <path d="M180 34 Q165 58 152 90" stroke-width="0.85"/>
+    <path d="M191 52 Q176 68 163 87" stroke-width="0.85"/>
+    <path d="M87 6   Q88 42  90 94" stroke-width="0.85"/>
+    <path d="M67 12  Q72 46  78 92" stroke-width="0.85"/>
+    <path d="M48 24  Q56 52  66 88" stroke-width="0.85"/>
+    <path d="M32 40  Q42 62  54 84" stroke-width="0.85"/>
+    <!-- Contour intérieur nacré -->
+    <path d="M38 62 C55 48 90 42 130 45 C162 47 183 57 196 66"
+          stroke-width="1" opacity="0.55"/>
+    <!-- Nacre / perle -->
+    <circle cx="105" cy="58" r="8"   stroke-width="1.4"/>
+    <circle cx="102" cy="55" r="2.5" fill="#8fa33c" opacity="0.5"/>
+  </g>
+
+  <!-- Huître 2 — fermée, vue extérieure -->
+  <g transform="translate(18, 128)">
+    <!-- Coquille fermée plus allongée -->
+    <path d="M4 48 C0 32 14 12 46 6 C77 1 120 0 152 11
+             C178 20 193 37 190 53 C187 68 170 78 146 83
+             C115 88 76 88 48 80 C22 72 7 64 4 48Z"
+          stroke-width="1.6"/>
+    <!-- Nervures longitudinales -->
+    <path d="M48  6  Q50 34 48 80" stroke-width="0.8"/>
+    <path d="M74  2  Q74 30 72 82" stroke-width="0.8"/>
+    <path d="M100 1  Q98 30 96 84" stroke-width="0.8"/>
+    <path d="M126 4  Q122 32 120 84" stroke-width="0.8"/>
+    <path d="M150 11 Q144 36 142 80" stroke-width="0.8"/>
+    <path d="M168 24 Q160 46 158 76" stroke-width="0.8"/>
+    <path d="M180 40 Q172 58 168 73" stroke-width="0.8"/>
+    <!-- Lignes de texture concentrique -->
+    <path d="M7 40  C42 34 84 32 122 34 C151 36 170 41 188 48" stroke-width="0.65"/>
+    <path d="M5 50  C40 44 82 42 120 44 C150 46 169 51 188 57" stroke-width="0.55"/>
+    <path d="M5 60  C40 54 80 53 118 55 C148 57 168 61 187 67" stroke-width="0.5" opacity="0.7"/>
+  </g>
+
+</svg>

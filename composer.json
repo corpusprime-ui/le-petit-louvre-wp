@@ -1,0 +1,11 @@
+{
+    "name": "le-petit-louvre/theme",
+    "description": "Le Petit Louvre WP Theme",
+    "require": {
+        "mpdf/mpdf": "^8.3"
+    },
+    "config": {
+        "vendor-dir": "vendor",
+        "optimize-autoloader": true
+    }
+}
