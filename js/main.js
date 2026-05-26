@@ -12,9 +12,12 @@
   if (heroVideo && heroScrub && typeof gsap !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    /* Figer la vidéo sur la 1ère frame */
+    /* Figer la vidéo sur la 1ère frame, fade-in quand prête */
     heroVideo.pause();
     heroVideo.currentTime = 0;
+    heroVideo.addEventListener('loadeddata', () => {
+      heroVideo.classList.add('ready');
+    }, { once: true });
 
     ScrollTrigger.create({
       trigger      : heroScrub,
