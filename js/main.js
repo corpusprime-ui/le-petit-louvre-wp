@@ -2,33 +2,54 @@
   'use strict';
 
   /* ------------------------------------------
-     Parallax hero + sticky nav + scroll-top
+     Video Scrub on Scroll — GSAP ScrollTrigger
   ------------------------------------------ */
-  const heroBgs   = document.querySelectorAll('.hero-bg');
-  const heroEl    = document.getElementById('hero');
-  const stickyNav = document.getElementById('stickyNav');
-  const scrollTop = document.getElementById('scrollTop');
+  const heroVideo  = document.getElementById('heroVideo');
+  const heroScrub  = document.getElementById('heroScrub');
+  const stickyNav  = document.getElementById('stickyNav');
+  const scrollTop  = document.getElementById('scrollTop');
 
-  /* Scroll — sticky nav + scroll-to-top */
-  function onScroll() {
-    const y = window.scrollY;
-    stickyNav.classList.toggle('visible', y > heroEl.offsetHeight * 0.85);
-    scrollTop.classList.toggle('visible', y > 400);
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
+  if (heroVideo && heroScrub && typeof gsap !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
 
-  /* Hero slideshow — crossfade + LCP fix
-     La transition est activée en inline JS (fiable) uniquement au moment
-     du crossfade, jamais au chargement initial → le LCP n'est pas bloqué */
-  if (heroBgs.length > 1) {
-    let heroCurrent = 0;
-    setInterval(() => {
-      /* Active la transition sur les deux images juste avant le switch */
-      heroBgs.forEach(bg => { bg.style.transition = 'opacity 700ms ease-in-out'; });
-      heroBgs[heroCurrent].classList.remove('active');
-      heroCurrent = (heroCurrent + 1) % heroBgs.length;
-      heroBgs[heroCurrent].classList.add('active');
-    }, 5000);
+    /* Figer la vidéo sur la 1ère frame */
+    heroVideo.pause();
+    heroVideo.currentTime = 0;
+
+    const scrub = ScrollTrigger.create({
+      trigger : heroScrub,
+      start   : 'top top',
+      end     : 'bottom bottom',
+      scrub   : 1,
+      onUpdate(self) {
+        if (heroVideo.readyState >= 2 && heroVideo.duration) {
+          heroVideo.currentTime = heroVideo.duration * self.progress;
+        }
+      },
+      onLeave() {
+        stickyNav && stickyNav.classList.add('visible');
+      },
+      onEnterBack() {
+        stickyNav && stickyNav.classList.remove('visible');
+      },
+    });
+
+    /* Scroll-to-top visibility après le scrub */
+    ScrollTrigger.create({
+      trigger : heroScrub,
+      start   : 'bottom 80%',
+      onEnter : () => scrollTop && scrollTop.classList.add('visible'),
+      onLeaveBack: () => scrollTop && scrollTop.classList.remove('visible'),
+    });
+
+  } else {
+    /* Fallback sans GSAP — sticky nav au scroll classique */
+    const heroEl = document.getElementById('hero');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (stickyNav) stickyNav.classList.toggle('visible', y > (heroEl ? heroEl.offsetHeight * 0.85 : 600));
+      if (scrollTop) scrollTop.classList.toggle('visible', y > 400);
+    }, { passive: true });
   }
 
   /* Speakeasy crossfade — transition douce toutes les 6s */
@@ -84,9 +105,13 @@
   const scrollHintBtn = document.getElementById('heroScrollHint');
   if (scrollHintBtn) {
     scrollHintBtn.addEventListener('click', () => {
-      const targetId = scrollHintBtn.dataset.target || 'presentation';
-      const target = document.getElementById(targetId);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      const scrub = document.getElementById('heroScrub');
+      if (scrub) {
+        window.scrollTo({ top: scrub.offsetTop + scrub.offsetHeight, behavior: 'smooth' });
+      } else {
+        const target = document.getElementById(scrollHintBtn.dataset.target || 'presentation');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   }
 

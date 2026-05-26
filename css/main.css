@@ -183,32 +183,25 @@
     /* ==========================================
        HERO
     ========================================== */
-    .hero {
-      position: relative; width: 100%; height: 744px;
-      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    /* ── Hero scrub — conteneur tall qui crée la distance de scroll ── */
+    .hero-scrub {
+      position: relative;
+      height: 350vh;
     }
-    .hero { background-color: #0d1a06; } /* fond sombre pendant le chargement LCP */
 
-    .hero-bg {
+    .hero {
+      position: sticky; top: 0;
+      width: 100%; height: 100vh;
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+      background-color: #0d1a06;
+    }
+
+    /* ── Vidéo hero ── */
+    .hero-video {
       position: absolute; inset: 0;
-      width: 100%; height: 115%; top: -7.5%;
+      width: 100%; height: 100%;
       object-fit: cover; object-position: center;
-      /* opacity: 1 par défaut — LCP détecte l'image active immédiatement */
-      will-change: transform;
-      animation: heroBgZoom 16s ease-in-out infinite alternate;
-    }
-    /* Seules les images NON actives sont cachées — l'image LCP reste visible */
-    .hero-bg:not(.active) { opacity: 0; }
-    @keyframes heroBgZoom {
-      from { transform: scale(1);    }
-      to   { transform: scale(1.07); }
-    }
-    /* Mobile : zoom légèrement plus rapide pour éviter le saccadé */
-    @media (max-width: 853px) {
-      .hero-bg { animation-duration: 14s; animation-timing-function: linear; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-bg { animation: none; }
+      pointer-events: none;
     }
     .hero-overlay-top {
       position: absolute; inset: 0;
@@ -1125,7 +1118,8 @@
       }
 
       /* Hero */
-      .hero { height: 100svh; min-height: 560px; }
+      .hero { height: 100vh; min-height: 560px; }
+      .hero-scrub { height: 300vh; }
       .hero-content { margin-top: 0px; }
       .hero-title   { font-size: 34px; }
       .hero-tagline { font-size: 18px; letter-spacing: 2px; }

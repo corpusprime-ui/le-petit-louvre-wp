@@ -104,11 +104,27 @@ function lpl_enqueue_assets() {
         true
     );
 
+    // GSAP + ScrollTrigger
+    wp_enqueue_script(
+        'gsap',
+        'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
+        [],
+        '3.12.5',
+        true
+    );
+    wp_enqueue_script(
+        'gsap-st',
+        'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
+        [ 'gsap' ],
+        '3.12.5',
+        true
+    );
+
     // JS principal du thème
     wp_enqueue_script(
         'lpl-main',
         get_template_directory_uri() . '/js/main.js',
-        [ 'bootstrap' ],
+        [ 'bootstrap', 'gsap', 'gsap-st' ],
         $v,
         true
     );

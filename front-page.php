@@ -7,12 +7,20 @@ $tpl = get_template_directory_uri();
 ?>
 
 <!-- ==========================================
-     HERO
+     HERO — VIDEO SCRUB
 ========================================== -->
+<div class="hero-scrub" id="heroScrub">
 <section class="hero" id="hero">
 
+  <!-- Vidéo hero (scrub on scroll) -->
+  <video id="heroVideo" class="hero-video"
+         muted playsinline preload="auto"
+         poster="<?php echo $tpl; ?>/img/hero-salle.jpg">
+    <source src="<?php echo $tpl; ?>/videos/hero-video.mp4" type="video/mp4">
+  </video>
+
   <?php
-  /* ── Photos hero ──────────────────────────────────────────── */
+  /* ── Photos hero — conservées en fallback si vidéo absente ──
   $hero_images_acf = function_exists( 'have_rows' ) && have_rows( 'hero_images', $pid );
   if ( $hero_images_acf ) :
     $first = true;
@@ -29,16 +37,12 @@ $tpl = get_template_directory_uri();
       <?php endif;
       $first = false;
     endwhile;
-  else : /* Fallback statique */ ?>
-    <img class="hero-bg active" id="heroBg"
-         src="<?php echo $tpl; ?>/img/hero-salle.jpg"
-         alt="Salle du restaurant Le Petit Louvre"
-         fetchpriority="high" decoding="async">
-    <img loading="lazy" class="hero-bg"
-         src="<?php echo $tpl; ?>/img/terrasse-2.jpg"
-         alt="Terrasse ensoleillée Le Petit Louvre"
-         decoding="async">
-  <?php endif; ?>
+  else :
+    <img class="hero-bg active" src="<?php echo $tpl; ?>/img/hero-salle.jpg" fetchpriority="high" decoding="async">
+    <img loading="lazy" class="hero-bg" src="<?php echo $tpl; ?>/img/terrasse-2.jpg" decoding="async">
+  endif;
+  ── Fin fallback images ── */
+  ?>
 
   <div class="hero-overlay-top"></div>
   <div class="hero-overlay-mid"></div>
@@ -66,6 +70,7 @@ $tpl = get_template_directory_uri();
   </button>
 
 </section>
+</div>
 
 
 <!-- ==========================================
