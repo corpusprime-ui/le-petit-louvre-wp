@@ -335,6 +335,7 @@
       display: flex; flex-direction: column;
       align-items: center; gap: 15px;
       text-align: center; margin-top: 60px;
+      will-change: opacity, transform;
     }
     .hero-label {
       font-family: 'Inter', sans-serif; font-weight: 500; font-size: 15px;

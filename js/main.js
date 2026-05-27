@@ -1,10 +1,11 @@
 (function () {
   'use strict';
 
-  const heroVideo  = document.getElementById('heroVideo');
-  const heroScrub  = document.getElementById('heroScrub');
-  const stickyNav  = document.getElementById('stickyNav');
-  const scrollTop  = document.getElementById('scrollTop');
+  const heroVideo   = document.getElementById('heroVideo');
+  const heroScrub   = document.getElementById('heroScrub');
+  const heroContent = document.querySelector('.hero-content');
+  const stickyNav   = document.getElementById('stickyNav');
+  const scrollTop   = document.getElementById('scrollTop');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ------------------------------------------
@@ -29,6 +30,12 @@
       onUpdate(self) {
         if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
           heroVideo.currentTime = heroVideo.duration * self.progress;
+        }
+        /* Fondu vers le haut du contenu hero (logo, h1, boutons) sur les 30% finaux */
+        if (heroContent) {
+          const p = Math.min(1, Math.max(0, (self.progress - 0.62) / 0.30));
+          heroContent.style.opacity   = String(1 - p);
+          heroContent.style.transform = p > 0 ? `translateY(${-p * 72}px)` : '';
         }
       },
       onLeave()     { if (stickyNav) stickyNav.classList.add('visible'); },
