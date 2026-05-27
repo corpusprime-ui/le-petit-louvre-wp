@@ -248,12 +248,12 @@
     .hero-video.ready { opacity: 1; }
     .hero-overlay-top {
       position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(20,40,0,0.55) 0%, rgba(20,40,0,0) 40%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 40%);
       pointer-events: none;
     }
     .hero-overlay-mid {
       position: absolute; inset: 0;
-      background: linear-gradient(0deg, rgba(20,40,0,0.45) 0%, rgba(20,40,0,0) 55%);
+      background: linear-gradient(0deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 55%);
       pointer-events: none;
     }
 
