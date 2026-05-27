@@ -214,6 +214,9 @@
     .hero-scrub .hero {
       height: 100vh;
       background-color: var(--page-bg);
+      background-image: url('../img/terrasse-2.jpg');
+      background-size: cover;
+      background-position: center;
     }
 
     /* ── Images hero (pages internes) ── */
