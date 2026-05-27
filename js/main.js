@@ -31,11 +31,11 @@
         if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
           heroVideo.currentTime = heroVideo.duration * self.progress;
         }
-        /* Fondu vers le haut du contenu hero (logo, h1, boutons) sur les 30% finaux */
+        /* Fondu vers le haut du contenu hero — exit cinématique */
         if (heroContent) {
-          const p = Math.min(1, Math.max(0, (self.progress - 0.62) / 0.30));
+          const p = Math.min(1, Math.max(0, (self.progress - 0.50) / 0.38));
           heroContent.style.opacity   = String(1 - p);
-          heroContent.style.transform = p > 0 ? `translateY(${-p * 72}px)` : '';
+          heroContent.style.transform = p > 0 ? `translateY(${-p * 96}px)` : '';
         }
       },
       onLeave()     { if (stickyNav) stickyNav.classList.add('visible'); },
