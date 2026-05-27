@@ -63,7 +63,7 @@
 
     html {
       scroll-behavior: smooth;
-      overflow-x: hidden;
+      overflow-x: clip; /* clip ≠ hidden — ne casse pas position:sticky */
       max-width: 100%;
     }
 
@@ -73,7 +73,7 @@
       line-height: 1.65;
       background-color: var(--page-bg);
       color: var(--text-primary);
-      overflow-x: hidden;
+      overflow-x: clip;
       max-width: 100%;
       opacity: 0;
       animation: pageLoad 600ms var(--ease-quart) 100ms forwards;
