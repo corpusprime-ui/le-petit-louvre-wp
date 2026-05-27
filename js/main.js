@@ -7,14 +7,19 @@
   const stickyNav   = document.getElementById('stickyNav');
   const scrollTop   = document.getElementById('scrollTop');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  /* Désactive le scrub si la page se charge via une ancre — évite le blanc GSAP */
-  const hasAnchor = !!window.location.hash;
+  const anchorTarget  = window.location.hash ? document.querySelector(window.location.hash) : null;
 
   /* ------------------------------------------
      Video Scrub on Scroll — GSAP ScrollTrigger
   ------------------------------------------ */
-  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion && !hasAnchor) {
+  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion) {
     gsap.registerPlugin(ScrollTrigger);
+
+    /* Si ancre dans l'URL : bloquer le scroll auto du browser, on scrolle après init */
+    if (anchorTarget) {
+      history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    }
 
     /* Figer la vidéo sur la 1ère frame, fade-in quand prête */
     heroVideo.pause();
@@ -50,6 +55,16 @@
       onEnter    : () => { if (scrollTop) scrollTop.classList.add('visible'); },
       onLeaveBack: () => { if (scrollTop) scrollTop.classList.remove('visible'); },
     });
+
+    /* Scroll vers l'ancre après init GSAP */
+    if (anchorTarget) {
+      window.addEventListener('load', () => {
+        ScrollTrigger.refresh();
+        setTimeout(() => {
+          anchorTarget.scrollIntoView({ behavior: 'smooth' });
+        }, 120);
+      });
+    }
 
   } else {
     /* Fallback — scrub désactivé (reduced-motion ou GSAP absent) */
