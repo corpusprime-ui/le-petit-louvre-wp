@@ -93,6 +93,17 @@
     }, { passive: true });
   }
 
+  /* Hero-bg crossfade — pages internes (Carte, Bar…) */
+  const heroBgs = document.querySelectorAll('.hero-bg');
+  if (heroBgs.length > 1) {
+    let hbCurrent = 0;
+    setInterval(() => {
+      heroBgs[hbCurrent].classList.remove('active');
+      hbCurrent = (hbCurrent + 1) % heroBgs.length;
+      heroBgs[hbCurrent].classList.add('active');
+    }, 5000);
+  }
+
   /* Speakeasy crossfade — transition douce toutes les 6s */
   const speakeasyBgs = document.querySelectorAll('.speakeasy-bg');
   if (speakeasyBgs.length > 1) {
