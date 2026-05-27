@@ -116,11 +116,16 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
   <div class="footer-divider"></div>
 
   <div class="container" style="max-width:1200px;">
-    <div class="footer-bottom d-flex justify-content-between align-items-center">
-      <p class="mb-0"><?php echo esc_html( $f_footer_copyright ); ?> © <?php echo date( 'Y' ); ?> — Tous droits réservés</p>
-      <p class="mb-0">
-        <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>" style="color:white;text-decoration:none;">Mentions légales</a>
-        &emsp;Politique de confidentialité&emsp;Plan du site
+    <div class="footer-bottom">
+      <p class="footer-bottom-copy"><?php echo esc_html( $f_footer_copyright ); ?> © <?php echo date( 'Y' ); ?> — Tous droits réservés</p>
+      <p class="footer-bottom-links">
+        <a href="<?php echo esc_url( home_url( '/mentions-legales/' ) ); ?>">Mentions légales</a>
+        <span class="footer-sep">·</span>
+        <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Politique de confidentialité</a>
+      </p>
+      <p class="footer-bottom-credit">
+        Site réalisé par l'agence
+        <a href="https://www.webdigital.fr" target="_blank" rel="noopener noreferrer">Webdigital</a>
       </p>
     </div>
   </div>

@@ -864,9 +864,35 @@
     .footer-map-btn:hover { background: rgba(255,255,255,0.15); transform: scale(1.04); }
     .footer-divider { height: 0.5px; background: rgba(255,255,255,0.22); margin: 0 40px 22px; }
     .footer-bottom {
-      font-family: 'Laila', serif; font-size: 14px; color: rgba(255,255,255,0.80);
+      font-family: 'Laila', serif; font-size: 13px; color: rgba(255,255,255,0.75);
       padding: 0 40px 30px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
     }
+    .footer-bottom a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 200ms; }
+    .footer-bottom a:hover { color: #fff; }
+    .footer-bottom-links { display: flex; align-items: center; gap: 10px; }
+    .footer-sep { opacity: 0.4; }
+    .footer-bottom-credit { opacity: 0.6; font-size: 12px; }
+    .footer-bottom-credit a { color: rgba(255,255,255,0.75); }
+
+    /* ── Page Mentions légales ── */
+    .mentions-page { background: var(--page-bg); }
+    .mentions-bloc {
+      margin-bottom: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(29,51,0,0.12);
+    }
+    .mentions-bloc:last-child { border-bottom: none; }
+    .mentions-bloc h2 {
+      font-family: 'Fraunces', serif; font-size: 22px;
+      color: var(--dark-green); margin-bottom: 16px;
+    }
+    .mentions-bloc p {
+      font-size: 16px; line-height: 1.75; color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .mentions-bloc a { color: var(--olive-green); text-decoration: underline; }
 
     /* ==========================================
        FLOATING RESERVE BUTTON
@@ -1261,9 +1287,11 @@
       .footer { padding: 44px 0 0; }
       .footer-divider { margin: 0 20px 16px; }
       .footer-bottom {
-        flex-direction: column; gap: 6px; text-align: center;
-        padding: 0 20px 24px; font-size: 12px;
+        flex-direction: column; gap: 8px; text-align: center;
+        padding: 0 20px 28px; font-size: 12px;
       }
+      .footer-bottom-links { flex-wrap: wrap; justify-content: center; }
+      .footer-bottom-credit { font-size: 11px; }
 
 
       /* Carte page — responsive (Bootstrap cols gèrent le layout) */
