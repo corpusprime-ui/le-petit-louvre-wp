@@ -44,15 +44,18 @@
       pin     : '#hero',
       scrub   : 0.5,
       onUpdate(self) {
-        if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
-          heroVideo.currentTime = heroVideo.duration * self.progress;
-        }
-        /* Fondu vers le haut du contenu hero — exit cinématique */
-        if (heroContent) {
-          const p = Math.min(1, Math.max(0, (self.progress - 0.50) / 0.38));
-          heroContent.style.opacity   = String(1 - p);
-          heroContent.style.transform = p > 0 ? `translateY(${-p * 96}px)` : '';
-        }
+        const progress = self.progress;
+        requestAnimationFrame(() => {
+          if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
+            heroVideo.currentTime = heroVideo.duration * progress;
+          }
+          /* Fondu vers le haut du contenu hero — exit cinématique */
+          if (heroContent) {
+            const p = Math.min(1, Math.max(0, (progress - 0.50) / 0.38));
+            heroContent.style.opacity   = String(1 - p);
+            heroContent.style.transform = p > 0 ? `translateY(${-p * 96}px)` : '';
+          }
+        });
       },
       onLeave()     { if (stickyNav) stickyNav.classList.add('visible'); },
       onEnterBack() { if (stickyNav) stickyNav.classList.remove('visible'); },

@@ -199,7 +199,7 @@
     /* ── Hero scrub — conteneur tall qui crée la distance de scroll ── */
     .hero-scrub {
       position: relative;
-      height: 220vh;
+      height: 180vh;
     }
 
     /* Hero — hauteur fixe par défaut (pages internes : carte, contact...) */
@@ -247,6 +247,11 @@
       pointer-events: none;
       opacity: 0;
       transition: opacity 0.6s ease;
+      /* GPU compositing — accélération matérielle iOS/Android */
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
     .hero-video.ready { opacity: 1; }
     .hero-overlay-top {
@@ -1166,7 +1171,7 @@
 
       /* Hero */
       .hero { height: 100vh; min-height: 560px; }
-      .hero-scrub { height: 260vh; }
+      .hero-scrub { height: 210vh; }
       .hero-content { margin-top: 0px; }
       .hero-title   { font-size: 34px; }
       .hero-tagline { font-size: 18px; letter-spacing: 2px; }
