@@ -14,3 +14,7 @@ screenshot.png.webp
 
 # Cache
 css/main.min.css
+
+# Vidéos sources non optimisées (trop lourdes pour git)
+videos/hero-video.mp4
+videos/hero-video-2.mp4

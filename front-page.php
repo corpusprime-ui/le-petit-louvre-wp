@@ -14,8 +14,11 @@ $tpl = get_template_directory_uri();
 
   <!-- Vidéo hero (scrub on scroll) -->
   <video id="heroVideo" class="hero-video"
-         muted playsinline preload="auto" aria-hidden="true">
-    <source src="<?php echo $tpl; ?>/videos/hero-video.mp4" type="video/mp4">
+         muted playsinline preload="auto" aria-hidden="true"
+         poster="<?php echo $tpl; ?>/videos/hero-poster.jpg">
+    <source src="<?php echo $tpl; ?>/videos/hero-video-mobile.mp4" type="video/mp4" media="(max-width:853px)">
+    <source src="<?php echo $tpl; ?>/videos/hero-video.webm"       type="video/webm">
+    <source src="<?php echo $tpl; ?>/videos/hero-video-opt.mp4"    type="video/mp4">
   </video>
 
   <?php

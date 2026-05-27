@@ -210,9 +210,10 @@
       background-color: #0d1a06;
     }
 
-    /* Hero dans le scrub — plein écran 100vh */
+    /* Hero dans le scrub — plein écran 100vh, fond clair pendant chargement vidéo */
     .hero-scrub .hero {
       height: 100vh;
+      background-color: var(--page-bg);
     }
 
     /* ── Images hero (pages internes) ── */
