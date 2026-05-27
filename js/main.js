@@ -1,15 +1,16 @@
 (function () {
   'use strict';
 
-  /* ------------------------------------------
-     Video Scrub on Scroll — GSAP ScrollTrigger
-  ------------------------------------------ */
   const heroVideo  = document.getElementById('heroVideo');
   const heroScrub  = document.getElementById('heroScrub');
   const stickyNav  = document.getElementById('stickyNav');
   const scrollTop  = document.getElementById('scrollTop');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (heroVideo && heroScrub && typeof gsap !== 'undefined') {
+  /* ------------------------------------------
+     Video Scrub on Scroll — GSAP ScrollTrigger
+  ------------------------------------------ */
+  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion) {
     gsap.registerPlugin(ScrollTrigger);
 
     /* Figer la vidéo sur la 1ère frame, fade-in quand prête */
@@ -20,35 +21,34 @@
     }, { once: true });
 
     ScrollTrigger.create({
-      trigger      : heroScrub,
-      start        : 'top top',
-      end          : 'bottom bottom',
-      pin          : '#hero',
-      anticipatePin: 1,
-      scrub        : 1,
+      trigger : heroScrub,
+      start   : 'top top',
+      end     : 'bottom bottom',
+      pin     : '#hero',
+      scrub   : 0.5,
       onUpdate(self) {
-        if (heroVideo.readyState >= 2 && heroVideo.duration) {
+        if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
           heroVideo.currentTime = heroVideo.duration * self.progress;
         }
       },
-      onLeave() {
-        stickyNav && stickyNav.classList.add('visible');
-      },
-      onEnterBack() {
-        stickyNav && stickyNav.classList.remove('visible');
-      },
+      onLeave()     { if (stickyNav) stickyNav.classList.add('visible'); },
+      onEnterBack() { if (stickyNav) stickyNav.classList.remove('visible'); },
     });
 
-    /* Scroll-to-top visibility après le scrub */
     ScrollTrigger.create({
-      trigger : heroScrub,
-      start   : 'bottom 80%',
-      onEnter : () => scrollTop && scrollTop.classList.add('visible'),
-      onLeaveBack: () => scrollTop && scrollTop.classList.remove('visible'),
+      trigger    : heroScrub,
+      start      : 'bottom 80%',
+      onEnter    : () => { if (scrollTop) scrollTop.classList.add('visible'); },
+      onLeaveBack: () => { if (scrollTop) scrollTop.classList.remove('visible'); },
     });
 
   } else {
-    /* Fallback sans GSAP — sticky nav au scroll classique */
+    /* Fallback — scrub désactivé (reduced-motion ou GSAP absent) */
+    if (heroVideo) {
+      heroVideo.classList.add('ready');
+      /* Afficher le hero-scrub comme section normale */
+      if (heroScrub) heroScrub.style.height = '100vh';
+    }
     const heroEl = document.getElementById('hero');
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
@@ -102,10 +102,12 @@
   /* ------------------------------------------
      Smooth scroll-to-top
   ------------------------------------------ */
-  document.getElementById('scrollTop').addEventListener('click', e => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (scrollTop) {
+    scrollTop.addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
   const scrollHintBtn = document.getElementById('heroScrollHint');
   if (scrollHintBtn) {
@@ -194,7 +196,11 @@
 
     setSlideWidths(); jump(visible); startAuto();
 
-    window.addEventListener('resize', () => { setSlideWidths(); jump(current); });
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { setSlideWidths(); jump(current); }, 150);
+    });
     prevBtn.addEventListener('click', () => { stopAuto(); prev(); startAuto(); });
     nextBtn.addEventListener('click', () => { stopAuto(); next(); startAuto(); });
     viewport.addEventListener('mouseenter', stopAuto);
@@ -236,12 +242,13 @@
   /* ------------------------------------------
      Branche d'olivier — apparaît/disparaît au scroll
   ------------------------------------------ */
-  const oliveBranch = document.getElementById('oliveBranch');
-  if (oliveBranch) {
+  const oliveBranch    = document.getElementById('oliveBranch');
+  const privatisation  = document.getElementById('privatisation');
+  if (oliveBranch && privatisation) {
     const oliveIo = new IntersectionObserver(([entry]) => {
       oliveBranch.classList.toggle('in-view', entry.isIntersecting);
     }, { threshold: 0.15 });
-    oliveIo.observe(document.getElementById('privatisation'));
+    oliveIo.observe(privatisation);
   }
 
   /* ------------------------------------------
@@ -273,7 +280,8 @@
       overlay.classList.contains('open') ? closeMenu() : openMenu()
     )
   );
-  document.getElementById('overlayCloseBtn').addEventListener('click', closeMenu);
+  const overlayCloseBtn = document.getElementById('overlayCloseBtn');
+  if (overlayCloseBtn) overlayCloseBtn.addEventListener('click', closeMenu);
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   // Fermer sur Escape
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });

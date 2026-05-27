@@ -1134,6 +1134,19 @@
       .quote-inner    { padding: 0 60px; }
       .quote-text     { font-size: 28px; }
       .pres-photo     { height: 460px; }
+      /* Remplace clip-path (instable sur certains Safari/Android) par translateX seul */
+      .pres-photo {
+        clip-path: none;
+        transform: translateX(-32px);
+        opacity: 0;
+        transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--rd, 0s),
+                    opacity   0.7s ease var(--rd, 0s);
+      }
+      .pres-photo.in-view {
+        clip-path: none;
+        transform: translateX(0);
+        opacity: 1;
+      }
       .speakeasy-images { height: 420px; }
       .priv-photo     { height: 360px; }
       .lpl-photo      { height: 360px; }
