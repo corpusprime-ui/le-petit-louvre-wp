@@ -21,12 +21,10 @@
       window.scrollTo(0, 0);
     }
 
-    /* Figer la vidéo sur la 1ère frame, fade-in quand prête */
+    /* Poster visible immédiatement — ne pas attendre loadeddata (ignoré sur iOS) */
+    heroVideo.classList.add('ready');
     heroVideo.pause();
     heroVideo.currentTime = 0;
-    heroVideo.addEventListener('loadeddata', () => {
-      heroVideo.classList.add('ready');
-    }, { once: true });
 
     /* iOS Safari : déverrouiller la vidéo au premier geste utilisateur
        Sans ça, currentTime ne se met pas à jour sur mobile           */
