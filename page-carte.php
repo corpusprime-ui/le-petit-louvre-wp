@@ -172,6 +172,7 @@ if ( $active_menu_id ) {
 
 </section>
 
+<div class="carte-parallax-content">
 
 <!-- ==========================================
      NAV ANCRE SECTIONS
@@ -474,5 +475,7 @@ if ( $active_menu_id ) {
   });
 }());
 </script>
+
+</div><!-- /.carte-parallax-content -->
 
 <?php get_footer(); ?>
