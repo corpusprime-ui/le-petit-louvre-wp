@@ -28,6 +28,17 @@
       heroVideo.classList.add('ready');
     }, { once: true });
 
+    /* iOS Safari : déverrouiller la vidéo au premier geste utilisateur
+       Sans ça, currentTime ne se met pas à jour sur mobile           */
+    let iosUnlocked = false;
+    function unlockiOS() {
+      if (iosUnlocked) return;
+      iosUnlocked = true;
+      heroVideo.play().then(() => heroVideo.pause()).catch(() => {});
+    }
+    window.addEventListener('touchstart', unlockiOS, { once: true, passive: true });
+    window.addEventListener('scroll',     unlockiOS, { once: true, passive: true });
+
     ScrollTrigger.create({
       trigger : heroScrub,
       start   : 'top top',
