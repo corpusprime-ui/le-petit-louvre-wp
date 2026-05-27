@@ -155,9 +155,10 @@ add_action( 'wp_head', function () {
                    ? $hero_images[0]['image']['url']
                    : get_template_directory_uri() . '/img/hero-salle.jpg';
 
-    // Sur la page d'accueil : preload LCP + og:image hero
+    // Sur la page d'accueil : preload LCP (poster vidéo) + og:image hero
     if ( is_front_page() ) {
-        echo '<link rel="preload" as="image" fetchpriority="high" href="' . esc_url( $default_og ) . '">' . "\n";
+        $poster = get_template_directory_uri() . '/videos/hero-poster.jpg';
+        echo '<link rel="preload" as="image" fetchpriority="high" href="' . esc_url( $poster ) . '">' . "\n";
         echo '<meta property="og:image" content="' . esc_url( $default_og ) . '">' . "\n";
         echo '<meta name="twitter:image" content="' . esc_url( $default_og ) . '">' . "\n";
         return;
