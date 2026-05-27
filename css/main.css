@@ -199,7 +199,7 @@
     /* ── Hero scrub — conteneur tall qui crée la distance de scroll ── */
     .hero-scrub {
       position: relative;
-      height: 250vh;
+      height: 380vh;
     }
 
     /* Hero — hauteur fixe par défaut (pages internes : carte, contact...) */
@@ -1166,7 +1166,7 @@
 
       /* Hero */
       .hero { height: 100vh; min-height: 560px; }
-      .hero-scrub { height: 280vh; }
+      .hero-scrub { height: 420vh; }
       .hero-content { margin-top: 0px; }
       .hero-title   { font-size: 34px; }
       .hero-tagline { font-size: 18px; letter-spacing: 2px; }
