@@ -141,7 +141,7 @@ if ( $active_menu_id ) {
   <img class="hero-bg<?php echo $is_first ? ' active' : ''; ?>"
        src="<?php echo esc_url( $img['url'] ); ?>"
        alt="<?php echo esc_attr( $img['alt'] ); ?>"
-       <?php echo $is_first ? 'fetchpriority="high"' : 'loading="lazy"'; ?>
+       <?php echo $is_first ? 'fetchpriority="high"' : ''; ?>loading="eager"
        decoding="async" width="1440" height="960">
   <?php endforeach; ?>
 
