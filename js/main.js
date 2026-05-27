@@ -7,11 +7,13 @@
   const stickyNav   = document.getElementById('stickyNav');
   const scrollTop   = document.getElementById('scrollTop');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Désactive le scrub si la page se charge via une ancre — évite le blanc GSAP */
+  const hasAnchor = !!window.location.hash;
 
   /* ------------------------------------------
      Video Scrub on Scroll — GSAP ScrollTrigger
   ------------------------------------------ */
-  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion) {
+  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion && !hasAnchor) {
     gsap.registerPlugin(ScrollTrigger);
 
     /* Figer la vidéo sur la 1ère frame, fade-in quand prête */
