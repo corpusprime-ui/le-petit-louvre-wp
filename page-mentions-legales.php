@@ -6,17 +6,36 @@ get_header();
 $tpl = esc_url( get_template_directory_uri() );
 ?>
 
-<section class="hero hero--carte" id="hero">
-  <div class="hero-overlay-top"></div>
-  <div class="hero-overlay-mid"></div>
+<!-- ==========================================
+     HERO MENTIONS LÉGALES
+========================================== -->
+<section class="hero" id="hero" aria-label="Mentions légales — Le Petit Louvre">
+
+  <img class="hero-bg active"
+       src="<?php echo $tpl; ?>/img/interieur-1-opt.jpg"
+       alt="Salle du restaurant Le Petit Louvre, Arcachon"
+       fetchpriority="high" decoding="async">
+
+  <div class="hero-overlay-top" aria-hidden="true"></div>
+  <div class="hero-overlay-mid" aria-hidden="true"></div>
+
   <?php get_template_part( 'template-parts/site-header' ); ?>
-  <div class="hero-content" style="margin-top:0;">
+
+  <div class="hero-content">
+    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hero-logo-mobile" aria-label="Accueil Le Petit Louvre">
+      <img loading="lazy" src="<?php echo $tpl; ?>/img/logo.svg" alt="Le Petit Louvre" width="100" height="100">
+    </a>
     <p class="hero-label">Informations légales</p>
-    <h1 class="hero-title" style="font-size:clamp(28px,4vw,48px);">Mentions légales</h1>
+    <h1 class="hero-title" style="font-size:clamp(28px,4vw,52px);">Mentions légales</h1>
+    <p class="hero-tagline">Restaurant · 14 Place Lucien de Gracia · 33120 Arcachon</p>
   </div>
+
 </section>
 
-<main class="mentions-page">
+<!-- ==========================================
+     CONTENU MENTIONS LÉGALES
+========================================== -->
+<main class="mentions-page" id="mentions-content">
   <div class="container" style="max-width:860px; padding: 80px 24px;">
 
     <div class="mentions-bloc reveal">
@@ -39,17 +58,18 @@ $tpl = esc_url( get_template_directory_uri() );
       <h2>Hébergement</h2>
       <p>
         Ce site est hébergé par :<br>
-        <strong>Webdigital</strong><br>
-        <a href="https://www.webdigital.fr" target="_blank" rel="noopener noreferrer">www.webdigital.fr</a>
+        <strong>IONOS SE</strong><br>
+        Elgendorfer Str. 57, 56410 Montabaur, Allemagne<br>
+        <a href="https://www.ionos.fr" target="_blank" rel="noopener noreferrer">www.ionos.fr</a>
       </p>
     </div>
 
     <div class="mentions-bloc reveal d2">
       <h2>Conception &amp; réalisation</h2>
       <p>
-        Site conçu et réalisé par l'agence<br>
-        <strong><a href="https://www.webdigital.fr" target="_blank" rel="noopener noreferrer">Webdigital</a></strong><br>
-        <a href="https://www.webdigital.fr" target="_blank" rel="noopener noreferrer">www.webdigital.fr</a>
+        Site conçu et réalisé par :<br>
+        <strong>Corpus Prime</strong><br>
+        <a href="mailto:corpus.prime@gmail.com">corpus.prime@gmail.com</a>
       </p>
     </div>
 
