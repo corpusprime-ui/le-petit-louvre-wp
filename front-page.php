@@ -388,7 +388,7 @@ $tpl = esc_url( get_template_directory_uri() );
             <img class="lpl-bg<?php echo $i === 0 ? ' active' : ''; ?>"
                  src="<?php echo $lpl_img['src']; ?>"
                  alt="<?php echo $lpl_img['alt']; ?>"
-                 <?php echo $i === 0 ? 'loading="eager" decoding="async"' : 'loading="lazy" decoding="async"'; ?>>
+                 loading="eager" decoding="async">
           <?php endforeach; ?>
         </div>
       </div>
