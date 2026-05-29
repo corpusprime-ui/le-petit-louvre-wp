@@ -57,8 +57,8 @@ $tpl = esc_url( get_template_directory_uri() );
     <h1 class="hero-title"><?php echo esc_html( lpl_field( 'hero_title', $pid, 'Le Petit Louvre' ) ); ?></h1>
     <p class="hero-tagline"><?php echo esc_html( lpl_field( 'hero_tagline', $pid, 'Gastronomie, terrasse & bar à vins au cœur du Bassin' ) ); ?></p>
     <div class="hero-cta d-flex flex-wrap gap-3 justify-content-center">
-      <a href="<?php echo esc_url( home_url( '/carte/' ) ); ?>" class="btn btn-outline btn-lg">Découvrir la carte</a>
       <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-filled btn-lg">Réserver une table</a>
+      <a href="<?php echo esc_url( home_url( '/carte/' ) ); ?>" class="btn btn-outline btn-lg">Découvrir la carte</a>
     </div>
     <p class="hero-availability"><?php echo esc_html( lpl_field( 'hero_availability', $pid, 'Tables disponibles ce soir · Réservation conseillée' ) ); ?></p>
   </div>
