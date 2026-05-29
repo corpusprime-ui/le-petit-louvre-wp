@@ -350,16 +350,46 @@ $tpl = esc_url( get_template_directory_uri() );
 
       <div class="col-lg-6">
         <?php
-        $lpl_photo  = lpl_field( 'lpl_photo', $pid, null );
-        $lpl_photo2 = lpl_field( 'lpl_photo2', $pid, null );
-        $src1 = $lpl_photo && is_array( $lpl_photo ) ? esc_url( $lpl_photo['url'] ) : $tpl . '/img/lpl-photo.jpg';
-        $alt1 = $lpl_photo && is_array( $lpl_photo ) ? esc_attr( $lpl_photo['alt'] ?: 'Terrasse du restaurant Le Petit Louvre à Arcachon' ) : 'Terrasse du restaurant Le Petit Louvre à Arcachon';
-        $src2 = $lpl_photo2 && is_array( $lpl_photo2 ) ? esc_url( $lpl_photo2['url'] ) : $tpl . '/img/plat-21-opt.jpg';
-        $alt2 = $lpl_photo2 && is_array( $lpl_photo2 ) ? esc_attr( $lpl_photo2['alt'] ?: 'Plat du chef — cuisine gastronomique Le Petit Louvre Arcachon' ) : 'Plat du chef — cuisine gastronomique Le Petit Louvre Arcachon';
+        /* ── Photos du diaporama (repeater ACF) ──────────────────── */
+        $lpl_bg_imgs = [];
+        if ( function_exists( 'have_rows' ) && have_rows( 'lpl_photos', $pid ) ) {
+            while ( have_rows( 'lpl_photos', $pid ) ) {
+                the_row();
+                $img = get_sub_field( 'image' );
+                $alt = get_sub_field( 'alt' );
+                if ( $img && is_array( $img ) ) {
+                    $lpl_bg_imgs[] = [
+                        'src' => esc_url( $img['url'] ),
+                        'alt' => esc_attr( $alt ?: ( $img['alt'] ?? 'Le Petit Louvre Arcachon' ) ),
+                    ];
+                }
+            }
+        }
+        /* ── Fallback si aucune photo ACF ────────────────────────── */
+        if ( empty( $lpl_bg_imgs ) ) {
+            $lpl_bg_imgs = [
+                [
+                    'src' => $tpl . '/img/lpl-photo.jpg',
+                    'alt' => 'Terrasse du restaurant Le Petit Louvre à Arcachon',
+                ],
+                [
+                    'src' => $tpl . '/img/lpl-plat-poisson.jpg',
+                    'alt' => 'Bar grillé aux légumes du marché — plat du chef Le Petit Louvre Arcachon',
+                ],
+                [
+                    'src' => $tpl . '/img/lpl-plat-tartare.jpg',
+                    'alt' => 'Tartare maison et verre de vin rouge — Le Petit Louvre Arcachon',
+                ],
+            ];
+        }
         ?>
-        <div class="lpl-images reveal-left d2" role="img" aria-label="Restaurant Le Petit Louvre — terrasse et cuisine">
-          <img class="lpl-bg active" src="<?php echo $src1; ?>" alt="<?php echo $alt1; ?>" loading="eager" decoding="async">
-          <img class="lpl-bg"        src="<?php echo $src2; ?>" alt="<?php echo $alt2; ?>" loading="lazy"  decoding="async">
+        <div class="lpl-images reveal-left d2" role="img" aria-label="Restaurant Le Petit Louvre — ambiance et cadre">
+          <?php foreach ( $lpl_bg_imgs as $i => $lpl_img ) : ?>
+            <img class="lpl-bg<?php echo $i === 0 ? ' active' : ''; ?>"
+                 src="<?php echo $lpl_img['src']; ?>"
+                 alt="<?php echo $lpl_img['alt']; ?>"
+                 <?php echo $i === 0 ? 'loading="eager" decoding="async"' : 'loading="lazy" decoding="async"'; ?>>
+          <?php endforeach; ?>
         </div>
       </div>
 
