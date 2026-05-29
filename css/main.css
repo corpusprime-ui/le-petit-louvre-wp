@@ -1224,7 +1224,7 @@
     }
     .hero-availability::before {
       content: '✓\00a0';
-      color: rgba(255,255,255,0.35);
+      color: #7fff4f;
     }
 
     /* ==========================================
