@@ -121,12 +121,9 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
       <p class="footer-bottom-links">
         <a href="<?php echo esc_url( home_url( '/mentions-legales/' ) ); ?>">Mentions légales</a>
         <span class="footer-sep">·</span>
-        <a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Politique de confidentialité</a>
+        <a href="<?php echo esc_url( home_url( '/politique-de-confidentialite/' ) ); ?>">Politique de confidentialité</a>
       </p>
-      <p class="footer-bottom-credit">
-        Site réalisé par l'agence
-        <a href="https://www.webdigital.fr" target="_blank" rel="noopener noreferrer">Webdigital</a>
-      </p>
+      <p class="footer-bottom-credit">Site réalisé par <a href="mailto:corpus.prime@gmail.com">Corpus Prime</a></p>
     </div>
   </div>
 </footer>
