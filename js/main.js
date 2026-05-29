@@ -37,15 +37,16 @@
     }, 6000);
   }
 
-  /* LPL brand story crossfade — transition douce toutes les 7s */
+  /* LPL brand story crossfade — transition douce toutes les 5s */
   const lplBgs = document.querySelectorAll('.lpl-bg');
   if (lplBgs.length > 1 && !reducedMotion) {
     let lplCurrent = 0;
-    setInterval(() => {
+    const lplNext = () => {
       lplBgs[lplCurrent].classList.remove('active');
       lplCurrent = (lplCurrent + 1) % lplBgs.length;
       lplBgs[lplCurrent].classList.add('active');
-    }, 7000);
+    };
+    setTimeout(() => { lplNext(); setInterval(lplNext, 5000); }, 4000);
   }
 
   /* ------------------------------------------
