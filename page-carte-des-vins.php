@@ -4,7 +4,7 @@
  */
 get_header();
 $pid = get_the_ID();
-$tpl = get_template_directory_uri();
+$tpl = esc_url( get_template_directory_uri() );
 
 /* ── ACF Hero ── */
 $hero_label   = get_field('vins_hero_label')   ?: 'Sélection · Arcachon';
@@ -53,7 +53,12 @@ $hero_images  = get_field('vins_hero_images')  ?: [];
     <div class="hero-cta d-flex flex-wrap gap-3 justify-content-center">
       <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="btn btn-filled btn-lg">Nos cocktails</a>
       <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>" class="btn btn-outline btn-lg">Nos boissons</a>
-      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">Réserver</a>
+      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-cal" style="margin-right:7px;flex-shrink:0;">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Réserver
+      </a>
     </div>
   </div>
 
@@ -69,19 +74,17 @@ $hero_images  = get_field('vins_hero_images')  ?: [];
      NAV ENTRE CARTES
 ========================================== -->
 <nav class="carte-section-nav" aria-label="Navigation entre les cartes">
-  <div class="container">
-    <div class="d-flex justify-content-center gap-4 gap-md-5 flex-wrap">
-      <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link">Carte des Boissons</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link">Carte des Cocktails</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link active">Carte des Vins</a>
-    </div>
+  <div class="carte-nav-inner">
+    <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link active">Carte des Vins</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link">Carte des Boissons</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link">Carte des Cocktails</a>
   </div>
 </nav>
 
 
 <?php
-/* ── Helper : section vins à triple prix (14cl / 28cl / 75cl) ── */
-function lpl_render_vins_section( $acf_key, $titre, $fallback_items ) {
+/* ── Helper : section vins à triple prix ── */
+function lpl_render_vins_section( $acf_key, $titre, $fallback_items, $l1 = '14cl', $l2 = '28cl', $l3 = '75cl' ) {
     $items = function_exists('get_field') ? get_field( $acf_key ) : [];
     $items = $items ?: $fallback_items;
     if ( ! $items ) return;
@@ -91,9 +94,9 @@ function lpl_render_vins_section( $acf_key, $titre, $fallback_items ) {
         <h3 class="carte-section-title text-center mb-4"><?php echo esc_html( $titre ); ?></h3>
         <div class="vins-header-row">
           <div></div>
-          <div class="vins-cl-label">14cl</div>
-          <div class="vins-cl-label">28cl</div>
-          <div class="vins-cl-label">75cl</div>
+          <div class="vins-cl-label"><?php echo esc_html( $l1 ); ?></div>
+          <div class="vins-cl-label"><?php echo esc_html( $l2 ); ?></div>
+          <div class="vins-cl-label"><?php echo esc_html( $l3 ); ?></div>
         </div>
         <?php foreach ( $items as $item ) : ?>
         <div class="vins-row">
@@ -164,48 +167,53 @@ function lpl_render_vins_single_section( $acf_key, $titre, $volume_label, $fallb
 
 
 <?php
-lpl_render_vins_section( 'vins_blancs', 'Blanc', [
-    ['nom'=>'Provence Rollier',       'description'=>'Château de la Martinette « bio » 2023',                        'prix'=>'5&thinsp;€',  'prix_2'=>'10&thinsp;€', 'prix_3'=>'25&thinsp;€', 'badge'=>'Bio'],
-    ['nom'=>'Côtes de Gascogne',      'description'=>'Domaine de Magnaut « moelleux » 2024',                        'prix'=>'6&thinsp;€',  'prix_2'=>'12&thinsp;€', 'prix_3'=>'27&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bordeaux Grave',         'description'=>'Château tour de Castres 2023',                                'prix'=>'7&thinsp;€',  'prix_2'=>'14&thinsp;€', 'prix_3'=>'34&thinsp;€', 'badge'=>''],
-    ['nom'=>'Val de Loire',           'description'=>'Pouilly-fumé. La villaudière de Reverdy 2024',                'prix'=>'9&thinsp;€',  'prix_2'=>'18&thinsp;€', 'prix_3'=>'43&thinsp;€', 'badge'=>'Coup de cœur'],
-    ['nom'=>'Provence',               'description'=>'Clos blanc. Château de la Martinette « bio » 2023',           'prix'=>'',            'prix_2'=>'',             'prix_3'=>'43&thinsp;€', 'badge'=>''],
-    ['nom'=>'Rhône',                  'description'=>'Château de Valcombe 2024',                                     'prix'=>'',            'prix_2'=>'',             'prix_3'=>'31&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bordeaux',               'description'=>'Château Bertinerie 2024',                                      'prix'=>'',            'prix_2'=>'',             'prix_3'=>'31&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bourgogne',              'description'=>'Chablis. Dampt frères tradition 2022',                         'prix'=>'',            'prix_2'=>'',             'prix_3'=>'43&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bourgogne',              'description'=>'Santenay. Justin Girardin, Les Terrasses de Bievaux 2023',     'prix'=>'',            'prix_2'=>'',             'prix_3'=>'55&thinsp;€', 'badge'=>''],
+/* ── Titres de sections (éditables en back-office) ── */
+$t_blancs      = get_field('vins_titre_blancs')     ?: 'Blanc';
+$t_rouges      = get_field('vins_titre_rouges')     ?: 'Rouge';
+$t_roses       = get_field('vins_titre_roses')      ?: 'Rosé';
+$t_champagnes  = get_field('vins_titre_champagnes') ?: 'Champagne';
+
+lpl_render_vins_section( 'vins_blancs', $t_blancs, [
+    ['nom'=>'Provence Rollier',  'description'=>'Château de la Martinette « bio » 2023',                    'prix'=>'5&thinsp;€', 'prix_2'=>'10&thinsp;€', 'prix_3'=>'25&thinsp;€', 'badge'=>''],
+    ['nom'=>'Côtes de Gascogne', 'description'=>'Domaine de Magnaut « moelleux » 2024',                    'prix'=>'6&thinsp;€', 'prix_2'=>'12&thinsp;€', 'prix_3'=>'27&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux Graves',   'description'=>'Château tour de Castres 2023',                            'prix'=>'7&thinsp;€', 'prix_2'=>'14&thinsp;€', 'prix_3'=>'34&thinsp;€', 'badge'=>''],
+    ['nom'=>'Val de Loire',      'description'=>'Pouilly-fumé. La villaudière de Reverdy 2024',            'prix'=>'9&thinsp;€', 'prix_2'=>'18&thinsp;€', 'prix_3'=>'43&thinsp;€', 'badge'=>''],
+    ['nom'=>'Provence',          'description'=>'Clos blanc. Château de la Martinette « bio » 2023',       'prix'=>'',           'prix_2'=>'',            'prix_3'=>'43&thinsp;€', 'badge'=>''],
+    ['nom'=>'Rhône',             'description'=>'Château de Valcombe 2024',                                'prix'=>'',           'prix_2'=>'',            'prix_3'=>'31&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux',          'description'=>'Blaye. Château Bertinerie 2024',                          'prix'=>'',           'prix_2'=>'',            'prix_3'=>'31&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bourgogne',         'description'=>'Chablis. Dampt frères tradition 2022',                    'prix'=>'',           'prix_2'=>'',            'prix_3'=>'43&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bourgogne',         'description'=>'Santenay. Justin Girardin, Les Terrasses de Bievaux 2023','prix'=>'',           'prix_2'=>'',            'prix_3'=>'55&thinsp;€', 'badge'=>''],
 ]);
-lpl_render_vins_section( 'vins_rouges', 'Rouge', [
-    ['nom'=>'Bordeaux',               'description'=>'Château Bertinerie 2022',                                      'prix'=>'6&thinsp;€',  'prix_2'=>'12&thinsp;€', 'prix_3'=>'29&thinsp;€', 'badge'=>''],
-    ['nom'=>'Côtes du Rhône',         'description'=>'Château de Valcombe 2022',                                     'prix'=>'6&thinsp;€',  'prix_2'=>'12&thinsp;€', 'prix_3'=>'29&thinsp;€', 'badge'=>''],
-    ['nom'=>'Sud-Ouest',              'description'=>'Château Montus — Madiran 2020',                                'prix'=>'8&thinsp;€',  'prix_2'=>'16&thinsp;€', 'prix_3'=>'38&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bourgogne',              'description'=>'Pinot Noir. Côte de Nuits 2021',                               'prix'=>'',            'prix_2'=>'',             'prix_3'=>'48&thinsp;€', 'badge'=>''],
-    ['nom'=>'Saint-Émilion Grand Cru','description'=>'Merlot dominant 2019',                                         'prix'=>'',            'prix_2'=>'',             'prix_3'=>'55&thinsp;€', 'badge'=>''],
+lpl_render_vins_section( 'vins_rouges', $t_rouges, [
+    ['nom'=>'Rhône',         'description'=>'Côtes du Rhône. Domaine de l\'Obrieu les frangines « bio » 2022', 'prix'=>'6&thinsp;€', 'prix_2'=>'12&thinsp;€', 'prix_3'=>'27&thinsp;€', 'badge'=>''],
+    ['nom'=>'Val de Loire',  'description'=>'Bourgueil. Clos de l\'Abbaye 2021',                               'prix'=>'7&thinsp;€', 'prix_2'=>'14&thinsp;€', 'prix_3'=>'29&thinsp;€', 'badge'=>''],
+    ['nom'=>'Vin du Monde',  'description'=>'Argentine. Festivo Malbec 2023',                                  'prix'=>'8&thinsp;€', 'prix_2'=>'16&thinsp;€', 'prix_3'=>'32&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux',      'description'=>'Pessac Leognan. Domaine de la Roche 2019',                        'prix'=>'9&thinsp;€', 'prix_2'=>'18&thinsp;€', 'prix_3'=>'39&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bourgogne',     'description'=>'Côte de nuits. Dupasquier les Vignottes 2022',                    'prix'=>'',           'prix_2'=>'',            'prix_3'=>'49&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bourgogne',     'description'=>'Chassagne-Montrachet. Louis Latour 2021',                         'prix'=>'',           'prix_2'=>'',            'prix_3'=>'72&thinsp;€', 'badge'=>''],
+    ['nom'=>'Languedoc',     'description'=>'Pic saint loup. Mas de l\'oncle 2023',                            'prix'=>'',           'prix_2'=>'',            'prix_3'=>'39&thinsp;€', 'badge'=>''],
+    ['nom'=>'Rhône',         'description'=>'Vacqueyras. Domaine de l\'Obrieu 2020',                           'prix'=>'',           'prix_2'=>'',            'prix_3'=>'39&thinsp;€', 'badge'=>''],
+    ['nom'=>'Rhône',         'description'=>'Châteauneuf-du-Pape. Château La Nerthe 2020',                     'prix'=>'',           'prix_2'=>'',            'prix_3'=>'75&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux',      'description'=>'Saint-Émilion. Château Pipeau grand cru 2021',                    'prix'=>'',           'prix_2'=>'',            'prix_3'=>'55&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux',      'description'=>'Margaux. Blason d\'Issan 2020',                                   'prix'=>'',           'prix_2'=>'',            'prix_3'=>'59&thinsp;€', 'badge'=>''],
+    ['nom'=>'Bordeaux',      'description'=>'Pauillac. Fleur de Pédesclaux 2016',                              'prix'=>'',           'prix_2'=>'',            'prix_3'=>'62&thinsp;€', 'badge'=>''],
 ]);
-lpl_render_vins_section( 'vins_roses', 'Rosé', [
-    ['nom'=>'Provence',               'description'=>'Château Miraval 2024',                                         'prix'=>'7&thinsp;€',  'prix_2'=>'14&thinsp;€', 'prix_3'=>'33&thinsp;€', 'badge'=>''],
-    ['nom'=>'Bandol',                 'description'=>'Mourvèdre, Grenache 2023',                                     'prix'=>'8&thinsp;€',  'prix_2'=>'16&thinsp;€', 'prix_3'=>'38&thinsp;€', 'badge'=>''],
-    ['nom'=>'Côtes de Gascogne',      'description'=>'Cabernet Franc 2024',                                          'prix'=>'5&thinsp;€',  'prix_2'=>'10&thinsp;€', 'prix_3'=>'24&thinsp;€', 'badge'=>''],
+lpl_render_vins_section( 'vins_roses', $t_roses, [
+    ['nom'=>'Provence Rollier', 'description'=>'Château de la Martinette « bio » 2024', 'prix'=>'6&thinsp;€', 'prix_2'=>'12&thinsp;€', 'prix_3'=>'25&thinsp;€', 'badge'=>''],
+    ['nom'=>'Provence',         'description'=>'Minuty Prestige 2024',                  'prix'=>'8&thinsp;€', 'prix_2'=>'16&thinsp;€', 'prix_3'=>'39&thinsp;€', 'badge'=>''],
 ]);
-lpl_render_vins_section( 'vins_champagnes', 'Champagnes & Pétillants', [
-    ['nom'=>'Crémant de Bordeaux Brut',           'description'=>'Sémillon, Sauvignon',                              'prix'=>'7&thinsp;€',  'prix_2'=>'14&thinsp;€', 'prix_3'=>'32&thinsp;€',  'badge'=>''],
-    ['nom'=>'Champagne Ruinart Blanc de Blancs',  'description'=>'100% Chardonnay · Bulles fines, notes briochées', 'prix'=>'',            'prix_2'=>'',             'prix_3'=>'95&thinsp;€',  'badge'=>''],
-    ['nom'=>'Champagne Billecart-Salmon Rosé',    'description'=>'Pinot Noir, Chardonnay · Fruits rouges, finale fraîche', 'prix'=>'',    'prix_2'=>'',             'prix_3'=>'110&thinsp;€', 'badge'=>''],
-]);
-lpl_render_vins_single_section( 'vins_cocktails', 'Cocktails & Apéritifs', 'Prix', [
-    ['nom'=>'Spritz Petit Louvre', 'description'=>'Apérol, Crémant de Bordeaux, eau pétillante, orange',            'prix'=>'12&thinsp;€','badge'=>''],
-    ['nom'=>'Negroni',             'description'=>"Gin, Campari, Vermouth rouge, zeste d\u{2019}orange",            'prix'=>'13&thinsp;€','badge'=>''],
-    ['nom'=>'Kir Royal',           'description'=>"Crémant de Bordeaux, crème de cassis de Bourgogne",              'prix'=>'11&thinsp;€','badge'=>''],
-    ['nom'=>'Mojito Bassin',       'description'=>"Rhum blanc, menthe fraîche, citron vert, sirop d\u{2019}agave",  'prix'=>'13&thinsp;€','badge'=>''],
-    ['nom'=>'Virgin Bassin',       'description'=>"Citron vert, menthe, gingembre, sirop d\u{2019}agave, eau gazeuse", 'prix'=>'8&thinsp;€','badge'=>''],
-]);
+lpl_render_vins_section( 'vins_champagnes', $t_champagnes, [
+    ['nom'=>'Colin Alliance Brut',         'description'=>'', 'prix'=>'10&thinsp;€', 'prix_2'=>'20&thinsp;€', 'prix_3'=>'65&thinsp;€', 'badge'=>''],
+    ['nom'=>'Colin Castille Blanc de Blanc','description'=>'', 'prix'=>'12&thinsp;€', 'prix_2'=>'24&thinsp;€', 'prix_3'=>'80&thinsp;€', 'badge'=>''],
+    ['nom'=>'Deutz Brut',                  'description'=>'', 'prix'=>'',            'prix_2'=>'',            'prix_3'=>'95&thinsp;€', 'badge'=>''],
+], '12cl', '24cl', '75cl' );
 ?>
 
     <!-- NOTE BAS DE PAGE -->
     <div class="row justify-content-center">
       <div class="col-12 col-md-10 col-lg-9">
         <div class="carte-footnote text-center mt-4 pb-5">
-          <p class="mb-1">Vins servis au verre (14&nbsp;cl), au pichet (28&nbsp;cl) ou à la bouteille (75&nbsp;cl).</p>
+          <p class="mb-1">* Les millésimes sont susceptibles de changer en fonction des arrivages</p>
           <p class="mb-0">Prix net en &euro;&nbsp;&ndash;&nbsp;service compris&nbsp;&ndash;&nbsp;chèque non accepté&nbsp;&ndash;&nbsp;CB minimum 5&euro;</p>
         </div>
       </div>

@@ -4,7 +4,7 @@
  */
 get_header();
 $pid = get_the_ID();
-$tpl = get_template_directory_uri();
+$tpl = esc_url( get_template_directory_uri() );
 
 /* ── ACF Hero ── */
 $hero_label   = get_field('cocktails_hero_label')   ?: 'Bar · Arcachon';
@@ -65,7 +65,12 @@ $hero_images  = get_field('cocktails_hero_images')  ?: [];
     <div class="hero-cta d-flex flex-wrap gap-3 justify-content-center">
       <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>" class="btn btn-filled btn-lg">Carte des vins</a>
       <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>" class="btn btn-outline btn-lg">Nos boissons</a>
-      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">Réserver</a>
+      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-cal" style="margin-right:7px;flex-shrink:0;">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Réserver
+      </a>
     </div>
   </div>
 
@@ -81,12 +86,10 @@ $hero_images  = get_field('cocktails_hero_images')  ?: [];
      NAV ENTRE CARTES
 ========================================== -->
 <nav class="carte-section-nav" aria-label="Navigation entre les cartes">
-  <div class="container">
-    <div class="d-flex justify-content-center gap-4 gap-md-5 flex-wrap">
-      <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link">Carte des Boissons</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link active">Carte des Cocktails</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link">Carte des Vins</a>
-    </div>
+  <div class="carte-nav-inner">
+    <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link active">Carte des Cocktails</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link">Carte des Boissons</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link">Carte des Vins</a>
   </div>
 </nav>
 
@@ -128,7 +131,7 @@ function lpl_render_cocktail_section( $acf_key, $titre, $volume_label, $fallback
 <section class="section-carte section-carte--cocktails" id="cocktails-menu">
   <!-- Illustration décorative bas droite -->
   <img loading="lazy" class="cocktail-illu-deco"
-       src="<?php echo get_template_directory_uri(); ?>/img/cocktail-illu.png"
+       src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/cocktail-illu.png"
        alt="" aria-hidden="true">
 
   <div class="container">
@@ -145,14 +148,21 @@ function lpl_render_cocktail_section( $acf_key, $titre, $volume_label, $fallback
 
 
 <?php
-lpl_render_cocktail_section( 'martini_cocktails', 'Martini Cocktails', '20cl', [
+/* ── Titres de sections (éditables en back-office) ── */
+$t_martinis    = get_field('cocktails_titre_martinis')    ?: 'Martini Cocktails';
+$t_signature   = get_field('cocktails_titre_signature')   ?: 'Cocktails Signature';
+$t_classiques  = get_field('cocktails_titre_classiques')  ?: 'Classiques Cocktails';
+$t_spritz      = get_field('cocktails_titre_spritz')      ?: 'Spritz';
+$t_sans_alcool = get_field('cocktails_titre_sans_alcool') ?: 'Sans Alcool';
+
+lpl_render_cocktail_section( 'martini_cocktails', $t_martinis, '20cl', [
     ['nom'=>'Cucumber martini',      'description'=>'Vodka, concombre',                          'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Pine and berries martini','description'=>'Vodka, framboise, ananas, Chambord',      'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Pornstar martini',      'description'=>'Vodka, passion, vanille, champagne',         'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Tira martini',          'description'=>'Amaretto, expresso, Kalhua',                 'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Kiwi martini',          'description'=>'Gin, kiwi',                                  'prix'=>'12&thinsp;€','badge'=>''],
 ]);
-lpl_render_cocktail_section( 'cocktails_signature', 'Cocktails Signature', '30cl', [
+lpl_render_cocktail_section( 'cocktails_signature', $t_signature, '30cl', [
     ['nom'=>'Red lover',   'description'=>'Gin, ananas, framboise, citron',                      'prix'=>'13&thinsp;€','badge'=>'Signature'],
     ['nom'=>'Apple pie',   'description'=>'Rhum, pomme, cannelle, citron',                       'prix'=>'13&thinsp;€','badge'=>''],
     ['nom'=>'Petit louis', 'description'=>"Whisky, pain d\u{2019}\u{e9}pices, vanille, Kalhua", 'prix'=>'13&thinsp;€','badge'=>''],
@@ -160,7 +170,7 @@ lpl_render_cocktail_section( 'cocktails_signature', 'Cocktails Signature', '30cl
     ['nom'=>'Exotic Tiki', 'description'=>'Rhum, mangue, passion, coco',                         'prix'=>'13&thinsp;€','badge'=>''],
     ['nom'=>'Black jack',  'description'=>'Whisky J.Daniel, framboise, Chambord, cranberry',     'prix'=>'13&thinsp;€','badge'=>''],
 ]);
-lpl_render_cocktail_section( 'cocktails_classiques', 'Classiques Cocktails', '30cl', [
+lpl_render_cocktail_section( 'cocktails_classiques', $t_classiques, '30cl', [
     ['nom'=>'Gin basil smash',    'description'=>'Gin, feuilles de basilic, citron',             'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Moscow mule',        'description'=>'Vodka, ginger, citron vert',                   'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Daiquiri',           'description'=>'Rhum, citron vert',                            'prix'=>'12&thinsp;€','badge'=>''],
@@ -173,13 +183,13 @@ lpl_render_cocktail_section( 'cocktails_classiques', 'Classiques Cocktails', '30
     ['nom'=>'Pineapple collins',  'description'=>'Vodka, ananas, soda, citron',                  'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Raspberry collins',  'description'=>'Vodka, framboise, soda, citron',               'prix'=>'12&thinsp;€','badge'=>''],
 ]);
-lpl_render_cocktail_section( 'spritz', 'Spritz', '40cl', [
+lpl_render_cocktail_section( 'spritz', $t_spritz, '40cl', [
     ['nom'=>'Apérol',   'description'=>'Liqueur Apérol, prosecco, soda',                'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Campari',  'description'=>'Liqueur Campari, prosecco, soda',               'prix'=>'12&thinsp;€','badge'=>''],
     ['nom'=>'Italicus', 'description'=>'Liqueur bergamote, prosecco, soda',             'prix'=>'13&thinsp;€','badge'=>''],
     ['nom'=>'Hugo',     'description'=>'Liqueur St Germain, menthe, prosecco, soda',   'prix'=>'13&thinsp;€','badge'=>''],
 ]);
-lpl_render_cocktail_section( 'sans_alcool', 'Sans Alcool', '30cl', [
+lpl_render_cocktail_section( 'sans_alcool', $t_sans_alcool, '30cl', [
     ['nom'=>'Petit louvre',  'description'=>'Ananas, pomme, orgeat, citron',        'prix'=>'8&thinsp;€','badge'=>'Sans alcool'],
     ['nom'=>'Saint Anne',    'description'=>'Orange, pomme, cranberry, pêche',      'prix'=>'8&thinsp;€','badge'=>'Sans alcool'],
     ['nom'=>'Virgin mojito', 'description'=>'Menthe, citron, soda',                 'prix'=>'8&thinsp;€','badge'=>'Sans alcool'],

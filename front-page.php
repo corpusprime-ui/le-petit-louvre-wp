@@ -1,24 +1,21 @@
 <?php
 get_header();
 $pid = get_option( 'page_on_front' );
-$tpl = get_template_directory_uri();
+$tpl = esc_url( get_template_directory_uri() );
 
 /* ── lpl_field() défini globalement dans functions.php ── */
 ?>
 
 <!-- ==========================================
-     HERO — VIDEO SCRUB
+     HERO — VIDEO BACKGROUND
 ========================================== -->
-<div class="hero-scrub" id="heroScrub">
-<section class="hero" id="hero">
+<section class="hero hero--home" id="hero">
 
-  <!-- Vidéo hero (scrub on scroll) -->
-  <video id="heroVideo" class="hero-video"
-         muted playsinline preload="auto" aria-hidden="true"
+  <!-- Vidéo hero background (loop) -->
+  <video class="hero-bg-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"
          poster="<?php echo $tpl; ?>/videos/hero-poster.jpg">
-    <source src="<?php echo $tpl; ?>/videos/hero-video-mobile.mp4" type="video/mp4" media="(max-width:853px)">
-    <source src="<?php echo $tpl; ?>/videos/hero-video.webm"       type="video/webm">
-    <source src="<?php echo $tpl; ?>/videos/hero-video-opt.mp4"    type="video/mp4">
+    <source src="<?php echo $tpl; ?>/videos/hero-video-mobile-new.mp4" type="video/mp4" media="(max-width:853px)">
+    <source src="<?php echo $tpl; ?>/videos/hero-video-desktop.mp4"  type="video/mp4">
   </video>
 
   <?php
@@ -72,7 +69,6 @@ $tpl = get_template_directory_uri();
   </button>
 
 </section>
-</div>
 
 
 <!-- ==========================================
@@ -139,12 +135,10 @@ $tpl = get_template_directory_uri();
        width="860" height="643"
        alt="" aria-hidden="true">
   <div class="quote-inner">
-    <img loading="lazy" class="quote-deco reveal-scale d1"
-         src="<?php echo $tpl; ?>/img/quote-deco.png"
-         alt="" aria-hidden="true">
     <blockquote class="quote-text">
       <?php echo esc_html( lpl_field( 'quote_text', $pid, 'Une terrasse ouverte de 70 couverts, un espace lumineux avec une équipe attentive, heureuse de vous accueillir avec le sourire.' ) ); ?>
     </blockquote>
+    <p class="quote-author"><?php echo esc_html( lpl_field( 'quote_author', $pid, '— L\'équipe du Petit Louvre' ) ); ?></p>
   </div>
 </section>
 

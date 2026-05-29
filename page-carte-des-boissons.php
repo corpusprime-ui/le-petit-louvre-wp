@@ -4,7 +4,7 @@
  */
 get_header();
 $pid = get_the_ID();
-$tpl = get_template_directory_uri();
+$tpl = esc_url( get_template_directory_uri() );
 
 /* ── ACF Hero ── */
 $hero_label   = get_field('boissons_hero_label')   ?: 'Bar · Arcachon';
@@ -57,7 +57,12 @@ $hero_images  = get_field('boissons_hero_images')  ?: [];
     <div class="hero-cta d-flex flex-wrap gap-3 justify-content-center">
       <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="btn btn-filled btn-lg">Nos cocktails</a>
       <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>" class="btn btn-outline btn-lg">Carte des vins</a>
-      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">Réserver</a>
+      <a href="<?php echo esc_url( home_url( '/reservation/' ) ); ?>" class="btn btn-outline btn-lg">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="icon-cal" style="margin-right:7px;flex-shrink:0;">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        Réserver
+      </a>
     </div>
   </div>
 
@@ -73,12 +78,10 @@ $hero_images  = get_field('boissons_hero_images')  ?: [];
      NAV ENTRE CARTES
 ========================================== -->
 <nav class="carte-section-nav" aria-label="Navigation entre les cartes">
-  <div class="container">
-    <div class="d-flex justify-content-center gap-4 gap-md-5 flex-wrap">
-      <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link active">Carte des Boissons</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link">Carte des Cocktails</a>
-      <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link">Carte des Vins</a>
-    </div>
+  <div class="carte-nav-inner">
+    <a href="<?php echo esc_url( home_url( '/carte-des-boissons/' ) ); ?>"  class="carte-nav-link active">Carte des Boissons</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-cocktails/' ) ); ?>" class="carte-nav-link">Carte des Cocktails</a>
+    <a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>"      class="carte-nav-link">Carte des Vins</a>
   </div>
 </nav>
 
@@ -166,38 +169,50 @@ function lpl_render_boissons_double( $acf_key, $titre, $label1, $label2, $fallba
 
 
 <?php
-lpl_render_boissons_section( 'aperitifs', 'Apéritifs', '6cl', [
+/* ── Titres de sections (éditables en back-office) ── */
+$t_aperitifs        = get_field('boissons_titre_aperitifs')       ?: 'Apéritifs';
+$t_bieres_pression  = get_field('boissons_titre_bieres_pression') ?: 'Bières Pression';
+$t_bieres_bouteille = get_field('boissons_titre_bieres_bouteille')?: 'Bières Bouteille';
+$t_jus_fruit        = get_field('boissons_titre_jus_fruit')       ?: 'Jus de Fruit';
+$t_smoothies        = get_field('boissons_titre_smoothies')       ?: 'Smoothies';
+$t_sodas            = get_field('boissons_titre_sodas')           ?: 'Sodas';
+$t_presse           = get_field('boissons_titre_presse')          ?: 'Pressé';
+$t_eaux             = get_field('boissons_titre_eaux')            ?: 'Eaux';
+$t_cafeterie        = get_field('boissons_titre_cafeterie')       ?: 'Cafeterie';
+
+lpl_render_boissons_section( 'aperitifs', $t_aperitifs, '6cl', [
     ['nom'=>'Pastis 51','description'=>'2 cl','prix'=>'4&thinsp;€','badge'=>''],
     ['nom'=>'Lillet blanc / rosé','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
+    ['nom'=>'Campari','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
     ['nom'=>'Martini blanc / rouge','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
     ['nom'=>'Suze','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
     ['nom'=>'Kir vin blanc','description'=>'Cassis, mûre, framboise, fraise','prix'=>'6&thinsp;€','badge'=>''],
-    ['nom'=>'Kir royal','description'=>'Champagne','prix'=>'11&thinsp;€','badge'=>''],
+    ['nom'=>'Kir royal','description'=>'','prix'=>'11&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_double( 'bieres_pression', 'Bières Pression', '25cl', '50cl', [
+lpl_render_boissons_double( 'bieres_pression', $t_bieres_pression, '25cl', '50cl', [
     ['nom'=>'Meteor','description'=>'Pils','prix'=>'4,5&thinsp;€','prix_2'=>'8&thinsp;€','badge'=>''],
     ['nom'=>'Wendelinus','description'=>'Bière d\'abbaye','prix'=>'5&thinsp;€','prix_2'=>'9&thinsp;€','badge'=>''],
-    ['nom'=>'Meteor','description'=>'Bière d\'hiver','prix'=>'5&thinsp;€','prix_2'=>'9&thinsp;€','badge'=>''],
+    ['nom'=>'Meteor','description'=>'Bière blanche','prix'=>'5&thinsp;€','prix_2'=>'9&thinsp;€','badge'=>''],
     ['nom'=>'Meteor','description'=>'IPA','prix'=>'5&thinsp;€','prix_2'=>'9&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'bieres_bouteille', 'Bières Bouteille', '33cl', [
+lpl_render_boissons_section( 'bieres_bouteille', $t_bieres_bouteille, '33cl', [
     ['nom'=>'Corona','description'=>'','prix'=>'7&thinsp;€','badge'=>''],
     ['nom'=>'San Miguel Blonde','description'=>'','prix'=>'7&thinsp;€','badge'=>''],
     ['nom'=>'Pelforth brune','description'=>'','prix'=>'7&thinsp;€','badge'=>''],
     ['nom'=>'1664','description'=>'','prix'=>'6&thinsp;€','badge'=>'Sans alcool'],
 ]);
-lpl_render_boissons_section( 'jus_fruit', 'Jus de Fruit', '25cl', [
+lpl_render_boissons_section( 'jus_fruit', $t_jus_fruit, '25cl', [
     ['nom'=>'Jus d\'orange','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Jus de tomate','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Jus de pomme','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Jus d\'ananas','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'smoothies', 'Smoothies', '40cl', [
+lpl_render_boissons_section( 'smoothies', $t_smoothies, '40cl', [
     ['nom'=>'Vitamina','description'=>'Kiwi, framboise, mangue','prix'=>'8&thinsp;€','badge'=>''],
     ['nom'=>'Énergie','description'=>'Banane, kiwi, ananas','prix'=>'8&thinsp;€','badge'=>''],
     ['nom'=>'Exotique','description'=>'Mangue, orange, banane','prix'=>'8&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'sodas', 'Sodas', '33cl', [
+lpl_render_boissons_section( 'sodas', $t_sodas, '33cl', [
     ['nom'=>'Coca-Cola, Coca-Cola zéro','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Orangina','description'=>'25 cl','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Schweppes tonic','description'=>'25 cl','prix'=>'4,5&thinsp;€','badge'=>''],
@@ -206,23 +221,27 @@ lpl_render_boissons_section( 'sodas', 'Sodas', '33cl', [
     ['nom'=>'Thé glacé maison','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
     ['nom'=>'Citronnade maison','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'presse', 'Pressé', '20cl', [
+lpl_render_boissons_section( 'presse', $t_presse, '20cl', [
     ['nom'=>'Citron','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
     ['nom'=>'Orange','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'eaux', 'Eaux', '', [
+lpl_render_boissons_section( 'eaux', $t_eaux, '', [
     ['nom'=>'Vittel','description'=>'100 cl','prix'=>'7&thinsp;€','badge'=>''],
     ['nom'=>'Vittel','description'=>'25 cl','prix'=>'4&thinsp;€','badge'=>''],
     ['nom'=>'San Pellegrino','description'=>'100 cl','prix'=>'7&thinsp;€','badge'=>''],
     ['nom'=>'Perrier','description'=>'33 cl','prix'=>'4,5&thinsp;€','badge'=>''],
 ]);
-lpl_render_boissons_section( 'cafeterie', 'Cafeterie', '', [
+lpl_render_boissons_section( 'cafeterie', $t_cafeterie, '', [
     ['nom'=>'Expresso &amp; Déca','description'=>'','prix'=>'2&thinsp;€','badge'=>''],
     ['nom'=>'Double expresso','description'=>'','prix'=>'4&thinsp;€','badge'=>''],
     ['nom'=>'Café crème','description'=>'','prix'=>'4,5&thinsp;€','badge'=>''],
     ['nom'=>'Capuccino','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
     ['nom'=>'Café viennois','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
-    ['nom'=>'Chocolat chaud','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
+    ['nom'=>'Chocolat chaud','description'=>'','prix'=>'5&thinsp;€','badge'=>''],
+    ['nom'=>'Chocolat viennois','description'=>'','prix'=>'5,5&thinsp;€','badge'=>''],
+    ['nom'=>'Hot Chocolate Marshmallow','description'=>'','prix'=>'6&thinsp;€','badge'=>''],
+    ['nom'=>'Thé &amp; Infusion','description'=>'Mariage Frères','prix'=>'5&thinsp;€','badge'=>''],
+    ['nom'=>'Irish Coffee','description'=>'','prix'=>'10&thinsp;€','badge'=>''],
 ]);
 ?>
 

@@ -115,11 +115,21 @@ $menu_cpt_location = [
 function lpl_menu_item_subfields( string $prefix ): array {
     return [
         [
+            'key'           => 'field_' . $prefix . '_photo',
+            'label'         => 'Photo',
+            'name'          => 'photo',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'thumbnail',
+            'instructions'  => 'Optionnel — apparaît comme pastille 📷 sur La Carte.',
+            'column_width'  => 10,
+        ],
+        [
             'key'          => 'field_' . $prefix . '_nom',
             'label'        => 'Nom du plat',
             'name'         => 'nom',
             'type'         => 'text',
-            'column_width' => 30,
+            'column_width' => 20,
         ],
         [
             'key'          => 'field_' . $prefix . '_badge',
@@ -127,7 +137,31 @@ function lpl_menu_item_subfields( string $prefix ): array {
             'name'         => 'badge',
             'type'         => 'text',
             'instructions' => 'Ex : Nouveauté (laisser vide si aucun)',
-            'column_width' => 15,
+            'column_width' => 10,
+        ],
+        [
+            'key'          => 'field_' . $prefix . '_bio',
+            'label'        => 'Bio',
+            'name'         => 'bio',
+            'type'         => 'true_false',
+            'ui'           => 1,
+            'column_width' => 7,
+        ],
+        [
+            'key'          => 'field_' . $prefix . '_vegan',
+            'label'        => 'Végan',
+            'name'         => 'vegan',
+            'type'         => 'true_false',
+            'ui'           => 1,
+            'column_width' => 7,
+        ],
+        [
+            'key'          => 'field_' . $prefix . '_spicy',
+            'label'        => 'Épicé 🌶',
+            'name'         => 'spicy',
+            'type'         => 'true_false',
+            'ui'           => 1,
+            'column_width' => 7,
         ],
         [
             'key'          => 'field_' . $prefix . '_desc',
@@ -135,25 +169,15 @@ function lpl_menu_item_subfields( string $prefix ): array {
             'name'         => 'description',
             'type'         => 'text',
             'instructions' => 'Optionnel',
-            'column_width' => 40,
+            'column_width' => 30,
         ],
         [
             'key'          => 'field_' . $prefix . '_prix',
             'label'        => 'Prix',
             'name'         => 'prix',
             'type'         => 'text',
-            'instructions' => 'Ex : 13 ou 25',
-            'column_width' => 15,
-        ],
-        [
-            'key'           => 'field_' . $prefix . '_photo',
-            'label'         => 'Photo du plat (optionnel)',
-            'name'          => 'photo',
-            'type'          => 'image',
-            'return_format' => 'array',
-            'preview_size'  => 'thumbnail',
-            'instructions'  => 'Laissez vide si pas de photo. Apparaît comme pastille 📷 sur La Carte.',
-            'column_width'  => 0,
+            'instructions' => 'Ex : 13 ou 9/17',
+            'column_width' => 16,
         ],
     ];
 }
@@ -216,10 +240,38 @@ acf_add_local_field_group( [
     ],
 ] );
 
-/* ─── Groupe C : À Partager ─── */
+/* ─── Groupe C : Huîtres ─── */
+acf_add_local_field_group( [
+    'key'        => 'group_menu_huitres',
+    'title'      => '③ Huîtres',
+    'menu_order' => 15,
+    'location'   => $menu_cpt_location,
+    'fields'     => [
+        [
+            'key'           => 'field_menu_huitres_subtitle',
+            'label'         => 'Sous-titre (producteur)',
+            'name'          => 'menu_huitres_subtitle',
+            'type'          => 'text',
+            'default_value' => 'De la Maison Molen · Producteur d\'huîtres naturelles',
+            'instructions'  => 'Ex : De la Maison Molen · Producteur d\'huîtres naturelles',
+        ],
+        [
+            'key'          => 'field_menu_huitres',
+            'label'        => 'Liste des huîtres',
+            'name'         => 'menu_huitres',
+            'type'         => 'repeater',
+            'min'          => 0,
+            'layout'       => 'table',
+            'button_label' => 'Ajouter des huîtres',
+            'sub_fields'   => lpl_menu_item_subfields( 'hui' ),
+        ],
+    ],
+] );
+
+/* ─── Groupe D : À Partager ─── */
 acf_add_local_field_group( [
     'key'        => 'group_menu_partager',
-    'title'      => '③ À Partager',
+    'title'      => '④ À Partager',
     'menu_order' => 20,
     'location'   => $menu_cpt_location,
     'fields'     => [
@@ -239,7 +291,7 @@ acf_add_local_field_group( [
 /* ─── Groupe D : Plats ─── */
 acf_add_local_field_group( [
     'key'        => 'group_menu_plats',
-    'title'      => '④ Plats',
+    'title'      => '⑤ Plats',
     'menu_order' => 30,
     'location'   => $menu_cpt_location,
     'fields'     => [
@@ -256,10 +308,58 @@ acf_add_local_field_group( [
     ],
 ] );
 
+/* ─── Groupe D2 : Burgers ─── */
+acf_add_local_field_group( [
+    'key'        => 'group_menu_burgers',
+    'title'      => '⑥ Burgers',
+    'menu_order' => 35,
+    'location'   => $menu_cpt_location,
+    'fields'     => [
+        [
+            'key'           => 'field_menu_burgers_subtitle',
+            'label'         => 'Sous-titre (note de présentation)',
+            'name'          => 'menu_burgers_subtitle',
+            'type'          => 'text',
+            'default_value' => 'Bun\'s briochés de la Maison Pirelons, frites et salade',
+            'instructions'  => 'Ex : Bun\'s briochés de la Maison Pirelons, frites et salade',
+        ],
+        [
+            'key'          => 'field_menu_burgers',
+            'label'        => 'Liste des burgers',
+            'name'         => 'menu_burgers',
+            'type'         => 'repeater',
+            'min'          => 0,
+            'layout'       => 'table',
+            'button_label' => 'Ajouter un burger',
+            'sub_fields'   => lpl_menu_item_subfields( 'bur' ),
+        ],
+    ],
+] );
+
+/* ─── Groupe D3 : Salades ─── */
+acf_add_local_field_group( [
+    'key'        => 'group_menu_salades',
+    'title'      => '⑥.⑤ Salades',
+    'menu_order' => 37,
+    'location'   => $menu_cpt_location,
+    'fields'     => [
+        [
+            'key'          => 'field_menu_salades',
+            'label'        => 'Liste des salades',
+            'name'         => 'menu_salades',
+            'type'         => 'repeater',
+            'min'          => 0,
+            'layout'       => 'table',
+            'button_label' => 'Ajouter une salade',
+            'sub_fields'   => lpl_menu_item_subfields( 'sal' ),
+        ],
+    ],
+] );
+
 /* ─── Groupe E : Desserts ─── */
 acf_add_local_field_group( [
     'key'        => 'group_menu_desserts',
-    'title'      => '⑤ Desserts & Café Gourmand',
+    'title'      => '⑦ Desserts & Café Gourmand',
     'menu_order' => 40,
     'location'   => $menu_cpt_location,
     'fields'     => [
@@ -302,7 +402,7 @@ acf_add_local_field_group( [
 /* ─── Groupe F : Note de bas de page ─── */
 acf_add_local_field_group( [
     'key'        => 'group_menu_notes',
-    'title'      => '⑥ Note de bas de page',
+    'title'      => '⑧ Note de bas de page',
     'menu_order' => 50,
     'location'   => $menu_cpt_location,
     'fields'     => [
@@ -366,6 +466,9 @@ function lpl_get_menu_items( string $field_name, int $post_id ): array {
         $items[] = [
             'nom'         => sanitize_text_field( get_sub_field( 'nom' )         ?? '' ),
             'badge'       => sanitize_text_field( get_sub_field( 'badge' )       ?? '' ),
+            'bio'         => (bool) get_sub_field( 'bio' ),
+            'vegan'       => (bool) get_sub_field( 'vegan' ),
+            'spicy'       => (bool) get_sub_field( 'spicy' ),
             'desc'        => sanitize_text_field( get_sub_field( 'description' ) ?? '' ),
             'prix'        => sanitize_text_field( get_sub_field( 'prix' )        ?? '' ),
             'photo'       => esc_url( $photo_full ),
@@ -405,6 +508,15 @@ function lpl_render_section_items( array $items ): void {
                 <span class="carte-dish"><?php echo esc_html( $item['nom'] ); ?>
                   <?php if ( ! empty( $item['badge'] ) ) : ?>
                     <span class="carte-badge"><?php echo esc_html( $item['badge'] ); ?></span>
+                  <?php endif; ?>
+                  <?php if ( ! empty( $item['bio'] ) ) : ?>
+                    <span class="carte-picto carte-picto--bio" title="Bio"><svg width="10" height="10" viewBox="0 0 10 10" fill="white" aria-hidden="true"><rect x="4.6" y="0.5" width="0.8" height="9" rx="0.4"/><ellipse cx="3.1" cy="3.2" rx="1.4" ry="0.7" transform="rotate(-42 3.1 3.2)"/><ellipse cx="3.0" cy="5.4" rx="1.3" ry="0.65" transform="rotate(-36 3.0 5.4)"/><ellipse cx="3.2" cy="7.3" rx="1.1" ry="0.6" transform="rotate(-28 3.2 7.3)"/><ellipse cx="6.9" cy="3.2" rx="1.4" ry="0.7" transform="rotate(42 6.9 3.2)"/><ellipse cx="7.0" cy="5.4" rx="1.3" ry="0.65" transform="rotate(36 7.0 5.4)"/><ellipse cx="6.8" cy="7.3" rx="1.1" ry="0.6" transform="rotate(28 6.8 7.3)"/><ellipse cx="5" cy="1.2" rx="0.6" ry="1.0"/></svg>Bio</span>
+                  <?php endif; ?>
+                  <?php if ( ! empty( $item['vegan'] ) ) : ?>
+                    <span class="carte-picto carte-picto--vegan" title="Végan"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M5 9V4.5" stroke="white" stroke-width="1" stroke-linecap="round"/><path d="M5 6.5C5 6.5 3.2 5.8 2 4C3 2.5 5 2.5 5 5" fill="white"/><path d="M5 5.5C5 5.5 6.8 4.8 8 3C7 1.5 5 1.5 5 4" fill="white"/></svg>Végan</span>
+                  <?php endif; ?>
+                  <?php if ( ! empty( $item['spicy'] ) ) : ?>
+                    <span class="carte-picto carte-picto--spicy" title="Épicé" aria-label="Épicé">🌶</span>
                   <?php endif; ?>
                 </span>
                 <span class="carte-dots flex-grow-1 d-none d-sm-block" aria-hidden="true"></span>
@@ -503,6 +615,120 @@ add_action( 'admin_init', function () {
     update_option( 'lpl_menu_v1_initialized', true );
 
 }, 20 ); // priorité 20 = après l'init ACF
+
+
+/* ══════════════════════════════════════════════════════════════
+   5b. MIGRATION v2 — Mise à jour avec le vrai menu (photos mai 2026)
+   One-shot : ne s'exécute qu'une seule fois via l'option WP.
+══════════════════════════════════════════════════════════════ */
+add_action( 'admin_init', function () {
+
+    if ( ! function_exists( 'update_field' ) )       return;
+    if ( get_option( 'lpl_menu_v2_initialized' ) )   return;
+    if ( ! current_user_can( 'manage_options' ) )    return;
+
+    /* Trouver le menu actif existant (créé par v1) */
+    $q = new WP_Query( [
+        'post_type'      => 'lpl_menu',
+        'post_status'    => 'publish',
+        'posts_per_page' => 1,
+        'meta_key'       => 'menu_statut',
+        'meta_value'     => 'actif',
+        'no_found_rows'  => true,
+        'fields'         => 'ids',
+    ] );
+    $post_id = ! empty( $q->posts ) ? (int) $q->posts[0] : 0;
+
+    /* Si aucun menu actif, créer un nouveau post */
+    if ( ! $post_id ) {
+        $post_id = wp_insert_post( [
+            'post_title'  => 'La Carte',
+            'post_type'   => 'lpl_menu',
+            'post_status' => 'publish',
+            'post_name'   => 'la-carte',
+        ] );
+        if ( ! $post_id || is_wp_error( $post_id ) ) return;
+        update_field( 'menu_statut',      'actif',                     $post_id );
+        update_field( 'menu_periode',     'Disponible toute l\'année', $post_id );
+        update_field( 'menu_description', 'Cuisine Fusion · Arcachon', $post_id );
+    }
+
+    /* ── Entrées (menu mai 2026) ── */
+    update_field( 'menu_entrees', [
+        [ 'nom' => 'Carpaccio de Boeuf',    'badge' => '',  'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Copeaux de parmesan, roquette, tomates cerises, crème balsamique', 'prix' => '12' ],
+        [ 'nom' => 'Le Velouté',            'badge' => '',  'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Carottes, bleu Auvergne, noix',                                    'prix' => '10' ],
+        [ 'nom' => 'Ceviche de Poisson',    'badge' => '',  'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Lait de coco, passion, citron vert, herbes fraîches',              'prix' => '13' ],
+        [ 'nom' => 'Crevettes Tempura',     'badge' => '',  'bio' => false, 'vegan' => false, 'spicy' => true,  'description' => 'Dynamite mayo japonaise, sriracha, miel',                          'prix' => '11' ],
+        [ 'nom' => 'Feta Grillée au Miel',  'badge' => '',  'bio' => false, 'vegan' => true,  'spicy' => false, 'description' => 'Tartare de légumes, salade verte',                                'prix' => '10' ],
+    ], $post_id );
+
+    /* ── À Partager ── */
+    update_field( 'menu_partager', [
+        [ 'nom' => 'Planche Charcuterie',           'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Terrine maison, charcuteries artisanales',                       'prix' => '18' ],
+        [ 'nom' => 'Planche Fromages',              'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Fromages affinés',                                               'prix' => '18' ],
+        [ 'nom' => 'Planche Mixte',                 'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Entre copains',                                                  'prix' => '27' ],
+        [ 'nom' => 'Poulet Croustillant Coréen',    'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Aiguillettes panées, sésame, sauce aigre-douce, cébette',       'prix' => '12' ],
+        [ 'nom' => 'Croque Apéro Truffe',           'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Pain toasté, jambon dinde, fromage, crème à la truffe',         'prix' => '11' ],
+    ], $post_id );
+
+    /* ── Huîtres ── */
+    update_field( 'menu_huitres_subtitle', 'De la Maison Molen · Producteur d\'huîtres naturelles', $post_id );
+    update_field( 'menu_huitres', [
+        [ 'nom' => 'Huîtres "La Boudeuse"', 'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Par 6 ou 12', 'prix' => '9/17' ],
+        [ 'nom' => 'Huîtres N°4',           'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Par 6 ou 12', 'prix' => '12/21' ],
+    ], $post_id );
+
+    /* ── Plats ── */
+    update_field( 'menu_plats', [
+        [ 'nom' => 'Tataki Thon Rouge',       'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Sésame, poireaux, légumes de saison',                          'prix' => '23' ],
+        [ 'nom' => 'Brochettes Poulet',       'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => true,  'description' => 'Cacahuètes, paprika, satay, riz thaï',                         'prix' => '21' ],
+        [ 'nom' => 'Linguines Gambas',        'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Tomates confites, coco, bisque',                               'prix' => '21' ],
+        [ 'nom' => 'Tigre qui Pleure',        'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => true,  'description' => 'Faux-filet, frites, salade',                                   'prix' => '24' ],
+        [ 'nom' => 'Risotto Verde',           'badge' => '', 'bio' => false, 'vegan' => true,  'spicy' => false, 'description' => 'Asperges, petits pois, pignons, parmesan',                    'prix' => '18' ],
+        [ 'nom' => 'Pêche du Jour',           'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Légumes de saison',                                           'prix' => '23' ],
+    ], $post_id );
+
+    /* ── Burgers ── */
+    update_field( 'menu_burgers_subtitle', 'Bun\'s briochés de la Maison Pirelons, frites et salade', $post_id );
+    update_field( 'menu_burgers', [
+        [ 'nom' => 'Burger du Petit Louvre', 'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Bœuf, bacon, oignons caramélisés, sauce cocktail', 'prix' => '19' ],
+        [ 'nom' => 'Burger Poulet',          'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Poulet croustillant, mayo citron curry',            'prix' => '18' ],
+        [ 'nom' => 'Veggie Burger',          'badge' => '', 'bio' => false, 'vegan' => true,  'spicy' => false, 'description' => 'Falafels, tomates séchées, houmous',               'prix' => '17' ],
+    ], $post_id );
+
+    /* ── Salades ── */
+    update_field( 'menu_salades', [
+        [ 'nom' => 'César',  'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Romaine, poulet croustillant, parmesan, sauce césar',            'prix' => '18' ],
+        [ 'nom' => 'Chèvre Chaud', 'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Épinards, noix, grenade, lardons, chèvre, miel',          'prix' => '19' ],
+        [ 'nom' => 'Veggie',       'badge' => '', 'bio' => false, 'vegan' => true,  'spicy' => false, 'description' => 'Légumes frais de saison',                                  'prix' => '17' ],
+    ], $post_id );
+
+    /* ── Desserts ── */
+    update_field( 'menu_desserts_items', [
+        [ 'nom' => 'Brioche Perdue',        'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Caramel maison, glace vanille, amandes',                              'prix' => '12' ],
+        [ 'nom' => 'Cheesecake',            'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Spéculoos, citron, coulis fruits rouges',                             'prix' => '10' ],
+        [ 'nom' => 'Tiramisu Maison',       'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => '',                                                                    'prix' => '9'  ],
+        [ 'nom' => 'Compotée de Pommes',    'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Cannelle, chantilly verveine, crumble cacao',                         'prix' => '9'  ],
+        [ 'nom' => 'Brownie Mi-Cuit',       'badge' => '', 'bio' => false, 'vegan' => false, 'spicy' => false, 'description' => 'Chocolat noir, caramel, stracciatella',                               'prix' => '10' ],
+    ], $post_id );
+
+    update_field( 'menu_glaces_boules',  '3€ · 6€ · 9€', $post_id );
+    update_field( 'menu_glaces_parfums',
+        "Vanille, chocolat, café, caramel au beurre d'isigny, noix de coco, fraise, stracciatella\nTagada, rhum raisin, pistache\nMangue, framboise, pêche de vigne, passion, citron vert Yuzu, melon",
+        $post_id
+    );
+    update_field( 'menu_cafe_prix', '10/12', $post_id );
+
+    /* ── Note bas de page ── */
+    update_field( 'menu_footnote',
+        'Prix nets en € · Service compris · Chèque non accepté · CB minimum 10€',
+        $post_id
+    );
+
+    /* Marquer v2 comme exécutée */
+    update_option( 'lpl_menu_v2_initialized', true );
+
+}, 20 );
 
 
 /* ══════════════════════════════════════════════════════════════

@@ -12,7 +12,7 @@ $f_tiktok       = get_field( 'opt_social_tiktok',      'option' ) ?: '';
 $f_tripadvisor  = get_field( 'opt_social_tripadvisor', 'option' ) ?: '';
 
 $f_footer_desc      = get_field( 'opt_footer_desc',      'option' ) ?: 'Institution emblématique d\'Arcachon, Le Petit Louvre se réinvente avec une cuisine française fusion moderne.';
-$f_footer_horaires  = get_field( 'opt_footer_horaires',  'option' ) ?: "Le Petit Louvre vous accueille\n\nTous les jours de 9h à 23h";
+$f_footer_horaires  = get_field( 'opt_footer_horaires',  'option' ) ?: "Le Petit Louvre vous accueille\n\nDu lundi au dimanche\nde 9h à 23h";
 $f_footer_copyright = get_field( 'opt_footer_copyright', 'option' ) ?: 'Le Petit Louvre restaurant';
 $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserver une table';
 ?>
@@ -26,7 +26,7 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
 
       <div class="col-md-3">
         <div class="footer-col reveal d1">
-          <img src="<?php echo get_template_directory_uri(); ?>/img/logo.svg"
+          <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg"
                alt="Le Petit Louvre" class="footer-logo-img" style="width:110px;height:auto;object-fit:contain;" loading="lazy">
           <p class="footer-desc"><?php echo esc_html( $f_footer_desc ); ?></p>
         </div>
@@ -41,7 +41,7 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
             <li><a href="<?php echo esc_url( home_url( '/carte/' ) ); ?>">La carte</a></li>
             <li><a href="<?php echo esc_url( home_url( '/carte-des-vins/' ) ); ?>">Carte des Vins</a></li>
             <li><a href="<?php echo esc_url( home_url( '/#privatisation' ) ); ?>">Privatisation</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contacter-nous</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contactez-nous</a></li>
           </ul>
         </div>
       </div>
@@ -133,7 +133,7 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
 
 <!-- SCROLL TO TOP -->
 <a href="#" class="scroll-top" id="scrollTop" aria-label="Retour en haut">
-  <img src="<?php echo get_template_directory_uri(); ?>/img/scroll-top-icon.svg" alt="" loading="lazy" decoding="async">
+  <img src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/scroll-top-icon.svg" alt="" loading="lazy" decoding="async">
 </a>
 
 <!-- BOUTON FLOTTANT RÉSERVATION — masqué via CSS sur la page réservation -->
@@ -145,11 +145,11 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
 </a>
 
 <!-- MOBILE NAV OVERLAY -->
-<div class="mobile-nav-overlay" id="mobileNavOverlay" role="dialog" aria-modal="true" aria-label="Menu mobile">
+<div class="mobile-nav-overlay" id="mobileNavOverlay" role="dialog" aria-modal="true" aria-label="Menu mobile" aria-hidden="true">
   <button class="overlay-close" id="overlayCloseBtn" aria-label="Fermer le menu">✕</button>
   <a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Accueil Le Petit Louvre">
     <img class="overlay-logo"
-         src="<?php echo get_template_directory_uri(); ?>/img/logo.svg"
+         src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg"
          alt="Le Petit Louvre">
   </a>
   <div class="overlay-sep"></div>

@@ -3,7 +3,7 @@
 Template Name: Mentions Légales
 */
 get_header();
-$tpl = get_template_directory_uri();
+$tpl = esc_url( get_template_directory_uri() );
 ?>
 
 <section class="hero hero--carte" id="hero">

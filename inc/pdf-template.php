@@ -7,8 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function lpl_pdf_get_html( array $data ): string {
 
     $entrees        = $data['entrees']        ?? [];
+    $huitres        = $data['huitres']        ?? [];
     $partager       = $data['partager']       ?? [];
     $plats          = $data['plats']          ?? [];
+    $burgers        = $data['burgers']        ?? [];
     $desserts       = $data['desserts']       ?? [];
     $glaces_boules  = $data['glaces_boules']  ?? '1 boule, 2 boules, 3 boules';
     $glaces_parfums = $data['glaces_parfums'] ?? '';
@@ -115,6 +117,28 @@ function lpl_pdf_get_html( array $data ): string {
     text-transform: none;
     letter-spacing: 0;
   }
+  .item-badge--bio {
+    font-size: 7pt;
+    font-weight: bold;
+    color: white;
+    background-color: #4a7c3f;
+    border: none;
+    padding: 1pt 4pt;
+    margin-left: 5pt;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .item-badge--vegan {
+    font-size: 7pt;
+    font-weight: bold;
+    color: white;
+    background-color: #2e7d5e;
+    border: none;
+    padding: 1pt 4pt;
+    margin-left: 5pt;
+    text-transform: none;
+    letter-spacing: 0;
+  }
   .item-desc {
     font-size: 8.5pt;
     color: #666;
@@ -199,6 +223,8 @@ function lpl_pdf_get_html( array $data ): string {
                 <td style="font-size:10pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.4pt;color:#1a2e0a;text-align:left;vertical-align:top;padding-right:6pt;">
                   <?php echo htmlspecialchars( $item['nom'], ENT_QUOTES, 'UTF-8' ); ?>
                   <?php if ( ! empty( $item['badge'] ) ) : ?><span class="item-badge"><?php echo htmlspecialchars( $item['badge'], ENT_QUOTES, 'UTF-8' ); ?></span><?php endif; ?>
+                  <?php if ( ! empty( $item['bio'] ) ) : ?><span class="item-badge--bio">Bio</span><?php endif; ?>
+                  <?php if ( ! empty( $item['vegan'] ) ) : ?><span class="item-badge--vegan">Végan</span><?php endif; ?>
                 </td>
                 <td style="font-size:10pt;font-weight:bold;color:#33520b;text-align:right;vertical-align:top;white-space:nowrap;width:15%;"><?php echo htmlspecialchars( $item['prix'], ENT_QUOTES, 'UTF-8' ); ?>&thinsp;&euro;</td>
               </tr>
@@ -216,6 +242,14 @@ function lpl_pdf_get_html( array $data ): string {
     <?php $render_section( $entrees ); ?>
   </div>
 
+  <?php if ( ! empty( $huitres ) ) : ?>
+  <!-- HUÎTRES -->
+  <div class="section-block">
+    <div class="section-title">Huîtres</div>
+    <?php $render_section( $huitres ); ?>
+  </div>
+  <?php endif; ?>
+
   <!-- À PARTAGER -->
   <div class="section-block">
     <div class="section-title">À Partager</div>
@@ -227,6 +261,14 @@ function lpl_pdf_get_html( array $data ): string {
     <div class="section-title">Plats</div>
     <?php $render_section( $plats ); ?>
   </div>
+
+  <?php if ( ! empty( $burgers ) ) : ?>
+  <!-- BURGERS -->
+  <div class="section-block">
+    <div class="section-title">Burgers</div>
+    <?php $render_section( $burgers ); ?>
+  </div>
+  <?php endif; ?>
 
   <!-- DESSERTS -->
   <div class="section-block">
@@ -263,6 +305,22 @@ function lpl_pdf_get_html( array $data ): string {
     </div>
 
   </div><!-- /desserts -->
+
+  <!-- Légende Bio / Végan -->
+  <div style="margin-top:14pt; margin-bottom:6pt; padding-top:8pt; border-top:0.8pt solid #c8d4a0;">
+    <table cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+      <tr>
+        <td style="vertical-align:middle; padding-right:4pt;">
+          <span style="display:inline-block; background:#4a7c3f; color:white; font-size:7pt; font-weight:bold; padding:1.5pt 5pt; border-radius:2pt;">Bio</span>
+        </td>
+        <td style="font-size:8pt; color:#1a2e0a; vertical-align:middle; padding-right:20pt;">Produit biologique</td>
+        <td style="vertical-align:middle; padding-right:4pt;">
+          <span style="display:inline-block; background:#2e7d5e; color:white; font-size:7pt; font-weight:bold; padding:1.5pt 5pt; border-radius:2pt;">Végan</span>
+        </td>
+        <td style="font-size:8pt; color:#1a2e0a; vertical-align:middle;">Plat 100% végétalien</td>
+      </tr>
+    </table>
+  </div>
 
   <?php if ( $footnote ) : ?>
     <div class="footnote"><?php echo htmlspecialchars( $footnote, ENT_QUOTES, 'UTF-8' ); ?></div>

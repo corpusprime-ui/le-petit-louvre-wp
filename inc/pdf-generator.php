@@ -104,7 +104,7 @@ function lpl_pdf_collect_data( int $pid ): array {
         [ 'nom' => 'La Burrata',                     'badge' => 'Nouveauté', 'desc' => 'Tomates cerises, pêches, huile d\'olive, basilic',                                'prix' => '11', 'photo' => $img('plat-6-opt.jpg'),  'photo_thumb' => $thumb('plat-6-opt.jpg')  ],
         [ 'nom' => 'Ceviche de poisson aux agrumes',  'badge' => '',          'desc' => 'Marinade 3 agrumes, brunoise pastèque kiwi, graines de courge, pickles maison',   'prix' => '13', 'photo' => $img('plat-7.jpg'),      'photo_thumb' => $thumb('plat-7.jpg')      ],
         [ 'nom' => 'Carpaccio de Boeuf',              'badge' => '',          'desc' => 'Tomates cerises, mesclun, copeaux de parmesan',                                    'prix' => '13', 'photo' => $img('plat-22-opt.jpg'), 'photo_thumb' => $thumb('plat-22-opt.jpg') ],
-        [ 'nom' => 'Feta grillée au miel',            'badge' => '',          'desc' => 'Tartare de légumes de saison, salade',                                             'prix' => '13', 'photo' => $img('plat-8.jpg'),      'photo_thumb' => $thumb('plat-8.jpg')      ],
+        [ 'nom' => 'Feta grillée au miel',            'badge' => '',          'bio' => true,  'desc' => 'Tartare de légumes de saison, salade',                                             'prix' => '13', 'photo' => $img('plat-8.jpg'),      'photo_thumb' => $thumb('plat-8.jpg')      ],
         [ 'nom' => 'Carpaccio de Melon',              'badge' => 'Nouveauté', 'desc' => 'Jambon serrano, crumble d\'olives noires et parmesan, basilic',                   'prix' => '13', 'photo' => $img('plat-9.jpg'),      'photo_thumb' => $thumb('plat-9.jpg')      ],
     ];
 
@@ -114,7 +114,7 @@ function lpl_pdf_collect_data( int $pid ): array {
         [ 'nom' => 'Planche de fromages',         'badge' => '',           'desc' => 'Sélection de fromages affinés',           'prix' => '18', 'photo' => $img('plat-16-opt.jpg'), 'photo_thumb' => $thumb('plat-16-opt.jpg') ],
         [ 'nom' => 'Planche mixte',               'badge' => '',           'desc' => 'Entre copains',                            'prix' => '27', 'photo' => $img('plat-17-opt.jpg'), 'photo_thumb' => $thumb('plat-17-opt.jpg') ],
         [ 'nom' => 'Cannelés salés',              'badge' => '',           'desc' => 'Lard et piment d\'espelette',              'prix' => '13', 'photo' => $img('plat-10.jpg'),     'photo_thumb' => $thumb('plat-10.jpg')     ],
-        [ 'nom' => 'Panier de légumes croquants', 'badge' => 'Nouveauté', 'desc' => 'Sauce tzatziki et tapenade',                'prix' => '13', 'photo' => $img('plat-11.jpg'),     'photo_thumb' => $thumb('plat-11.jpg')     ],
+        [ 'nom' => 'Panier de légumes croquants', 'badge' => 'Nouveauté', 'bio' => true, 'vegan' => true, 'desc' => 'Sauce tzatziki et tapenade',                'prix' => '13', 'photo' => $img('plat-11.jpg'),     'photo_thumb' => $thumb('plat-11.jpg')     ],
     ];
 
     /* ── PLATS ── */
@@ -126,7 +126,7 @@ function lpl_pdf_collect_data( int $pid ): array {
         [ 'nom' => 'Escalope milanaise',          'badge' => '',           'desc' => 'Veau pané, polenta snackée, poêlée d\'aubergines, tomates cerises et basilic', 'prix' => '23', 'photo' => $img('plat-18-opt.jpg'), 'photo_thumb' => $thumb('plat-18-opt.jpg') ],
         [ 'nom' => 'Poisson sauvage à la plancha','badge' => '',           'desc' => 'Légumes de saison',                                                             'prix' => '25', 'photo' => $img('plat-12.jpg'),     'photo_thumb' => $thumb('plat-12.jpg')     ],
         [ 'nom' => 'Pièce du boucher 250g',       'badge' => '',           'desc' => 'Frites maison et salade, jus de viande corsé',                                 'prix' => '27', 'photo' => $img('plat-13.jpg'),     'photo_thumb' => $thumb('plat-13.jpg')     ],
-        [ 'nom' => 'Aubergine farcie',            'badge' => '',           'desc' => 'Tomates, mozzarella, parmesan gratiné, basilic frais et salade',                'prix' => '18', 'photo' => $img('plat-14.jpg'),     'photo_thumb' => $thumb('plat-14.jpg')     ],
+        [ 'nom' => 'Aubergine farcie',            'badge' => '',           'vegan' => true, 'desc' => 'Tomates, mozzarella, parmesan gratiné, basilic frais et salade',                'prix' => '18', 'photo' => $img('plat-14.jpg'),     'photo_thumb' => $thumb('plat-14.jpg')     ],
     ];
 
     /* ── DESSERTS (ACF si renseignés, sinon fallback) ── */
@@ -299,6 +299,8 @@ function lpl_pdf_collect_menu_data( int $post_id ): array {
             $items[] = [
                 'nom'         => $s( get_sub_field( 'nom' ) ),
                 'badge'       => $s( get_sub_field( 'badge' ) ),
+                'bio'         => (bool) get_sub_field( 'bio' ),
+                'vegan'       => (bool) get_sub_field( 'vegan' ),
                 'desc'        => $s( get_sub_field( 'description' ) ),
                 'prix'        => $s( get_sub_field( 'prix' ) ),
                 'photo'       => $photo_path,
@@ -310,7 +312,9 @@ function lpl_pdf_collect_menu_data( int $post_id ): array {
 
     $entrees  = $collect( 'menu_entrees' );
     $partager = $collect( 'menu_partager' );
+    $huitres  = $collect( 'menu_huitres' );
     $plats    = $collect( 'menu_plats' );
+    $burgers  = $collect( 'menu_burgers' );
     $desserts = $collect( 'menu_desserts_items' );
 
     $gf = fn( $k, $fb ) => function_exists( 'get_field' ) ? ( get_field( $k, $post_id ) ?: $fb ) : $fb;
@@ -320,7 +324,7 @@ function lpl_pdf_collect_menu_data( int $post_id ): array {
     $cafe_prix      = $gf( 'menu_cafe_prix',       '10/12' );
     $footnote       = $gf( 'menu_footnote',        'Prix nets en € · Service compris · Chèque non accepté · CB minimum 5€' );
 
-    return compact( 'entrees', 'partager', 'plats', 'desserts', 'glaces_boules', 'glaces_parfums', 'cafe_prix', 'footnote' );
+    return compact( 'entrees', 'huitres', 'partager', 'plats', 'burgers', 'desserts', 'glaces_boules', 'glaces_parfums', 'cafe_prix', 'footnote' );
 }
 
 /**

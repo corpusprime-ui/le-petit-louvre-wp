@@ -1,101 +1,23 @@
 (function () {
   'use strict';
 
-  const heroVideo   = document.getElementById('heroVideo');
-  const heroScrub   = document.getElementById('heroScrub');
-  const heroContent = document.querySelector('.hero-content');
   const stickyNav   = document.getElementById('stickyNav');
   const scrollTop   = document.getElementById('scrollTop');
+
+  /* Sticky nav + scroll-to-top — visibilité au scroll */
+  const heroEl = document.getElementById('hero');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (stickyNav) stickyNav.classList.toggle('visible', y > (heroEl ? heroEl.offsetHeight * 0.85 : 600));
+    if (scrollTop) scrollTop.classList.toggle('visible', y > 400);
+  }, { passive: true });
+
+  /* Respect de prefers-reduced-motion — désactive toutes les animations auto */
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const anchorTarget  = window.location.hash ? document.querySelector(window.location.hash) : null;
-
-  /* ------------------------------------------
-     Video Scrub on Scroll — GSAP ScrollTrigger
-  ------------------------------------------ */
-  if (heroVideo && heroScrub && typeof gsap !== 'undefined' && !reducedMotion) {
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* Si ancre dans l'URL : bloquer le scroll auto du browser, on scrolle après init */
-    if (anchorTarget) {
-      history.scrollRestoration = 'manual';
-      window.scrollTo(0, 0);
-    }
-
-    /* Poster visible immédiatement — ne pas attendre loadeddata (ignoré sur iOS) */
-    heroVideo.classList.add('ready');
-    heroVideo.pause();
-    heroVideo.currentTime = 0;
-
-    /* iOS Safari : déverrouiller la vidéo au premier geste utilisateur
-       Sans ça, currentTime ne se met pas à jour sur mobile           */
-    let iosUnlocked = false;
-    function unlockiOS() {
-      if (iosUnlocked) return;
-      iosUnlocked = true;
-      heroVideo.play().then(() => heroVideo.pause()).catch(() => {});
-    }
-    window.addEventListener('touchstart', unlockiOS, { once: true, passive: true });
-    window.addEventListener('scroll',     unlockiOS, { once: true, passive: true });
-
-    ScrollTrigger.create({
-      trigger : heroScrub,
-      start   : 'top top',
-      end     : 'bottom bottom',
-      pin     : '#hero',
-      scrub   : 0.5,
-      onUpdate(self) {
-        const progress = self.progress;
-        requestAnimationFrame(() => {
-          if (heroVideo.readyState >= 2 && heroVideo.duration && isFinite(heroVideo.duration)) {
-            heroVideo.currentTime = heroVideo.duration * progress;
-          }
-          /* Fondu vers le haut du contenu hero — exit cinématique */
-          if (heroContent) {
-            const p = Math.min(1, Math.max(0, (progress - 0.50) / 0.38));
-            heroContent.style.opacity   = String(1 - p);
-            heroContent.style.transform = p > 0 ? `translateY(${-p * 96}px)` : '';
-          }
-        });
-      },
-      onLeave()     { if (stickyNav) stickyNav.classList.add('visible'); },
-      onEnterBack() { if (stickyNav) stickyNav.classList.remove('visible'); },
-    });
-
-    ScrollTrigger.create({
-      trigger    : heroScrub,
-      start      : 'bottom 80%',
-      onEnter    : () => { if (scrollTop) scrollTop.classList.add('visible'); },
-      onLeaveBack: () => { if (scrollTop) scrollTop.classList.remove('visible'); },
-    });
-
-    /* Scroll vers l'ancre après init GSAP */
-    if (anchorTarget) {
-      window.addEventListener('load', () => {
-        ScrollTrigger.refresh();
-        setTimeout(() => {
-          anchorTarget.scrollIntoView({ behavior: 'smooth' });
-        }, 120);
-      });
-    }
-
-  } else {
-    /* Fallback — scrub désactivé (reduced-motion ou GSAP absent) */
-    if (heroVideo) {
-      heroVideo.classList.add('ready');
-      /* Afficher le hero-scrub comme section normale */
-      if (heroScrub) heroScrub.style.height = '100vh';
-    }
-    const heroEl = document.getElementById('hero');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (stickyNav) stickyNav.classList.toggle('visible', y > (heroEl ? heroEl.offsetHeight * 0.85 : 600));
-      if (scrollTop) scrollTop.classList.toggle('visible', y > 400);
-    }, { passive: true });
-  }
 
   /* Hero-bg crossfade — pages internes (Carte, Bar…) */
   const heroBgs = document.querySelectorAll('.hero-bg');
-  if (heroBgs.length > 1) {
+  if (heroBgs.length > 1 && !reducedMotion) {
     let hbCurrent = 0;
     setInterval(() => {
       heroBgs[hbCurrent].classList.remove('active');
@@ -106,7 +28,7 @@
 
   /* Speakeasy crossfade — transition douce toutes les 6s */
   const speakeasyBgs = document.querySelectorAll('.speakeasy-bg');
-  if (speakeasyBgs.length > 1) {
+  if (speakeasyBgs.length > 1 && !reducedMotion) {
     let spCurrent = 0;
     setInterval(() => {
       speakeasyBgs[spCurrent].classList.remove('active');
@@ -133,9 +55,15 @@
 
   /* ------------------------------------------
      Button ripple
+     — délégué sur document pour couvrir les boutons
+       ajoutés dynamiquement (sliders, etc.)
+     — ignoré sur mobile (touch-action gère le tap)
   ------------------------------------------ */
-  document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', e => {
+  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (supportsHover) {
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.btn');
+      if (!btn) return;
       const rect   = btn.getBoundingClientRect();
       const ripple = document.createElement('span');
       ripple.className = 'ripple';
@@ -144,7 +72,7 @@
       btn.appendChild(ripple);
       setTimeout(() => ripple.remove(), 650);
     });
-  });
+  }
 
   /* ------------------------------------------
      Smooth scroll-to-top
@@ -159,13 +87,8 @@
   const scrollHintBtn = document.getElementById('heroScrollHint');
   if (scrollHintBtn) {
     scrollHintBtn.addEventListener('click', () => {
-      const scrub = document.getElementById('heroScrub');
-      if (scrub) {
-        window.scrollTo({ top: scrub.offsetTop + scrub.offsetHeight, behavior: 'smooth' });
-      } else {
-        const target = document.getElementById(scrollHintBtn.dataset.target || 'presentation');
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      }
+      const target = document.getElementById(scrollHintBtn.dataset.target || 'presentation');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
   }
 
@@ -306,22 +229,57 @@
   const overlay        = document.getElementById('mobileNavOverlay');
   const allMenuBtns    = [mobileMenuBtn, stickyMenuBtn].filter(Boolean);
 
+  /* Éléments focusables dans l'overlay — pour le focus trap */
+  const focusableSelectors = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
   function openMenu() {
     overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     document.body.classList.add('menu-open');
-    allMenuBtns.forEach(b => b.classList.add('open'));
+    allMenuBtns.forEach(b => {
+      b.classList.add('open');
+      b.setAttribute('aria-expanded', 'true');
+    });
     mobileMenuBtn && mobileMenuBtn.setAttribute('aria-label', 'Fermer le menu');
     stickyMenuBtn && stickyMenuBtn.setAttribute('aria-label', 'Fermer le menu');
+    /* Focus sur le premier lien — accessibilité clavier */
+    requestAnimationFrame(() => {
+      const first = overlay.querySelector(focusableSelectors);
+      if (first) first.focus();
+    });
   }
   function closeMenu() {
     overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     document.body.classList.remove('menu-open');
-    allMenuBtns.forEach(b => b.classList.remove('open'));
+    allMenuBtns.forEach(b => {
+      b.classList.remove('open');
+      b.setAttribute('aria-expanded', 'false');
+    });
     mobileMenuBtn && mobileMenuBtn.setAttribute('aria-label', 'Ouvrir le menu');
     stickyMenuBtn && stickyMenuBtn.setAttribute('aria-label', 'Ouvrir le menu');
+    /* Rend le focus au bouton déclencheur */
+    const trigger = mobileMenuBtn || stickyMenuBtn;
+    if (trigger) trigger.focus();
   }
+
+  /* Focus trap — empêche le Tab de sortir du menu ouvert */
+  overlay.addEventListener('keydown', e => {
+    if (e.key !== 'Tab' || !overlay.classList.contains('open')) return;
+    const focusable = [...overlay.querySelectorAll(focusableSelectors)];
+    if (!focusable.length) return;
+    const first = focusable[0], last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+  /* État initial aria-expanded */
+  allMenuBtns.forEach(b => b.setAttribute('aria-expanded', 'false'));
+
   allMenuBtns.forEach(btn =>
     btn.addEventListener('click', () =>
       overlay.classList.contains('open') ? closeMenu() : openMenu()
@@ -435,8 +393,8 @@
   const floatReserve = document.getElementById('floatReserve');
   if (floatReserve) {
     function updateFloatBtn() {
-      const show = window.scrollY > 150;
-      floatReserve.classList.toggle('visible', show);
+      const halfway = (document.documentElement.scrollHeight - window.innerHeight) / 2;
+      floatReserve.classList.toggle('visible', window.scrollY > halfway);
     }
     window.addEventListener('scroll', updateFloatBtn, { passive: true });
     updateFloatBtn();

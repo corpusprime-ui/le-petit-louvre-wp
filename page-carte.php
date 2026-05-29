@@ -13,14 +13,19 @@ $active_menu_id = function_exists( 'lpl_get_active_menu_id' ) ? lpl_get_active_m
 if ( $active_menu_id && function_exists( 'lpl_get_menu_items' ) ) {
 
     /* ── Source : CPT "Les Menus" ── */
-    $items_entrees  = lpl_get_menu_items( 'menu_entrees',        $active_menu_id );
-    $items_partager = lpl_get_menu_items( 'menu_partager',       $active_menu_id );
-    $items_plats    = lpl_get_menu_items( 'menu_plats',          $active_menu_id );
-    $items_desserts = lpl_get_menu_items( 'menu_desserts_items', $active_menu_id );
-    $glaces_boules  = lpl_field( 'menu_glaces_boules',  $active_menu_id, '1 boule, 2 boules, 3 boules' );
-    $glaces_parfums = lpl_field( 'menu_glaces_parfums', $active_menu_id, '' );
-    $cafe_prix      = lpl_field( 'menu_cafe_prix',      $active_menu_id, '10/12' );
-    $menu_footnote  = lpl_field( 'menu_footnote',       $active_menu_id, '' );
+    $items_entrees    = lpl_get_menu_items( 'menu_entrees',        $active_menu_id );
+    $items_partager   = lpl_get_menu_items( 'menu_partager',       $active_menu_id );
+    $items_huitres    = lpl_get_menu_items( 'menu_huitres',        $active_menu_id );
+    $items_plats      = lpl_get_menu_items( 'menu_plats',          $active_menu_id );
+    $items_burgers    = lpl_get_menu_items( 'menu_burgers',        $active_menu_id );
+    $items_salades    = lpl_get_menu_items( 'menu_salades',        $active_menu_id );
+    $items_desserts   = lpl_get_menu_items( 'menu_desserts_items', $active_menu_id );
+    $huitres_subtitle = lpl_field( 'menu_huitres_subtitle', $active_menu_id, '' );
+    $burgers_subtitle = lpl_field( 'menu_burgers_subtitle', $active_menu_id, '' );
+    $glaces_boules    = lpl_field( 'menu_glaces_boules',  $active_menu_id, '3€ · 6€ · 9€' );
+    $glaces_parfums   = lpl_field( 'menu_glaces_parfums', $active_menu_id, '' );
+    $cafe_prix        = lpl_field( 'menu_cafe_prix',      $active_menu_id, '10/12' );
+    $menu_footnote    = lpl_field( 'menu_footnote',       $active_menu_id, '' );
 
 } else {
 
@@ -32,7 +37,7 @@ if ( $active_menu_id && function_exists( 'lpl_get_menu_items' ) ) {
         [ 'nom' => 'La Burrata',                     'badge' => 'Nouveauté', 'desc' => "Tomates cerises, pêches, huile d'olive, basilic",                               'prix' => '11', 'photo' => $tpl_img.'plat-6-opt.jpg',  'photo_thumb' => $tpl_img.'plat-6-opt-thumb.jpg'  ],
         [ 'nom' => 'Ceviche de poisson aux agrumes',  'badge' => '',          'desc' => 'Marinade 3 agrumes, brunoise pastèque kiwi, graines de courge, pickles maison', 'prix' => '13', 'photo' => $tpl_img.'plat-7.jpg',      'photo_thumb' => $tpl_img.'plat-7-thumb.jpg'      ],
         [ 'nom' => 'Carpaccio de Boeuf',              'badge' => '',          'desc' => 'Tomates cerises, mesclun, copeaux de parmesan',                                  'prix' => '13', 'photo' => $tpl_img.'plat-22-opt.jpg', 'photo_thumb' => $tpl_img.'plat-22-opt-thumb.jpg' ],
-        [ 'nom' => 'Feta grillée au miel',            'badge' => '',          'desc' => 'Tartare de légumes de saison, salade',                                           'prix' => '13', 'photo' => $tpl_img.'plat-8.jpg',      'photo_thumb' => $tpl_img.'plat-8-thumb.jpg'      ],
+        [ 'nom' => 'Feta grillée au miel',            'badge' => '',          'desc' => 'Tartare de légumes de saison, salade',                                           'prix' => '13', 'bio' => true,                   'photo' => $tpl_img.'plat-8.jpg',      'photo_thumb' => $tpl_img.'plat-8-thumb.jpg'      ],
         [ 'nom' => 'Carpaccio de Melon',              'badge' => 'Nouveauté', 'desc' => "Jambon serrano, crumble d'olives noires et parmesan, basilic",                  'prix' => '13', 'photo' => $tpl_img.'plat-9.jpg',      'photo_thumb' => $tpl_img.'plat-9-thumb.jpg'      ],
     ];
     $items_partager = [
@@ -40,7 +45,7 @@ if ( $active_menu_id && function_exists( 'lpl_get_menu_items' ) ) {
         [ 'nom' => 'Planche de fromages',         'badge' => '',          'desc' => 'Sélection de fromages affinés',            'prix' => '18', 'photo' => $tpl_img.'plat-16-opt.jpg', 'photo_thumb' => $tpl_img.'plat-16-opt-thumb.jpg' ],
         [ 'nom' => 'Planche mixte',               'badge' => '',          'desc' => 'Entre copains',                             'prix' => '27', 'photo' => $tpl_img.'plat-17-opt.jpg', 'photo_thumb' => $tpl_img.'plat-17-opt-thumb.jpg' ],
         [ 'nom' => 'Cannelés salés',              'badge' => '',          'desc' => "Lard et piment d'espelette",               'prix' => '13', 'photo' => $tpl_img.'plat-10.jpg',     'photo_thumb' => $tpl_img.'plat-10-thumb.jpg'     ],
-        [ 'nom' => 'Panier de légumes croquants', 'badge' => 'Nouveauté', 'desc' => 'Sauce tzatziki et tapenade',               'prix' => '13', 'photo' => $tpl_img.'plat-11.jpg',     'photo_thumb' => $tpl_img.'plat-11-thumb.jpg'     ],
+        [ 'nom' => 'Panier de légumes croquants', 'badge' => 'Nouveauté', 'desc' => 'Sauce tzatziki et tapenade',               'prix' => '13', 'bio' => true, 'vegan' => true, 'photo' => $tpl_img.'plat-11.jpg',     'photo_thumb' => $tpl_img.'plat-11-thumb.jpg'     ],
     ];
     $items_plats = [
         [ 'nom' => 'Poulpe grillé',                 'badge' => 'Nouveauté', 'desc' => 'Risotto façon paëlla, sauce gremolata',                                                                                          'prix' => '25', 'photo' => $tpl_img.'plat-1.jpg',      'photo_thumb' => $tpl_img.'plat-1-thumb.jpg'      ],
@@ -50,7 +55,7 @@ if ( $active_menu_id && function_exists( 'lpl_get_menu_items' ) ) {
         [ 'nom' => 'Escalope milanaise',            'badge' => '',          'desc' => "Veau pané, polenta snackée, poêlée d'aubergines, tomates cerises et basilic frais",                                             'prix' => '23', 'photo' => $tpl_img.'plat-18-opt.jpg', 'photo_thumb' => $tpl_img.'plat-18-opt-thumb.jpg' ],
         [ 'nom' => 'Poisson sauvage à la plancha',  'badge' => '',          'desc' => 'Légumes de saison',                                                                                                              'prix' => '25', 'photo' => $tpl_img.'plat-12.jpg',     'photo_thumb' => $tpl_img.'plat-12-thumb.jpg'     ],
         [ 'nom' => 'Pièce du boucher 250g',         'badge' => '',          'desc' => 'Frites maison et salade, jus de viande corsé',                                                                                  'prix' => '27', 'photo' => $tpl_img.'plat-13.jpg',     'photo_thumb' => $tpl_img.'plat-13-thumb.jpg'     ],
-        [ 'nom' => 'Aubergine farcie',              'badge' => '',          'desc' => 'Tomates, mozzarella, parmesan gratiné, basilic frais et salade',                                                                'prix' => '18', 'photo' => $tpl_img.'plat-14.jpg',     'photo_thumb' => $tpl_img.'plat-14-thumb.jpg'     ],
+        [ 'nom' => 'Aubergine farcie',              'badge' => '',          'desc' => 'Tomates, mozzarella, parmesan gratiné, basilic frais et salade',                                                                'prix' => '18', 'vegan' => true,                 'photo' => $tpl_img.'plat-14.jpg',     'photo_thumb' => $tpl_img.'plat-14-thumb.jpg'     ],
     ];
     $items_desserts = [
         [ 'nom' => 'Tarte aux Nectarines',              'badge' => '', 'desc' => 'Sorbet citron vert yuzu',                                                                                    'prix' => '11', 'photo' => $tpl_img.'plat-20-opt.jpg', 'photo_thumb' => $tpl_img.'plat-20-opt-thumb.jpg' ],
@@ -59,10 +64,15 @@ if ( $active_menu_id && function_exists( 'lpl_get_menu_items' ) ) {
         [ 'nom' => 'Mousse au Chocolat',                'badge' => '', 'desc' => 'Croquant au praliné',                                                                                        'prix' => '10', 'photo' => $tpl_img.'plat-19.jpg',     'photo_thumb' => $tpl_img.'plat-19-thumb.jpg'     ],
         [ 'nom' => "L'Instant Fraise du Petit Louvre",  'badge' => '', 'desc' => "Fraise, menthe, basilic, glace vanille, crème fouettée, écrasé de biscuits, et coulis de fraise maison",   'prix' => '12', 'photo' => $tpl_img.'plat-3.jpg',      'photo_thumb' => $tpl_img.'plat-3-thumb.jpg'      ],
     ];
-    $glaces_boules  = '1 boule, 2 boules, 3 boules';
-    $glaces_parfums = "Vanille, chocolat, café, caramel au beurre d'isigny, noix de coco, fraise\nTagada, rhum raisin, pistache\nMangue, framboise, pêche de vigne, passion, citron vert Yuzu, melon";
-    $cafe_prix      = '10/12';
-    $menu_footnote  = '';
+    $items_huitres    = [];
+    $items_burgers    = [];
+    $items_salades    = [];
+    $huitres_subtitle = '';
+    $burgers_subtitle = '';
+    $glaces_boules    = '3€ · 6€ · 9€';
+    $glaces_parfums   = "Vanille, chocolat, café, caramel au beurre d'isigny, noix de coco, fraise, stracciatella\nTagada, rhum raisin, pistache\nMangue, framboise, pêche de vigne, passion, citron vert Yuzu, melon";
+    $cafe_prix        = '10/12';
+    $menu_footnote    = '';
 }
 
 /* ── Champs ACF de la page (hero + titres sections) ── */
@@ -70,9 +80,14 @@ $carte_hero_label    = lpl_field( 'carte_hero_label',    $pid, 'Cuisine Fusion �
 $carte_hero_tagline  = lpl_field( 'carte_hero_tagline',  $pid, 'Par le chef Marco · Une invitation à partager saveurs et émotions' );
 $carte_hero_images   = ( function_exists( 'get_field' ) && get_field( 'carte_hero_images', $pid ) ) ? get_field( 'carte_hero_images', $pid ) : [];
 $carte_main_title    = lpl_field( 'carte_main_title',    $pid, 'LA CARTE' );
+$carte_chef_nom      = lpl_field( 'carte_chef_nom',      $pid, 'Par le chef Marco' );
+$carte_chef_photo    = ( function_exists( 'get_field' ) && get_field( 'carte_chef_photo', $pid ) ) ? get_field( 'carte_chef_photo', $pid ) : null;
 $titre_entrees       = lpl_field( 'carte_titre_entrees', $pid, 'Entrées' );
 $titre_partager      = lpl_field( 'carte_titre_partager',$pid, 'À Partager' );
+$titre_huitres       = lpl_field( 'carte_titre_huitres', $pid, 'Huîtres' );
 $titre_plats         = lpl_field( 'carte_titre_plats',   $pid, 'Plats' );
+$titre_burgers       = lpl_field( 'carte_titre_burgers', $pid, 'Burgers' );
+$titre_salades       = lpl_field( 'carte_titre_salades', $pid, 'Salades' );
 $titre_desserts      = lpl_field( 'carte_titre_desserts',$pid, 'Desserts' );
 
 /* Images hero par défaut (si ACF vide) */
@@ -154,7 +169,7 @@ if ( $active_menu_id ) {
   <!-- CONTENU HERO CARTE -->
   <div class="hero-content">
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hero-logo-mobile" aria-label="Accueil Le Petit Louvre">
-      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Le Petit Louvre" width="100" height="100">
+      <img loading="lazy" src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg" alt="Le Petit Louvre" width="100" height="100">
     </a>
     <p class="hero-label"><?php echo esc_html( $carte_hero_label ); ?></p>
     <h1 class="hero-title">La Carte</h1>
@@ -178,13 +193,20 @@ if ( $active_menu_id ) {
      NAV ANCRE SECTIONS
 ========================================== -->
 <nav class="carte-section-nav" aria-label="Sections de la carte">
-  <div class="container">
-    <div class="d-flex justify-content-center gap-4 gap-md-5">
-      <a href="#entrees" class="carte-nav-link"><?php echo esc_html( $titre_entrees ); ?></a>
-      <a href="#partager" class="carte-nav-link"><?php echo esc_html( $titre_partager ); ?></a>
-      <a href="#plats" class="carte-nav-link"><?php echo esc_html( $titre_plats ); ?></a>
-      <a href="#desserts" class="carte-nav-link"><?php echo esc_html( $titre_desserts ); ?></a>
-    </div>
+  <div class="carte-nav-inner">
+    <a href="#entrees" class="carte-nav-link"><?php echo esc_html( $titre_entrees ); ?></a>
+    <?php if ( ! empty( $items_huitres ) ) : ?>
+    <a href="#huitres" class="carte-nav-link"><?php echo esc_html( $titre_huitres ); ?></a>
+    <?php endif; ?>
+    <a href="#partager" class="carte-nav-link"><?php echo esc_html( $titre_partager ); ?></a>
+    <a href="#plats" class="carte-nav-link"><?php echo esc_html( $titre_plats ); ?></a>
+    <?php if ( ! empty( $items_burgers ) ) : ?>
+    <a href="#burgers" class="carte-nav-link"><?php echo esc_html( $titre_burgers ); ?></a>
+    <?php endif; ?>
+    <?php if ( ! empty( $items_salades ) ) : ?>
+    <a href="#salades" class="carte-nav-link"><?php echo esc_html( $titre_salades ); ?></a>
+    <?php endif; ?>
+    <a href="#desserts" class="carte-nav-link"><?php echo esc_html( $titre_desserts ); ?></a>
   </div>
 </nav>
 
@@ -195,25 +217,40 @@ if ( $active_menu_id ) {
 
   <!-- Illustrations décoratives en parallaxe -->
   <img loading="lazy" id="carte-illu-1" class="carte-illu carte-illu--r1"
-       src="<?php echo get_template_directory_uri(); ?>/img/moules.png"
+       src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/moules.png"
        alt="" aria-hidden="true" loading="lazy">
   <img loading="lazy" id="carte-illu-2" class="carte-illu carte-illu--l"
-       src="<?php echo get_template_directory_uri(); ?>/img/le-petit-louvre-illu.png"
+       src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/le-petit-louvre-illu.png"
        alt="" aria-hidden="true" loading="lazy">
   <img loading="lazy" id="carte-illu-3" class="carte-illu carte-illu--r2"
-       src="<?php echo get_template_directory_uri(); ?>/img/apero.png"
+       src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/apero.png"
        alt="" aria-hidden="true" loading="lazy">
 
   <div class="container">
 
-    <!-- Titre "LA CARTE" avec lignes décoratives -->
+    <!-- Titre "LA CARTE" avec lignes décoratives + pastille chef -->
     <div class="row">
-      <div class="col-12 mt-5">
+      <div class="col-12 mt-5 position-relative">
         <div class="carte-title-row d-flex align-items-center gap-3 mb-5">
           <span class="carte-title-line flex-grow-1"></span>
           <h2 class="carte-main-title"><?php echo esc_html( $carte_main_title ); ?></h2>
           <span class="carte-title-line flex-grow-1"></span>
         </div>
+        <?php if ( ! empty( $carte_chef_nom ) ) : ?>
+        <div class="chef-badge-inline">
+          <div class="chef-badge-circle">
+            <?php
+            $chef_src = $carte_chef_photo['url']  ?? ( get_template_directory_uri() . '/img/marco.jpg' );
+            $chef_alt = $carte_chef_photo['alt']  ?? esc_attr( $carte_chef_nom );
+            ?>
+            <img src="<?php echo esc_url( $chef_src ); ?>"
+                 alt="<?php echo esc_attr( $chef_alt ); ?>"
+                 width="100" height="100"
+                 loading="lazy" decoding="async">
+          </div>
+          <span><?php echo esc_html( $carte_chef_nom ); ?></span>
+        </div>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -225,6 +262,20 @@ if ( $active_menu_id ) {
       </div>
     </div><!-- /ENTRÉES -->
 
+    <?php if ( ! empty( $items_huitres ) ) : ?>
+    <!-- ── HUÎTRES ── -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-10 col-lg-8">
+        <h3 class="carte-section-title text-center mb-2" id="huitres"><?php echo esc_html( $titre_huitres ); ?></h3>
+        <?php if ( $huitres_subtitle ) : ?>
+          <p class="carte-section-subtitle text-center mb-4"><?php echo esc_html( $huitres_subtitle ); ?></p>
+        <?php else : ?>
+          <div class="mb-4"></div>
+        <?php endif; ?>
+        <?php lpl_render_section_items( $items_huitres ); ?>
+      </div>
+    </div><!-- /HUÎTRES -->
+    <?php endif; ?>
 
     <!-- ── À PARTAGER ── -->
     <div class="row justify-content-center mt-5">
@@ -242,6 +293,31 @@ if ( $active_menu_id ) {
         <?php lpl_render_section_items( $items_plats ); ?>
       </div>
     </div><!-- /PLATS -->
+
+    <?php if ( ! empty( $items_burgers ) ) : ?>
+    <!-- ── BURGERS ── -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-10 col-lg-8">
+        <h3 class="carte-section-title text-center mb-2" id="burgers"><?php echo esc_html( $titre_burgers ); ?></h3>
+        <?php if ( $burgers_subtitle ) : ?>
+          <p class="carte-section-subtitle text-center mb-4"><?php echo esc_html( $burgers_subtitle ); ?></p>
+        <?php else : ?>
+          <div class="mb-4"></div>
+        <?php endif; ?>
+        <?php lpl_render_section_items( $items_burgers ); ?>
+      </div>
+    </div><!-- /BURGERS -->
+    <?php endif; ?>
+
+    <?php if ( ! empty( $items_salades ) ) : ?>
+    <!-- ── SALADES ── -->
+    <div class="row justify-content-center mt-5">
+      <div class="col-12 col-md-10 col-lg-8">
+        <h3 class="carte-section-title text-center mb-4" id="salades"><?php echo esc_html( $titre_salades ); ?></h3>
+        <?php lpl_render_section_items( $items_salades ); ?>
+      </div>
+    </div><!-- /SALADES -->
+    <?php endif; ?>
 
 
     <!-- ── DESSERTS ── -->
@@ -276,6 +352,7 @@ if ( $active_menu_id ) {
             <span class="carte-dots flex-grow-1 d-none d-sm-block" aria-hidden="true"></span>
             <span class="carte-price flex-shrink-0 ms-auto ms-sm-0"><?php echo esc_html( $cafe_prix ); ?>&thinsp;€</span>
           </div>
+          <p class="carte-desc mb-0">Mini pâtisseries gourmandes</p>
         </div>
 
       </div>
@@ -291,9 +368,7 @@ if ( $active_menu_id ) {
           </div>
         <?php else : ?>
           <div class="carte-footnote text-center mt-4 pb-5">
-            <p class="mb-1"><strong>Garnitures&nbsp;:</strong> frites maison, quinoa de légumes croquants, salade verte, légumes de saison.</p>
-            <p class="mb-1">🌿 Plat végétarien</p>
-            <p class="mb-0">Prix net en &euro;&nbsp;&ndash;&nbsp;service compris&nbsp;&ndash;&nbsp;chèque non accepté&nbsp;&ndash;&nbsp;CB minimum 5&euro;</p>
+            <p class="mb-0">Prix nets en &euro;&nbsp;&ndash;&nbsp;service compris&nbsp;&ndash;&nbsp;chèque non accepté&nbsp;&ndash;&nbsp;CB minimum 10&euro;</p>
           </div>
         <?php endif; ?>
       </div>
@@ -384,6 +459,43 @@ if ( $active_menu_id ) {
       }, { once: true });
     });
   }, 1500);
+
+  /* ── Scroll-spy : soulignement actif sur les liens de la nav ── */
+  (function () {
+    var navLinks = document.querySelectorAll('.carte-nav-link[href^="#"]');
+    if (!navLinks.length) return;
+
+    /* Construit un index id → { link, el } pour chaque section présente dans le DOM */
+    var sections = [];
+    navLinks.forEach(function (link) {
+      var id = link.getAttribute('href').slice(1);
+      var el = document.getElementById(id);
+      if (el) sections.push({ id: id, link: link, el: el });
+    });
+    if (!sections.length) return;
+
+    function updateActive() {
+      /* Hauteur combinée des deux barres fixes : sticky-nav + section-nav (cohérent avec scroll-margin-top CSS) */
+      var STICKY  = window.innerWidth <= 853 ? 165 : 180;
+      var BUFFER  = 24;           /* marge de confort */
+      var activeIdx = -1;
+
+      sections.forEach(function (s, i) {
+        if (s.el.getBoundingClientRect().top <= STICKY + BUFFER) {
+          activeIdx = i;          /* dernière section passée sous la barre */
+        }
+      });
+
+      navLinks.forEach(function (l) { l.classList.remove('active'); });
+      if (activeIdx >= 0) {
+        sections[activeIdx].link.classList.add('active');
+      }
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true });
+    /* Premier calcul dès que la page est prête */
+    updateActive();
+  }());
 
   var bar = document.getElementById('carteAnnounceBar');
   var closeBtn = document.getElementById('carteAnnounceClose');

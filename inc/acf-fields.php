@@ -603,6 +603,23 @@ acf_add_local_field_group( [
             'instructions'  => 'Grand titre décoratif avec lignes de part et d\'autre.',
         ],
         [
+            'key'           => 'field_carte_chef_nom',
+            'label'         => 'Pastille chef — texte',
+            'name'          => 'carte_chef_nom',
+            'type'          => 'text',
+            'default_value' => 'Par le chef Marco',
+            'instructions'  => 'Texte affiché dans la pastille à droite du titre "LA CARTE". Laisser vide pour masquer la pastille.',
+        ],
+        [
+            'key'           => 'field_carte_chef_photo',
+            'label'         => 'Pastille chef — photo',
+            'name'          => 'carte_chef_photo',
+            'type'          => 'image',
+            'return_format' => 'array',
+            'preview_size'  => 'thumbnail',
+            'instructions'  => 'Photo ronde du chef dans la pastille. Format carré recommandé (ex : 200×200 px).',
+        ],
+        [
             'key'           => 'field_carte_titre_entrees',
             'label'         => 'Titre section Entrées',
             'name'          => 'carte_titre_entrees',
@@ -664,11 +681,20 @@ acf_add_local_field_group( [
             'default_value' => 'Réservez votre table',
         ],
         [
-            'key'           => 'field_resa_hero_tagline',
-            'label'         => 'Tagline',
-            'name'          => 'resa_hero_tagline',
+            'key'           => 'field_resa_hero_tagline_1',
+            'label'         => 'Tagline — ligne 1',
+            'name'          => 'resa_hero_tagline_1',
             'type'          => 'text',
-            'default_value' => 'Votre table garantie — confirmation par email sous 2h',
+            'default_value' => 'Votre table garantie',
+            'instructions'  => 'Laisser vide pour masquer cette ligne.',
+        ],
+        [
+            'key'           => 'field_resa_hero_tagline_2',
+            'label'         => 'Tagline — ligne 2',
+            'name'          => 'resa_hero_tagline_2',
+            'type'          => 'text',
+            'default_value' => 'Confirmation par email sous 2h',
+            'instructions'  => 'Laisser vide pour masquer cette ligne.',
         ],
         [
             'key'          => 'field_resa_hero_images',
@@ -742,21 +768,21 @@ acf_add_local_field_group( [
             'label'         => 'Horaires — Ligne 1',
             'name'          => 'resa_horaires_1',
             'type'          => 'text',
-            'default_value' => 'Mar – Sam  ·  9h → 23h',
+            'default_value' => 'Lun – Dim  ·  9h → 23h',
         ],
         [
             'key'           => 'field_resa_horaires_2',
-            'label'         => 'Horaires — Ligne 2',
+            'label'         => 'Horaires — Ligne 2 (optionnel)',
             'name'          => 'resa_horaires_2',
             'type'          => 'text',
-            'default_value' => 'Dimanche  ·  9h → 17h',
+            'default_value' => '',
         ],
         [
             'key'           => 'field_resa_horaires_closed',
-            'label'         => 'Horaires — Jour fermé',
+            'label'         => 'Horaires — Jour fermé (optionnel)',
             'name'          => 'resa_horaires_closed',
             'type'          => 'text',
-            'default_value' => 'Lundi · Fermé',
+            'default_value' => '',
         ],
         [
             'key'           => 'field_resa_adresse',
@@ -961,11 +987,20 @@ acf_add_local_field_group( [
             'default_value' => 'Infos & Contact',
         ],
         [
-            'key'           => 'field_contact_hero_tagline',
-            'label'         => 'Tagline',
-            'name'          => 'contact_hero_tagline',
+            'key'           => 'field_contact_hero_tagline_1',
+            'label'         => 'Tagline — ligne 1',
+            'name'          => 'contact_hero_tagline_1',
             'type'          => 'text',
-            'default_value' => 'Nous sommes à votre écoute — répondons à toutes vos questions',
+            'default_value' => 'Nous sommes à votre écoute',
+            'instructions'  => 'Laisser vide pour masquer cette ligne.',
+        ],
+        [
+            'key'           => 'field_contact_hero_tagline_2',
+            'label'         => 'Tagline — ligne 2',
+            'name'          => 'contact_hero_tagline_2',
+            'type'          => 'text',
+            'default_value' => 'Répondons à toutes vos questions',
+            'instructions'  => 'Laisser vide pour masquer cette ligne.',
         ],
         [
             'key'          => 'field_contact_hero_images',
@@ -1076,21 +1111,21 @@ acf_add_local_field_group( [
             'label'         => 'Horaires — Ligne 1',
             'name'          => 'contact_horaires_1',
             'type'          => 'text',
-            'default_value' => 'Mar – Sam  ·  9h → 23h',
+            'default_value' => 'Lun – Dim  ·  9h → 23h',
         ],
         [
             'key'           => 'field_contact_horaires_2',
-            'label'         => 'Horaires — Ligne 2',
+            'label'         => 'Horaires — Ligne 2 (optionnel)',
             'name'          => 'contact_horaires_2',
             'type'          => 'text',
-            'default_value' => 'Dimanche  ·  9h → 17h',
+            'default_value' => '',
         ],
         [
             'key'           => 'field_contact_horaires_closed',
-            'label'         => 'Horaires — Jour fermé',
+            'label'         => 'Horaires — Jour fermé (optionnel)',
             'name'          => 'contact_horaires_closed',
             'type'          => 'text',
-            'default_value' => 'Lundi · Fermé',
+            'default_value' => '',
         ],
         [
             'key'           => 'field_contact_maps_embed',
@@ -1185,6 +1220,55 @@ acf_add_local_field_group( [
             'name'          => 'contact_recrutement_email_sujet',
             'type'          => 'text',
             'default_value' => 'Candidature saisonnière – Le Petit Louvre',
+        ],
+
+    ],
+] );
+
+/* ══════════════════════════════════════════════════════════════
+   CONTACT — ⑤ Moyens de paiement & Services
+══════════════════════════════════════════════════════════════ */
+acf_add_local_field_group( [
+    'key'        => 'group_contact_paiements',
+    'title'      => '⑤ Contact — Moyens de paiement & Services',
+    'menu_order' => 50,
+    'location'   => $contact_page_location,
+    'fields'     => [
+
+        [
+            'key'           => 'field_contact_moyens_paiement',
+            'label'         => 'Moyens de paiement acceptés',
+            'name'          => 'contact_moyens_paiement',
+            'type'          => 'checkbox',
+            'instructions'  => 'Cochez les modes de paiement acceptés. Ils s\'affichent sous forme de pastilles sur la page Contact.',
+            'choices'       => [
+                'amex'         => 'American Express',
+                'mastercard'   => 'Mastercard',
+                'visa'         => 'Visa',
+                'carte_debit'  => 'Carte de débit',
+                'ticket_resto' => 'Ticket Restaurant',
+                'cash'         => 'Cash',
+            ],
+            'default_value' => [ 'amex', 'mastercard', 'visa', 'carte_debit', 'ticket_resto', 'cash' ],
+            'layout'        => 'horizontal',
+            'return_format' => 'value',
+        ],
+
+        [
+            'key'           => 'field_contact_services',
+            'label'         => 'Équipements & services',
+            'name'          => 'contact_services',
+            'type'          => 'checkbox',
+            'instructions'  => 'Cochez les services disponibles dans l\'établissement.',
+            'choices'       => [
+                'pmr'       => 'Accès PMR',
+                'terrasse'  => 'Terrasse',
+                'clim'      => 'Climatisation',
+                'wifi'      => 'Wifi',
+            ],
+            'default_value' => [ 'pmr', 'terrasse', 'clim' ],
+            'layout'        => 'horizontal',
+            'return_format' => 'value',
         ],
 
     ],
@@ -1309,7 +1393,7 @@ acf_add_local_field_group( [
             'name'          => 'opt_footer_horaires',
             'type'          => 'textarea',
             'rows'          => 5,
-            'default_value' => "Le Petit Louvre vous accueille\n\ndu Mardi au Samedi :\nde 9h à 23h\nLe dimanche de 9h à 17h00",
+            'default_value' => "Le Petit Louvre vous accueille\n\nDu lundi au dimanche\nde 9h à 23h",
             'instructions'  => 'Saut de ligne simple = <br>, ligne vide = <br><br>.',
         ],
         [
@@ -1362,6 +1446,7 @@ function lpl_item_subfields( $prefix, $double = false, $triple = false ) {
 $boissons_location  = [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-carte-des-boissons.php'  ] ] ];
 $cocktails_location = [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-carte-des-cocktails.php' ] ] ];
 $vins_location      = [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-carte-des-vins.php'      ] ] ];
+$alcools_location   = [ [ [ 'param' => 'page_template', 'operator' => '==', 'value' => 'page-carte-des-alcools.php'   ] ] ];
 
 
 /* ══════════════════════════════════════════════════════════════
@@ -1403,48 +1488,57 @@ acf_add_local_field_group( [
     'fields'     => [
 
         /* Apéritifs */
-        [ 'key' => 'field_boissons_aper_rep', 'label' => 'Apéritifs (6cl)', 'name' => 'aperitifs',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Apéritif',
+        [ 'key' => 'field_boissons_titre_aper',  'label' => 'Titre — Apéritifs',       'name' => 'boissons_titre_aperitifs',       'type' => 'text', 'default_value' => 'Apéritifs' ],
+        [ 'key' => 'field_boissons_aper_rep', 'label' => 'Items — Apéritifs (6cl)', 'name' => 'aperitifs',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Apéritif',
           'sub_fields' => lpl_item_subfields('bois_aper') ],
 
         /* Bières pression */
-        [ 'key' => 'field_boissons_bpres_rep', 'label' => 'Bières Pression (25cl / 50cl)', 'name' => 'bieres_pression',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Bière pression',
+        [ 'key' => 'field_boissons_titre_bpres', 'label' => 'Titre — Bières Pression',   'name' => 'boissons_titre_bieres_pression',  'type' => 'text', 'default_value' => 'Bières Pression' ],
+        [ 'key' => 'field_boissons_bpres_rep', 'label' => 'Items — Bières Pression (25cl / 50cl)', 'name' => 'bieres_pression',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Bière pression',
           'sub_fields' => lpl_item_subfields('bois_bpres', true) ],
 
         /* Bières bouteille */
-        [ 'key' => 'field_boissons_bbout_rep', 'label' => 'Bières Bouteille (33cl)', 'name' => 'bieres_bouteille',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Bière bouteille',
+        [ 'key' => 'field_boissons_titre_bbout', 'label' => 'Titre — Bières Bouteille',  'name' => 'boissons_titre_bieres_bouteille', 'type' => 'text', 'default_value' => 'Bières Bouteille' ],
+        [ 'key' => 'field_boissons_bbout_rep', 'label' => 'Items — Bières Bouteille (33cl)', 'name' => 'bieres_bouteille',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Bière bouteille',
           'sub_fields' => lpl_item_subfields('bois_bbout') ],
 
         /* Jus de fruit */
-        [ 'key' => 'field_boissons_jus_rep', 'label' => 'Jus de Fruit (25cl)', 'name' => 'jus_fruit',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Jus de fruit',
+        [ 'key' => 'field_boissons_titre_jus',   'label' => 'Titre — Jus de Fruit',      'name' => 'boissons_titre_jus_fruit',        'type' => 'text', 'default_value' => 'Jus de Fruit' ],
+        [ 'key' => 'field_boissons_jus_rep', 'label' => 'Items — Jus de Fruit (25cl)', 'name' => 'jus_fruit',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Jus de fruit',
           'sub_fields' => lpl_item_subfields('bois_jus') ],
 
         /* Smoothies */
-        [ 'key' => 'field_boissons_smoo_rep', 'label' => 'Smoothies (40cl)', 'name' => 'smoothies',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Smoothie',
+        [ 'key' => 'field_boissons_titre_smoo',  'label' => 'Titre — Smoothies',         'name' => 'boissons_titre_smoothies',        'type' => 'text', 'default_value' => 'Smoothies' ],
+        [ 'key' => 'field_boissons_smoo_rep', 'label' => 'Items — Smoothies (40cl)', 'name' => 'smoothies',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Smoothie',
           'sub_fields' => lpl_item_subfields('bois_smoo') ],
 
         /* Sodas */
-        [ 'key' => 'field_boissons_soda_rep', 'label' => 'Sodas (33cl)', 'name' => 'sodas',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Soda',
+        [ 'key' => 'field_boissons_titre_soda',  'label' => 'Titre — Sodas',             'name' => 'boissons_titre_sodas',            'type' => 'text', 'default_value' => 'Sodas' ],
+        [ 'key' => 'field_boissons_soda_rep', 'label' => 'Items — Sodas (33cl)', 'name' => 'sodas',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Soda',
           'sub_fields' => lpl_item_subfields('bois_soda') ],
 
         /* Pressé */
-        [ 'key' => 'field_boissons_presse_rep', 'label' => 'Pressé (20cl)', 'name' => 'presse',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Pressé',
+        [ 'key' => 'field_boissons_titre_presse', 'label' => 'Titre — Pressé',           'name' => 'boissons_titre_presse',           'type' => 'text', 'default_value' => 'Pressé' ],
+        [ 'key' => 'field_boissons_presse_rep', 'label' => 'Items — Pressé (20cl)', 'name' => 'presse',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Pressé',
           'sub_fields' => lpl_item_subfields('bois_presse') ],
 
         /* Eaux */
-        [ 'key' => 'field_boissons_eaux_rep', 'label' => 'Eaux', 'name' => 'eaux',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Eau',
+        [ 'key' => 'field_boissons_titre_eaux',  'label' => 'Titre — Eaux',              'name' => 'boissons_titre_eaux',             'type' => 'text', 'default_value' => 'Eaux' ],
+        [ 'key' => 'field_boissons_eaux_rep', 'label' => 'Items — Eaux', 'name' => 'eaux',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Eau',
           'sub_fields' => lpl_item_subfields('bois_eaux') ],
 
         /* Cafeterie */
-        [ 'key' => 'field_boissons_cafe_rep', 'label' => 'Cafeterie', 'name' => 'cafeterie',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Boisson chaude',
+        [ 'key' => 'field_boissons_titre_cafe',  'label' => 'Titre — Cafeterie',         'name' => 'boissons_titre_cafeterie',        'type' => 'text', 'default_value' => 'Cafeterie' ],
+        [ 'key' => 'field_boissons_cafe_rep', 'label' => 'Items — Cafeterie', 'name' => 'cafeterie',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Boisson chaude',
           'sub_fields' => lpl_item_subfields('bois_cafe') ],
 
         /* Note bas de page */
@@ -1493,28 +1587,33 @@ acf_add_local_field_group( [
     'fields'     => [
 
         /* Martini Cocktails */
-        [ 'key' => 'field_ckt_martini_rep', 'label' => 'Martini Cocktails (20cl)', 'name' => 'martini_cocktails',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Martini',
+        [ 'key' => 'field_ckt_titre_martini',    'label' => 'Titre — Martinis',            'name' => 'cocktails_titre_martinis',   'type' => 'text', 'default_value' => 'Martini Cocktails' ],
+        [ 'key' => 'field_ckt_martini_rep', 'label' => 'Items — Martini Cocktails (20cl)', 'name' => 'martini_cocktails',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Martini',
           'sub_fields' => lpl_item_subfields('ckt_martini') ],
 
         /* Cocktails Signature */
-        [ 'key' => 'field_ckt_signature_rep', 'label' => 'Cocktails Signature (30cl)', 'name' => 'cocktails_signature',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Signature',
+        [ 'key' => 'field_ckt_titre_signature',  'label' => 'Titre — Signature',           'name' => 'cocktails_titre_signature',  'type' => 'text', 'default_value' => 'Cocktails Signature' ],
+        [ 'key' => 'field_ckt_signature_rep', 'label' => 'Items — Cocktails Signature (30cl)', 'name' => 'cocktails_signature',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Signature',
           'sub_fields' => lpl_item_subfields('ckt_sign') ],
 
         /* Classiques */
-        [ 'key' => 'field_ckt_classiques_rep', 'label' => 'Classiques Cocktails (30cl)', 'name' => 'cocktails_classiques',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Classique',
+        [ 'key' => 'field_ckt_titre_classiques', 'label' => 'Titre — Classiques',          'name' => 'cocktails_titre_classiques', 'type' => 'text', 'default_value' => 'Classiques Cocktails' ],
+        [ 'key' => 'field_ckt_classiques_rep', 'label' => 'Items — Classiques Cocktails (30cl)', 'name' => 'cocktails_classiques',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Classique',
           'sub_fields' => lpl_item_subfields('ckt_clas') ],
 
         /* Spritz */
-        [ 'key' => 'field_ckt_spritz_rep', 'label' => 'Spritz (40cl)', 'name' => 'spritz',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Spritz',
+        [ 'key' => 'field_ckt_titre_spritz',     'label' => 'Titre — Spritz',              'name' => 'cocktails_titre_spritz',     'type' => 'text', 'default_value' => 'Spritz' ],
+        [ 'key' => 'field_ckt_spritz_rep', 'label' => 'Items — Spritz (40cl)', 'name' => 'spritz',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Spritz',
           'sub_fields' => lpl_item_subfields('ckt_spritz') ],
 
         /* Sans Alcool */
-        [ 'key' => 'field_ckt_sansalcool_rep', 'label' => 'Sans Alcool (30cl)', 'name' => 'sans_alcool',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Sans alcool',
+        [ 'key' => 'field_ckt_titre_sansalcool', 'label' => 'Titre — Sans Alcool',         'name' => 'cocktails_titre_sans_alcool','type' => 'text', 'default_value' => 'Sans Alcool' ],
+        [ 'key' => 'field_ckt_sansalcool_rep', 'label' => 'Items — Sans Alcool (30cl)', 'name' => 'sans_alcool',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Sans alcool',
           'sub_fields' => lpl_item_subfields('ckt_na') ],
 
         /* Note bas de page */
@@ -1563,28 +1662,32 @@ acf_add_local_field_group( [
     'fields'     => [
 
         /* Blancs */
-        [ 'key' => 'field_vins_blancs_rep', 'label' => 'Vins Blancs (14cl / 28cl / 75cl)', 'name' => 'vins_blancs',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Vin blanc',
+        [ 'key' => 'field_vins_titre_blancs', 'label' => 'Titre — Vins Blancs',          'name' => 'vins_titre_blancs',      'type' => 'text', 'default_value' => 'Blanc' ],
+        [ 'key' => 'field_vins_blancs_rep', 'label' => 'Items — Vins Blancs (14cl / 28cl / 75cl)', 'name' => 'vins_blancs',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Vin blanc',
           'sub_fields' => lpl_item_subfields('vins_bla', false, true) ],
 
         /* Rouges */
-        [ 'key' => 'field_vins_rouges_rep', 'label' => 'Vins Rouges (14cl / 28cl / 75cl)', 'name' => 'vins_rouges',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Vin rouge',
+        [ 'key' => 'field_vins_titre_rouges', 'label' => 'Titre — Vins Rouges',          'name' => 'vins_titre_rouges',      'type' => 'text', 'default_value' => 'Rouge' ],
+        [ 'key' => 'field_vins_rouges_rep', 'label' => 'Items — Vins Rouges (14cl / 28cl / 75cl)', 'name' => 'vins_rouges',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Vin rouge',
           'sub_fields' => lpl_item_subfields('vins_rou', false, true) ],
 
         /* Rosés */
-        [ 'key' => 'field_vins_roses_rep', 'label' => 'Vins Rosés (14cl / 28cl / 75cl)', 'name' => 'vins_roses',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Vin rosé',
+        [ 'key' => 'field_vins_titre_roses', 'label' => 'Titre — Vins Rosés',            'name' => 'vins_titre_roses',       'type' => 'text', 'default_value' => 'Rosé' ],
+        [ 'key' => 'field_vins_roses_rep', 'label' => 'Items — Vins Rosés (14cl / 28cl / 75cl)', 'name' => 'vins_roses',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Vin rosé',
           'sub_fields' => lpl_item_subfields('vins_ros', false, true) ],
 
         /* Champagnes */
-        [ 'key' => 'field_vins_champ_rep', 'label' => 'Champagnes & Pétillants (14cl / 28cl / 75cl)', 'name' => 'vins_champagnes',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Champagne',
+        [ 'key' => 'field_vins_titre_champ', 'label' => 'Titre — Champagnes',            'name' => 'vins_titre_champagnes',  'type' => 'text', 'default_value' => 'Champagne' ],
+        [ 'key' => 'field_vins_champ_rep', 'label' => 'Items — Champagnes & Pétillants (14cl / 28cl / 75cl)', 'name' => 'vins_champagnes',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Champagne',
           'sub_fields' => lpl_item_subfields('vins_cha', false, true) ],
 
         /* Cocktails & Apéritifs vins */
         [ 'key' => 'field_vins_ckt_rep', 'label' => 'Cocktails & Apéritifs (prix unique)', 'name' => 'vins_cocktails',
-          'type' => 'repeater', 'layout' => 'block', 'button_label' => '+ Cocktail / Apéritif',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Cocktail / Apéritif',
           'sub_fields' => lpl_item_subfields('vins_ckt') ],
 
         /* Note bas de page */
@@ -1592,3 +1695,348 @@ acf_add_local_field_group( [
           'type' => 'text', 'default_value' => 'Prix net en € – service compris – chèque non accepté – CB minimum 5€' ],
     ],
 ] );
+
+
+/* ══════════════════════════════════════════════════════════════
+   CARTE DES ALCOOLS — ① Hero
+══════════════════════════════════════════════════════════════ */
+acf_add_local_field_group( [
+    'key'        => 'group_alcools_hero',
+    'title'      => '① Hero — Carte des Alcools',
+    'menu_order' => 10,
+    'location'   => $alcools_location,
+    'fields'     => [
+        [ 'key' => 'field_alcools_hero_label',   'label' => 'Label',   'name' => 'alcools_hero_label',   'type' => 'text', 'default_value' => 'Bar · Arcachon' ],
+        [ 'key' => 'field_alcools_hero_title',   'label' => 'Titre H1','name' => 'alcools_hero_title',   'type' => 'text', 'default_value' => 'Carte des Alcools' ],
+        [ 'key' => 'field_alcools_hero_tagline', 'label' => 'Tagline', 'name' => 'alcools_hero_tagline', 'type' => 'text', 'default_value' => 'Vodkas, whiskies, gins, rhums & spiritueux d\'exception' ],
+        [
+            'key'          => 'field_alcools_hero_images',
+            'label'        => 'Photos Hero (slideshow)',
+            'name'         => 'alcools_hero_images',
+            'type'         => 'repeater',
+            'min'          => 1,
+            'layout'       => 'table',
+            'button_label' => '+ Ajouter une photo',
+            'sub_fields'   => [
+                [ 'key' => 'field_alcools_hero_img',     'label' => 'Photo',     'name' => 'image', 'type' => 'image', 'return_format' => 'array', 'preview_size' => 'thumbnail', 'required' => 1 ],
+                [ 'key' => 'field_alcools_hero_img_alt', 'label' => 'Texte alt', 'name' => 'alt',   'type' => 'text',  'instructions' => 'Description de la photo pour l\'accessibilité.' ],
+            ],
+        ],
+    ],
+] );
+
+/* ══════════════════════════════════════════════════════════════
+   CARTE DES ALCOOLS — ② Menu
+══════════════════════════════════════════════════════════════ */
+acf_add_local_field_group( [
+    'key'        => 'group_alcools_menu',
+    'title'      => '② Menu — Alcools & Spiritueux',
+    'menu_order' => 20,
+    'location'   => $alcools_location,
+    'fields'     => [
+
+        /* Vodka */
+        [ 'key' => 'field_alcools_titre_vodka',    'label' => 'Titre — Vodka',            'name' => 'alcools_titre_vodka',    'type' => 'text', 'default_value' => 'Vodka' ],
+        [ 'key' => 'field_alcools_vodka_rep', 'label' => 'Items — Vodka (4cl)', 'name' => 'alcools_vodka',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Vodka',
+          'sub_fields' => lpl_item_subfields('alc_vod') ],
+
+        /* Rhum */
+        [ 'key' => 'field_alcools_titre_rhum',     'label' => 'Titre — Rhum',             'name' => 'alcools_titre_rhum',     'type' => 'text', 'default_value' => 'Rhum' ],
+        [ 'key' => 'field_alcools_rhum_rep', 'label' => 'Items — Rhum (4cl)', 'name' => 'alcools_rhum',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Rhum',
+          'sub_fields' => lpl_item_subfields('alc_rhum') ],
+
+        /* Whisky */
+        [ 'key' => 'field_alcools_titre_whisky',   'label' => 'Titre — Whisky',           'name' => 'alcools_titre_whisky',   'type' => 'text', 'default_value' => 'Whisky' ],
+        [ 'key' => 'field_alcools_whisky_rep', 'label' => 'Items — Whisky (4cl)', 'name' => 'alcools_whisky',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Whisky',
+          'sub_fields' => lpl_item_subfields('alc_whi') ],
+
+        /* Gin */
+        [ 'key' => 'field_alcools_titre_gin',      'label' => 'Titre — Gin',              'name' => 'alcools_titre_gin',      'type' => 'text', 'default_value' => 'Gin' ],
+        [ 'key' => 'field_alcools_gin_rep', 'label' => 'Items — Gin (4cl)', 'name' => 'alcools_gin',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Gin',
+          'sub_fields' => lpl_item_subfields('alc_gin') ],
+
+        /* Digestifs */
+        [ 'key' => 'field_alcools_titre_digestifs', 'label' => 'Titre — Digestifs',       'name' => 'alcools_titre_digestifs', 'type' => 'text', 'default_value' => 'Digestifs' ],
+        [ 'key' => 'field_alcools_digestifs_rep', 'label' => 'Items — Digestifs (4cl)', 'name' => 'alcools_digestifs',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Digestif',
+          'sub_fields' => lpl_item_subfields('alc_dig') ],
+
+        /* Tequila */
+        [ 'key' => 'field_alcools_titre_tequila',  'label' => 'Titre — Tequila',          'name' => 'alcools_titre_tequila',  'type' => 'text', 'default_value' => 'Tequila' ],
+        [ 'key' => 'field_alcools_tequila_rep', 'label' => 'Items — Tequila (4cl)', 'name' => 'alcools_tequila',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Tequila',
+          'sub_fields' => lpl_item_subfields('alc_teq') ],
+
+        /* Cognac & Armagnac */
+        [ 'key' => 'field_alcools_titre_cognac',   'label' => 'Titre — Cognac & Armagnac','name' => 'alcools_titre_cognac',   'type' => 'text', 'default_value' => 'Cognac & Armagnac' ],
+        [ 'key' => 'field_alcools_cognac_rep', 'label' => 'Items — Cognac & Armagnac (4cl)', 'name' => 'alcools_cognac',
+          'type' => 'repeater', 'layout' => 'table', 'button_label' => '+ Cognac / Armagnac',
+          'sub_fields' => lpl_item_subfields('alc_cog') ],
+
+    ],
+] );
+
+
+/* ══════════════════════════════════════════════════════════════
+   MIGRATION — Pré-remplissage des cartes bar (one-shot)
+   Se déclenche une seule fois à la première connexion admin.
+══════════════════════════════════════════════════════════════ */
+add_action( 'admin_init', function () {
+
+    if ( ! function_exists( 'update_field' ) )          return;
+    if ( get_option( 'lpl_bar_menus_initialized' ) )    return;
+    if ( ! current_user_can( 'manage_options' ) )       return;
+
+    /* ── Helper : trouve l'ID d'une page par son template ── */
+    $find_page = function ( $template ) {
+        $pages = get_pages( [ 'meta_key' => '_wp_page_template', 'meta_value' => $template, 'number' => 1 ] );
+        return ! empty( $pages ) ? $pages[0]->ID : 0;
+    };
+
+    $pid_bois  = $find_page( 'page-carte-des-boissons.php' );
+    $pid_ckt   = $find_page( 'page-carte-des-cocktails.php' );
+    $pid_vins  = $find_page( 'page-carte-des-vins.php' );
+    $pid_alc   = $find_page( 'page-carte-des-alcools.php' );
+
+    /* ════════════════════════════════════
+       BOISSONS
+    ════════════════════════════════════ */
+    if ( $pid_bois ) {
+
+        update_field( 'aperitifs', [
+            [ 'nom' => 'Pastis 51',           'description' => '2 cl',                        'prix' => '4',    'badge' => '' ],
+            [ 'nom' => 'Lillet blanc / rosé', 'description' => '',                             'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Campari',             'description' => '',                             'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Martini blanc / rouge','description' => '',                            'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Suze',                'description' => '',                             'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Kir vin blanc',       'description' => 'Cassis, mûre, framboise, fraise', 'prix' => '6','badge' => '' ],
+            [ 'nom' => 'Kir royal',           'description' => '',                             'prix' => '11',   'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'bieres_pression', [
+            [ 'nom' => 'Meteor',     'description' => 'Pils',            'prix' => '4,5', 'prix_2' => '8', 'badge' => '' ],
+            [ 'nom' => 'Wendelinus', 'description' => 'Bière d\'abbaye', 'prix' => '5',   'prix_2' => '9', 'badge' => '' ],
+            [ 'nom' => 'Meteor',     'description' => 'Bière blanche',   'prix' => '5',   'prix_2' => '9', 'badge' => '' ],
+            [ 'nom' => 'Meteor',     'description' => 'IPA',             'prix' => '5',   'prix_2' => '9', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'bieres_bouteille', [
+            [ 'nom' => 'Corona',          'description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => 'San Miguel Blonde','description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => 'Pelforth Brune',  'description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => '1664 sans alcool','description' => '', 'prix' => '6', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'jus_fruit', [
+            [ 'nom' => 'Jus d\'orange', 'description' => '', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Jus de tomate', 'description' => '', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Jus de pomme',  'description' => '', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Jus d\'ananas', 'description' => '', 'prix' => '4,5', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'smoothies', [
+            [ 'nom' => 'Vitamina', 'description' => 'Kiwi, framboise, mangue',  'prix' => '8', 'badge' => '' ],
+            [ 'nom' => 'Énergie',  'description' => 'Banane, kiwi, ananas',     'prix' => '8', 'badge' => '' ],
+            [ 'nom' => 'Exotique', 'description' => 'Mangue, orange, banane',   'prix' => '8', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'sodas', [
+            [ 'nom' => 'Coca-Cola, Coca-Cola zéro', 'description' => '',      'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Orangina',                  'description' => '25 cl', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Schweppes tonic',            'description' => '25 cl', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Sprite',                    'description' => '25 cl', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Ginger beer',               'description' => '25 cl', 'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Thé glacé maison',           'description' => '',      'prix' => '5,5', 'badge' => '' ],
+            [ 'nom' => 'Citronnade maison',          'description' => '',      'prix' => '5,5', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'presse', [
+            [ 'nom' => 'Citron', 'description' => '', 'prix' => '5,5', 'badge' => '' ],
+            [ 'nom' => 'Orange', 'description' => '', 'prix' => '5,5', 'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'eaux', [
+            [ 'nom' => 'Vittel',        'description' => '100 cl', 'prix' => '7',   'badge' => '' ],
+            [ 'nom' => 'San Pellegrino','description' => '100 cl', 'prix' => '7',   'badge' => '' ],
+            [ 'nom' => 'Perrier',       'description' => '33 cl',  'prix' => '4,5', 'badge' => '' ],
+            [ 'nom' => 'Vittel',        'description' => '25 cl',  'prix' => '4',   'badge' => '' ],
+        ], $pid_bois );
+
+        update_field( 'cafeterie', [
+            [ 'nom' => 'Expresso & Déca',         'description' => '',               'prix' => '2',    'badge' => '' ],
+            [ 'nom' => 'Double expresso',          'description' => '',               'prix' => '4',    'badge' => '' ],
+            [ 'nom' => 'Café crème',               'description' => '',               'prix' => '4,5',  'badge' => '' ],
+            [ 'nom' => 'Capuccino',                'description' => '',               'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Café viennois',            'description' => '',               'prix' => '5,5',  'badge' => '' ],
+            [ 'nom' => 'Chocolat chaud',           'description' => '',               'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Chocolat viennois',        'description' => '',               'prix' => '5,5',  'badge' => '' ],
+            [ 'nom' => 'Hot Chocolate Marshmallow','description' => '',               'prix' => '6',    'badge' => '' ],
+            [ 'nom' => 'Thé & Infusion',           'description' => 'Mariage Frères', 'prix' => '5',    'badge' => '' ],
+            [ 'nom' => 'Irish Coffee',             'description' => '',               'prix' => '10',   'badge' => '' ],
+        ], $pid_bois );
+    }
+
+    /* ════════════════════════════════════
+       COCKTAILS
+    ════════════════════════════════════ */
+    if ( $pid_ckt ) {
+
+        update_field( 'martini_cocktails', [
+            [ 'nom' => 'Cucumber Martini',       'description' => 'Vodka, concombre',                      'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Pine and Berries Martini','description' => 'Vodka, framboise, ananas, Chambord',   'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Pornstar Martini',        'description' => 'Vodka, passion, vanille, champagne',   'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Tira Martini',            'description' => 'Amaretto, expresso, Kalhua',           'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Kiwi Martini',            'description' => 'Gin, kiwi',                            'prix' => '12', 'badge' => '' ],
+        ], $pid_ckt );
+
+        update_field( 'cocktails_signature', [
+            [ 'nom' => 'Red Lover',   'description' => 'Gin, ananas, framboise, citron',                    'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Apple Pie',   'description' => 'Rhum, pomme, cannelle, citron',                     'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Petit Louis', 'description' => 'Whisky, pain d\'épices, vanille, Kalhua',           'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Amber Drop',  'description' => 'Vodka, orange, passion, cannelle, citron',          'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Exotic Tiki', 'description' => 'Rhum, mangue, passion, coco',                       'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Black Jack',  'description' => 'Whisky J.Daniel, framboise, Chambord, cranberry',   'prix' => '13', 'badge' => '' ],
+        ], $pid_ckt );
+
+        update_field( 'cocktails_classiques', [
+            [ 'nom' => 'Gin Basil Smash',   'description' => 'Gin, feuilles de basilic, citron',  'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Moscow Mule',       'description' => 'Vodka, ginger, citron vert',         'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Daiquiri',          'description' => 'Rhum, citron vert',                  'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Mojito',            'description' => 'Rhum, menthe, citron vert, soda',    'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Margarita',         'description' => 'Tequila, triple sec, citron',        'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Pina Colada',       'description' => 'Rhum, ananas, coco',                 'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Bloody Mary',       'description' => 'Vodka, tomates, épices',             'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Caïpirinha',        'description' => 'Cachaça, citron vert',               'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Kiwi Collins',      'description' => 'Vodka, kiwi, soda, citron',         'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Pineapple Collins', 'description' => 'Vodka, ananas, soda, citron',        'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Raspberry Collins', 'description' => 'Vodka, framboise, soda, citron',     'prix' => '12', 'badge' => '' ],
+        ], $pid_ckt );
+
+        update_field( 'spritz', [
+            [ 'nom' => 'Apérol',   'description' => 'Liqueur Apérol, prosecco, soda',              'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Campari',  'description' => 'Liqueur Campari, prosecco, soda',              'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Italicus', 'description' => 'Liqueur bergamote, prosecco, soda',            'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Hugo',     'description' => 'Liqueur St Germain, menthe, prosecco, soda',  'prix' => '13', 'badge' => '' ],
+        ], $pid_ckt );
+
+        update_field( 'sans_alcool', [
+            [ 'nom' => 'Petit Louvre',  'description' => 'Ananas, pomme, orgeat, citron',    'prix' => '8', 'badge' => '' ],
+            [ 'nom' => 'Saint Anne',    'description' => 'Orange, pomme, cranberry, pêche',  'prix' => '8', 'badge' => '' ],
+            [ 'nom' => 'Virgin Mojito', 'description' => 'Menthe, citron, soda',             'prix' => '8', 'badge' => '' ],
+            [ 'nom' => 'Virgin Colada', 'description' => 'Ananas, coco',                     'prix' => '8', 'badge' => '' ],
+        ], $pid_ckt );
+    }
+
+    /* ════════════════════════════════════
+       VINS
+    ════════════════════════════════════ */
+    if ( $pid_vins ) {
+
+        update_field( 'vins_blancs', [
+            [ 'nom' => 'Provence Rollier',  'description' => 'Château de la Martinette « bio » 2023',                     'prix' => '5',  'prix_2' => '10', 'prix_3' => '25', 'badge' => '' ],
+            [ 'nom' => 'Côtes de Gascogne', 'description' => 'Domaine de Magnaut « moelleux » 2024',                      'prix' => '6',  'prix_2' => '12', 'prix_3' => '27', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux Graves',   'description' => 'Château tour de Castres 2023',                              'prix' => '7',  'prix_2' => '14', 'prix_3' => '34', 'badge' => '' ],
+            [ 'nom' => 'Val de Loire',      'description' => 'Pouilly-fumé. La villaudière de Reverdy 2024',              'prix' => '9',  'prix_2' => '18', 'prix_3' => '43', 'badge' => '' ],
+            [ 'nom' => 'Provence',          'description' => 'Clos blanc. Château de la Martinette « bio » 2023',         'prix' => '',   'prix_2' => '',   'prix_3' => '43', 'badge' => '' ],
+            [ 'nom' => 'Rhône',             'description' => 'Château de Valcombe 2024',                                   'prix' => '',   'prix_2' => '',   'prix_3' => '31', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux',          'description' => 'Blaye. Château Bertinerie 2024',                             'prix' => '',   'prix_2' => '',   'prix_3' => '31', 'badge' => '' ],
+            [ 'nom' => 'Bourgogne',         'description' => 'Chablis. Dampt frères tradition 2022',                       'prix' => '',   'prix_2' => '',   'prix_3' => '43', 'badge' => '' ],
+            [ 'nom' => 'Bourgogne',         'description' => 'Santenay. Justin Girardin, Les Terrasses de Bievaux 2023',  'prix' => '',   'prix_2' => '',   'prix_3' => '55', 'badge' => '' ],
+        ], $pid_vins );
+
+        update_field( 'vins_rouges', [
+            [ 'nom' => 'Rhône',        'description' => 'Côtes du Rhône. Domaine de l\'Obrieu les frangines « bio » 2022', 'prix' => '6',  'prix_2' => '12', 'prix_3' => '27', 'badge' => '' ],
+            [ 'nom' => 'Val de Loire', 'description' => 'Bourgueil. Clos de l\'Abbaye 2021',                               'prix' => '7',  'prix_2' => '14', 'prix_3' => '29', 'badge' => '' ],
+            [ 'nom' => 'Vin du Monde', 'description' => 'Argentine. Festivo Malbec 2023',                                  'prix' => '8',  'prix_2' => '16', 'prix_3' => '32', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux',     'description' => 'Pessac Leognan. Domaine de la Roche 2019',                        'prix' => '9',  'prix_2' => '18', 'prix_3' => '39', 'badge' => '' ],
+            [ 'nom' => 'Bourgogne',    'description' => 'Côte de nuits. Dupasquier les Vignottes 2022',                    'prix' => '',   'prix_2' => '',   'prix_3' => '49', 'badge' => '' ],
+            [ 'nom' => 'Bourgogne',    'description' => 'Chassagne-Montrachet. Louis Latour 2021',                         'prix' => '',   'prix_2' => '',   'prix_3' => '72', 'badge' => '' ],
+            [ 'nom' => 'Languedoc',    'description' => 'Pic saint loup. Mas de l\'oncle 2023',                            'prix' => '',   'prix_2' => '',   'prix_3' => '39', 'badge' => '' ],
+            [ 'nom' => 'Rhône',        'description' => 'Vacqueyras. Domaine de l\'Obrieu 2020',                           'prix' => '',   'prix_2' => '',   'prix_3' => '39', 'badge' => '' ],
+            [ 'nom' => 'Rhône',        'description' => 'Châteauneuf-du-Pape. Château La Nerthe 2020',                     'prix' => '',   'prix_2' => '',   'prix_3' => '75', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux',     'description' => 'Saint-Émilion. Château Pipeau grand cru 2021',                    'prix' => '',   'prix_2' => '',   'prix_3' => '55', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux',     'description' => 'Margaux. Blason d\'Issan 2020',                                   'prix' => '',   'prix_2' => '',   'prix_3' => '59', 'badge' => '' ],
+            [ 'nom' => 'Bordeaux',     'description' => 'Pauillac. Fleur de Pédesclaux 2016',                              'prix' => '',   'prix_2' => '',   'prix_3' => '62', 'badge' => '' ],
+        ], $pid_vins );
+
+        update_field( 'vins_roses', [
+            [ 'nom' => 'Provence Rollier', 'description' => 'Château de la Martinette « bio » 2024', 'prix' => '6', 'prix_2' => '12', 'prix_3' => '25', 'badge' => '' ],
+            [ 'nom' => 'Provence',         'description' => 'Minuty Prestige 2024',                  'prix' => '8', 'prix_2' => '16', 'prix_3' => '39', 'badge' => '' ],
+        ], $pid_vins );
+
+        update_field( 'vins_champagnes', [
+            [ 'nom' => 'Colin Alliance Brut',          'description' => '', 'prix' => '10', 'prix_2' => '20', 'prix_3' => '65', 'badge' => '' ],
+            [ 'nom' => 'Colin Castille Blanc de Blanc', 'description' => '', 'prix' => '12', 'prix_2' => '24', 'prix_3' => '80', 'badge' => '' ],
+            [ 'nom' => 'Deutz Brut',                   'description' => '', 'prix' => '',   'prix_2' => '',   'prix_3' => '95', 'badge' => '' ],
+        ], $pid_vins );
+
+        update_field( 'vins_footnote',
+            '* Les millésimes sont susceptibles de changer en fonction des arrivages — Prix net en € – service compris – chèque non accepté – CB minimum 5€',
+            $pid_vins
+        );
+    }
+
+    /* ════════════════════════════════════
+       ALCOOLS
+    ════════════════════════════════════ */
+    if ( $pid_alc ) {
+
+        update_field( 'alcools_vodka', [
+            [ 'nom' => 'Smirnoff',       'description' => '', 'prix' => '7',  'badge' => '' ],
+            [ 'nom' => 'Stolichnaya',    'description' => '', 'prix' => '9',  'badge' => '' ],
+            [ 'nom' => 'Ketel One',      'description' => '', 'prix' => '10', 'badge' => '' ],
+            [ 'nom' => 'Pyla française', 'description' => '', 'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Grey Goose',     'description' => '', 'prix' => '13', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_rhum', [
+            [ 'nom' => 'Pampero Ambré',  'description' => '', 'prix' => '7',  'badge' => '' ],
+            [ 'nom' => 'Trois Rivières', 'description' => '', 'prix' => '9',  'badge' => '' ],
+            [ 'nom' => 'Botran',         'description' => '', 'prix' => '11', 'badge' => '' ],
+            [ 'nom' => 'Diplomatico',    'description' => '', 'prix' => '12', 'badge' => '' ],
+            [ 'nom' => 'Zacapa 23 ans',  'description' => '', 'prix' => '18', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_whisky', [
+            [ 'nom' => 'Johnny Walker Red', 'description' => '', 'prix' => '7',  'badge' => '' ],
+            [ 'nom' => "Jack Daniel's",     'description' => '', 'prix' => '10', 'badge' => '' ],
+            [ 'nom' => 'Bulleit Bourbon',   'description' => '', 'prix' => '11', 'badge' => '' ],
+            [ 'nom' => 'Talisker 10 ans',   'description' => '', 'prix' => '14', 'badge' => '' ],
+            [ 'nom' => 'Chivas 18 ans',     'description' => '', 'prix' => '16', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_gin', [
+            [ 'nom' => 'Bombay Original', 'description' => '', 'prix' => '7',  'badge' => '' ],
+            [ 'nom' => 'Tanqueray',       'description' => '', 'prix' => '8',  'badge' => '' ],
+            [ 'nom' => "Hendrick's",      'description' => '', 'prix' => '10', 'badge' => '' ],
+            [ 'nom' => 'Gin Mare',        'description' => '', 'prix' => '12', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_digestifs', [
+            [ 'nom' => 'Limoncello',     'description' => '', 'prix' => '6', 'badge' => '' ],
+            [ 'nom' => 'Get 27',         'description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => 'Baileys',        'description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => 'Amaretto',       'description' => '', 'prix' => '7', 'badge' => '' ],
+            [ 'nom' => 'Poire Williams', 'description' => '', 'prix' => '8', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_tequila', [
+            [ 'nom' => 'Patron Silver',   'description' => '', 'prix' => '11', 'badge' => '' ],
+            [ 'nom' => 'Patron Reposado', 'description' => '', 'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Patron Anejo',    'description' => '', 'prix' => '16', 'badge' => '' ],
+        ], $pid_alc );
+
+        update_field( 'alcools_cognac', [
+            [ 'nom' => 'Armagnac',        'description' => '', 'prix' => '10', 'badge' => '' ],
+            [ 'nom' => 'Cognac ABK6 VS',  'description' => '', 'prix' => '13', 'badge' => '' ],
+            [ 'nom' => 'Cognac ABK6 XO',  'description' => '', 'prix' => '18', 'badge' => '' ],
+        ], $pid_alc );
+    }
+
+    update_option( 'lpl_bar_menus_initialized', true );
+
+}, 20 );

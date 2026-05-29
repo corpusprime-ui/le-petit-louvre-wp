@@ -104,27 +104,11 @@ function lpl_enqueue_assets() {
         true
     );
 
-    // GSAP + ScrollTrigger
-    wp_enqueue_script(
-        'gsap',
-        'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
-        [],
-        '3.12.5',
-        true
-    );
-    wp_enqueue_script(
-        'gsap-st',
-        'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
-        [ 'gsap' ],
-        '3.12.5',
-        true
-    );
-
     // JS principal du thème
     wp_enqueue_script(
         'lpl-main',
         get_template_directory_uri() . '/js/main.js',
-        [ 'bootstrap', 'gsap', 'gsap-st' ],
+        [ 'bootstrap' ],
         $v,
         true
     );
@@ -144,31 +128,51 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 }, 10, 2 );
 
 /* ------------------------------------------
-   Preload image hero LCP + og:image sur toutes les pages
-   Priorité 1 = injecté avant tout autre tag
+   Open Graph complet + Twitter Card + Preload LCP
+   Injecté en priorité 1 dans <head>
 ------------------------------------------ */
 add_action( 'wp_head', function () {
-    // Image OG par défaut = photo hero de la page d'accueil
+    // Image OG par défaut
     $pid_front   = get_option( 'page_on_front' );
     $hero_images = function_exists( 'get_field' ) ? get_field( 'hero_images', $pid_front ) : null;
     $default_og  = ( ! empty( $hero_images[0]['image']['url'] ) )
                    ? $hero_images[0]['image']['url']
                    : get_template_directory_uri() . '/img/hero-salle.jpg';
 
-    // Sur la page d'accueil : preload LCP (poster vidéo) + og:image hero
+    // Titre et description SEO pour l'OG
+    $seo     = lpl_current_seo();
+    $og_title = $seo ? $seo['title'] : get_bloginfo( 'name' );
+    $og_desc  = $seo ? $seo['desc']  : get_bloginfo( 'description' );
+    $og_url   = is_front_page() ? home_url( '/' ) : get_permalink();
+
+    // Tags Open Graph communs à toutes les pages
+    echo '<meta property="og:type"        content="website">' . "\n";
+    echo '<meta property="og:locale"      content="fr_FR">' . "\n";
+    echo '<meta property="og:site_name"   content="Le Petit Louvre">' . "\n";
+    echo '<meta property="og:title"       content="' . esc_attr( $og_title ) . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr( $og_desc ) . '">' . "\n";
+    echo '<meta property="og:url"         content="' . esc_url( $og_url ) . '">' . "\n";
+
+    // Twitter Card
+    echo '<meta name="twitter:card"        content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title"       content="' . esc_attr( $og_title ) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr( $og_desc ) . '">' . "\n";
+
+    // Preload LCP + og:image
     if ( is_front_page() ) {
         $poster = get_template_directory_uri() . '/videos/hero-poster.jpg';
         echo '<link rel="preload" as="image" fetchpriority="high" href="' . esc_url( $poster ) . '">' . "\n";
-        echo '<meta property="og:image" content="' . esc_url( $default_og ) . '">' . "\n";
-        echo '<meta name="twitter:image" content="' . esc_url( $default_og ) . '">' . "\n";
+        echo '<meta property="og:image"      content="' . esc_url( $default_og ) . '">' . "\n";
+        echo '<meta name="twitter:image"     content="' . esc_url( $default_og ) . '">' . "\n";
         return;
     }
 
-    // Sur les autres pages : og:image = featured image ou fallback hero
     $thumb = get_the_post_thumbnail_url( get_the_ID(), 'large' );
     $og    = $thumb ?: $default_og;
-    echo '<meta property="og:image" content="' . esc_url( $og ) . '">' . "\n";
-    echo '<meta name="twitter:image" content="' . esc_url( $og ) . '">' . "\n";
+    echo '<meta property="og:image"      content="' . esc_url( $og ) . '">' . "\n";
+    echo '<meta property="og:image:width"  content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
+    echo '<meta name="twitter:image"     content="' . esc_url( $og ) . '">' . "\n";
 }, 1 );
 
 /* ------------------------------------------
@@ -410,10 +414,10 @@ function lpl_current_seo() {
     return $cache;
 }
 
-// Titre de page
+// Titre de page — on retourne directement le titre complet (évite doublon du nom de site)
 add_filter( 'wpseo_title', function( $title ) {
     $d = lpl_current_seo();
-    return $d ? $d['title'] . ' ‹ ' . get_bloginfo('name') : $title;
+    return $d ? $d['title'] : $title;
 } );
 
 // Meta description
@@ -470,12 +474,16 @@ add_action( 'wp_head', function () {
  * Sticky Bar Mobile — Le Petit Louvre
  * Pour supprimer : effacer ce bloc entier
  */
-function lpl_sticky_bar_mobile() { ?>
+function lpl_sticky_bar_mobile() {
+  $tpl = get_page_template_slug();
+  $hidden = [ 'page-carte.php', 'page-carte-des-boissons.php', 'page-carte-des-cocktails.php', 'page-carte-des-vins.php' ];
+  if ( in_array( $tpl, $hidden, true ) ) return;
+  ?>
 
 <style>
 /* ── Sticky bar — charte Le Petit Louvre ── */
 #lpl-sticky {
-  display: none;
+  display: flex;
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 9999;
@@ -484,18 +492,22 @@ function lpl_sticky_bar_mobile() { ?>
   padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 6px));
   gap: 10px;
   align-items: stretch;
-  animation: lplSlideUp 0.45s cubic-bezier(0.23, 1, 0.32, 1) both;
+  opacity: 0;
+  transform: translateY(100%);
+  pointer-events: none;
+  transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.23, 1, 0.32, 1);
+}
+#lpl-sticky.lpl-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 @media (max-width: 768px) {
-  #lpl-sticky { display: flex; }
   body { padding-bottom: 72px; }
   .footer-bottom { padding-bottom: 0 !important; }
   footer.footer { padding-bottom: 0 !important; }
 }
-@keyframes lplSlideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
+
 
 /* ── Bouton commun ── */
 #lpl-sticky .lpl-btn-call,
@@ -602,7 +614,7 @@ function lpl_sticky_bar_mobile() { ?>
     </div>
     Appeler
   </a>
-  <a href="/reservation/" class="lpl-btn-resa" aria-label="Réserver une table en ligne">
+  <a href="/reservation/#resa-form" class="lpl-btn-resa" aria-label="Réserver une table en ligne">
     <span class="lpl-resa-main">
       <svg class="lpl-cal-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#545a25" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -619,23 +631,20 @@ function lpl_sticky_bar_mobile() { ?>
 (function() {
   var bar = document.getElementById('lpl-sticky');
   if (!bar) return;
-  var scrolled = false;
-  window.addEventListener('scroll', function() {
-    if (!scrolled && window.scrollY > 80 && window.innerWidth <= 768) {
-      scrolled = true;
-      bar.style.display = 'flex';
-    }
-  }, { passive: true });
+  function updateBar() {
+    if (window.innerWidth > 768) return;
+    var halfway = (document.documentElement.scrollHeight - window.innerHeight) / 2;
+    bar.classList.toggle('lpl-visible', window.scrollY > halfway);
+  }
+  window.addEventListener('scroll', updateBar, { passive: true });
   if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
     var vh = window.innerHeight;
     window.addEventListener('resize', function() {
-      if (window.innerHeight < vh * 0.75) {
-        bar.style.display = 'none';
-      } else {
-        if (scrolled) bar.style.display = 'flex';
-      }
+      if (window.innerHeight < vh * 0.75) bar.classList.remove('lpl-visible');
+      else updateBar();
     });
   }
+  updateBar();
 })();
 </script>
 

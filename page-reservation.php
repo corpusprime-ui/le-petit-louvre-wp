@@ -21,8 +21,7 @@ add_action( 'wp_head', function () { ?>
     "addressCountry": "FR"
   },
   "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday"], "opens": "09:00", "closes": "23:00" },
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday"], "opens": "09:00", "closes": "17:00" }
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "09:00", "closes": "23:00" }
   ],
   "hasMap": "https://www.google.com/maps/dir//14+Pl.+Lucien+de+Gracia,+33120+Arcachon",
   "servesCuisine": "French Fusion",
@@ -85,14 +84,23 @@ $tpl      = get_template_directory_uri();
 
   <div class="hero-content">
     <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="hero-logo-mobile" aria-label="Accueil Le Petit Louvre">
-      <img loading="lazy" src="<?php echo get_template_directory_uri(); ?>/img/logo.svg" alt="Le Petit Louvre" width="100" height="100">
+      <img loading="lazy" src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg" alt="Le Petit Louvre" width="100" height="100">
     </a>
     <div class="resa-live-badge" id="heroBadge" role="status" aria-live="polite">
       <span class="resa-dot" id="heroDot" aria-hidden="true"></span><span id="heroText">Tables disponibles ce soir</span>
     </div>
     <p class="hero-label"><?php echo esc_html( lpl_field( 'resa_hero_label', $pid, 'Restaurant · Arcachon' ) ); ?></p>
     <h1 class="hero-title" style="white-space: nowrap; font-size: clamp(26px, 6.5vw, 60px);"><?php echo esc_html( lpl_field( 'resa_hero_title', $pid, 'Réservez votre table' ) ); ?></h1>
-    <p class="hero-tagline"><?php echo esc_html( lpl_field( 'resa_hero_tagline', $pid, 'Votre table garantie — confirmation par email sous 2h' ) ); ?></p>
+    <?php
+    $tagline_1 = lpl_field( 'resa_hero_tagline_1', $pid, 'Votre table garantie' );
+    $tagline_2 = lpl_field( 'resa_hero_tagline_2', $pid, 'Confirmation par email sous 2h' );
+    if ( $tagline_1 || $tagline_2 ) : ?>
+    <p class="hero-tagline">
+      <?php if ( $tagline_1 ) : ?><?php echo esc_html( $tagline_1 ); ?><?php endif; ?>
+      <?php if ( $tagline_1 && $tagline_2 ) : ?><br><?php endif; ?>
+      <?php if ( $tagline_2 ) : ?><?php echo esc_html( $tagline_2 ); ?><?php endif; ?>
+    </p>
+    <?php endif; ?>
     <div class="hero-cta d-flex flex-wrap gap-3 justify-content-center">
       <a href="#resa-form" class="btn btn-filled btn-lg btn-compact">Réserver en ligne</a>
       <a href="tel:0557157359" class="btn btn-outline btn-lg">05 57 15 73 59</a>
@@ -155,6 +163,28 @@ $tpl      = get_template_directory_uri();
       <p class="section-label reveal d1">Réservation en ligne</p>
       <h2 class="section-title reveal d2" id="resa-form-title">Votre table vous attend</h2>
       <div class="sep-line reveal d3"></div>
+    </div>
+
+    <!-- ── Terrasse : info "sans réservation" — positionnée avant le widget pour éviter la frustration ── -->
+    <div class="terrasse-info-bloc reveal d3" role="note" aria-label="Information terrasse">
+      <div class="terrasse-info-icon" aria-hidden="true">
+        <!-- Parasol -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6.5 2 2 6 2 11h20c0-5-4.5-9-10-9z"/>
+          <line x1="12" y1="11" x2="12" y2="22"/>
+          <line x1="8" y1="22" x2="16" y2="22"/>
+          <path d="M5 17h4M15 17h4"/>
+        </svg>
+      </div>
+      <div class="terrasse-info-body">
+        <p class="terrasse-info-label">La terrasse</p>
+        <p class="terrasse-info-title">Pas besoin de réserver — venez directement !</p>
+        <p class="terrasse-info-text">Notre terrasse est ouverte sans réservation. Présentez-vous sur place, nous vous installons avec plaisir dès qu'une table se libère.</p>
+      </div>
+      <span class="terrasse-info-badge" aria-label="Terrasse sans réservation">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Sans réservation
+      </span>
     </div>
 
     <div class="zenchef-wrapper reveal d4">
@@ -241,7 +271,7 @@ $tpl      = get_template_directory_uri();
         </div>
         <div class="resa-info-content">
           <p class="resa-info-label">Horaires</p>
-          <p class="resa-info-text"><?php echo esc_html( lpl_field( 'resa_horaires_1', $pid, 'Tous les jours  ·  9h → 23h' ) ); ?></p>
+          <p class="resa-info-text"><?php echo esc_html( lpl_field( 'resa_horaires_1', $pid, 'Lun – Dim  ·  9h → 23h' ) ); ?></p>
         </div>
       </div>
 
@@ -505,6 +535,83 @@ $tpl      = get_template_directory_uri();
 
 
 <!-- ==========================================
+     FAQ — Levée des derniers freins
+     Heuristique H10 : aide contextuelle au bon moment
+========================================== -->
+<section class="resa-faq" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+
+        <div class="resa-faq-header reveal d1">
+          <p class="section-label">Questions fréquentes</p>
+          <h2 class="section-title" id="faq-title">Tout ce qu'il faut savoir</h2>
+          <div class="sep-line"></div>
+        </div>
+
+        <ul class="resa-faq-list reveal d2" role="list">
+
+          <!-- Annulation -->
+          <li class="resa-faq-item">
+            <button class="resa-faq-btn" aria-expanded="false" aria-controls="faq-1">
+              <span class="resa-faq-q">Puis-je annuler ma réservation ?</span>
+              <span class="resa-faq-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19" class="faq-plus-v"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="resa-faq-answer" id="faq-1" role="region">
+              <p>Oui — <strong>annulation gratuite jusqu'à 24h avant</strong> votre repas. Passé ce délai, merci de nous prévenir par téléphone au <a href="tel:0557157359">05&nbsp;57&nbsp;15&nbsp;73&nbsp;59</a> afin que nous puissions proposer la table à d'autres clients.</p>
+            </div>
+          </li>
+
+          <!-- Allergies -->
+          <li class="resa-faq-item">
+            <button class="resa-faq-btn" aria-expanded="false" aria-controls="faq-2">
+              <span class="resa-faq-q">Pouvez-vous adapter les plats aux allergies et régimes spéciaux ?</span>
+              <span class="resa-faq-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19" class="faq-plus-v"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="resa-faq-answer" id="faq-2" role="region">
+              <p>Absolument. Indiquez vos <strong>allergies ou préférences alimentaires</strong> (végétarien, sans gluten, intolérance lactose…) dans le champ «&nbsp;commentaire&nbsp;» lors de la réservation en ligne ou par téléphone. Notre chef anticipera pour vous.</p>
+            </div>
+          </li>
+
+          <!-- Terrasse sans résa -->
+          <li class="resa-faq-item">
+            <button class="resa-faq-btn" aria-expanded="false" aria-controls="faq-3">
+              <span class="resa-faq-q">Faut-il réserver pour accéder à la terrasse ?</span>
+              <span class="resa-faq-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19" class="faq-plus-v"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="resa-faq-answer" id="faq-3" role="region">
+              <p><strong>Non, la terrasse est sans réservation.</strong> Présentez-vous directement — nous vous installons avec plaisir dès qu'une table se libère. Pour l'intérieur en revanche, nous recommandons fortement de réserver, notamment le week-end.</p>
+            </div>
+          </li>
+
+          <!-- Parking -->
+          <li class="resa-faq-item">
+            <button class="resa-faq-btn" aria-expanded="false" aria-controls="faq-4">
+              <span class="resa-faq-q">Y a-t-il un parking à proximité ?</span>
+              <span class="resa-faq-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19" class="faq-plus-v"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="resa-faq-answer" id="faq-4" role="region">
+              <p>Oui — un <strong>parking public est disponible à 20 mètres</strong>, Place Lucien de Gracia. L'accès est simple depuis le centre d'Arcachon. <a href="https://www.google.com/maps/dir//14+Pl.+Lucien+de+Gracia,+33120+Arcachon" target="_blank" rel="noopener noreferrer">Voir l'itinéraire →</a></p>
+            </div>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================
      CTA FINAL — Bootstrap col centré
      Biais : FOMO · Urgence
 ========================================== -->
@@ -685,6 +792,111 @@ $tpl      = get_template_directory_uri();
   transition: color .2s; margin-top: 2px; display: inline-block;
 }
 .resa-mail-link:hover { color: var(--dark-green); text-decoration: underline; }
+
+/* ── Terrasse info bloc ── */
+.terrasse-info-bloc {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid rgba(90,120,50,0.18);
+  border-left: 3px solid var(--olive-green);
+  border-radius: 12px;
+  padding: 18px 20px 18px 18px;
+  box-shadow: 0 2px 16px rgba(26,46,10,0.06);
+  position: relative;
+  overflow: hidden;
+}
+/* Fond décoratif très subtil */
+.terrasse-info-bloc::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(90,120,50,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+.terrasse-info-icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(90,120,50,0.08);
+  border: 1px solid rgba(90,120,50,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.terrasse-info-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--olive-green);
+}
+.terrasse-info-body {
+  flex: 1;
+  min-width: 0;
+}
+.terrasse-info-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--olive-green);
+  margin: 0 0 3px;
+}
+.terrasse-info-title {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark-green);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+.terrasse-info-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  color: #6b7c5a;
+  margin: 0;
+  line-height: 1.55;
+}
+.terrasse-info-badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(90,120,50,0.1);
+  border: 1px solid rgba(90,120,50,0.25);
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--olive-green);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+.terrasse-info-badge svg { stroke: var(--olive-green); flex-shrink: 0; }
+
+@media (max-width: 600px) {
+  .terrasse-info-bloc {
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  /* Icône masquée — trop encombrante sur petit écran */
+  .terrasse-info-icon { display: none; }
+  /* Description masquée — le titre suffit en mobile */
+  .terrasse-info-text { display: none; }
+  .terrasse-info-title { font-size: 13.5px; margin-bottom: 0; }
+  .terrasse-info-badge {
+    align-self: center;
+    margin-left: 0;
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+}
 
 /* ── Widget Zenchef centré ── */
 .resa-booking-centered {
@@ -1123,6 +1335,98 @@ $tpl      = get_template_directory_uri();
 }
 .resa-pulse { animation: ctaPulse 3s ease-in-out 2s infinite; }
 
+/* ── FAQ ── */
+.resa-faq {
+  background: #fff;
+  padding: 80px 24px 72px;
+  border-top: 1px solid var(--resa-border);
+}
+.resa-faq-header {
+  text-align: center;
+  margin-bottom: 48px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.resa-faq-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0;
+}
+.resa-faq-item {
+  border-bottom: 1px solid var(--resa-border);
+}
+.resa-faq-item:first-child {
+  border-top: 1px solid var(--resa-border);
+}
+.resa-faq-btn {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: none; border: none; cursor: pointer;
+  padding: 22px 4px;
+  text-align: left;
+  color: var(--dark-green);
+  transition: color 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .resa-faq-btn:hover { color: var(--olive-green); }
+  .resa-faq-btn:hover .resa-faq-icon { background: var(--light-green-bg); border-color: var(--olive-green); }
+}
+.resa-faq-q {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 500;
+  line-height: 1.35;
+  flex: 1;
+}
+.resa-faq-icon {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(51,82,11,0.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--olive-green);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.35s var(--ease-expo);
+}
+.resa-faq-btn[aria-expanded="true"] .resa-faq-icon {
+  background: var(--olive-green);
+  border-color: var(--olive-green);
+  color: white;
+  transform: rotate(45deg);
+}
+.resa-faq-btn[aria-expanded="true"] .resa-faq-icon svg { stroke: white; }
+.faq-plus-v {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+.resa-faq-btn[aria-expanded="true"] .faq-plus-v {
+  transform: scaleY(0);
+  opacity: 0;
+}
+.resa-faq-answer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s var(--ease-expo), padding 0.3s ease;
+}
+.resa-faq-answer.open {
+  max-height: 300px;
+}
+.resa-faq-answer p {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: #5a6e45;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0 4px 22px;
+}
+.resa-faq-answer p strong { color: var(--dark-green); font-weight: 600; }
+.resa-faq-answer p a {
+  color: var(--olive-green); font-weight: 600; text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 575px) {
+  .resa-faq { padding: 56px 20px 52px; }
+  .resa-faq-btn { padding: 18px 2px; }
+  .resa-faq-q { font-size: 15px; }
+}
+
 /* ── focus-visible ── */
 a:focus-visible, button:focus-visible {
   outline: 3px solid var(--olive-green); outline-offset: 3px; border-radius: 4px;
@@ -1196,6 +1500,28 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     c.textContent = msgs[Math.floor(Math.random() * msgs.length)];
   }
+
+  /* ── Accordéon FAQ ── */
+  document.querySelectorAll('.resa-faq-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      var answerId = this.getAttribute('aria-controls');
+      var answer   = document.getElementById(answerId);
+
+      /* Fermer tous les autres */
+      document.querySelectorAll('.resa-faq-btn').forEach(function(b) {
+        b.setAttribute('aria-expanded', 'false');
+        var a = document.getElementById(b.getAttribute('aria-controls'));
+        if (a) a.classList.remove('open');
+      });
+
+      /* Ouvrir / fermer celui-ci */
+      if (!expanded) {
+        this.setAttribute('aria-expanded', 'true');
+        if (answer) answer.classList.add('open');
+      }
+    });
+  });
 
   /* Redimensionnement auto de l'iframe Zenchef via postMessage */
   window.addEventListener('message', function (e) {
