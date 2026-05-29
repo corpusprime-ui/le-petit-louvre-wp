@@ -37,6 +37,17 @@
     }, 6000);
   }
 
+  /* LPL brand story crossfade — transition douce toutes les 7s */
+  const lplBgs = document.querySelectorAll('.lpl-bg');
+  if (lplBgs.length > 1 && !reducedMotion) {
+    let lplCurrent = 0;
+    setInterval(() => {
+      lplBgs[lplCurrent].classList.remove('active');
+      lplCurrent = (lplCurrent + 1) % lplBgs.length;
+      lplBgs[lplCurrent].classList.add('active');
+    }, 7000);
+  }
+
   /* ------------------------------------------
      Intersection Observer — scroll reveals
   ------------------------------------------ */

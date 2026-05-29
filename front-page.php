@@ -343,43 +343,40 @@ $tpl = esc_url( get_template_directory_uri() );
 <!-- ==========================================
      LE PETIT LOUVRE — Brand story
 ========================================== -->
-<section class="section-lpl">
-  <h2 class="lpl-title reveal d1"><?php echo esc_html( lpl_field( 'lpl_title', $pid, 'Le Petit Louvre' ) ); ?></h2>
+<section class="section-lpl" aria-labelledby="lpl-heading">
+  <h2 class="lpl-title reveal d1" id="lpl-heading"><?php echo esc_html( lpl_field( 'lpl_title', $pid, 'Le Petit Louvre' ) ); ?></h2>
   <div class="container" style="max-width:1200px;">
     <div class="row g-4 align-items-center">
-      <div class="col-lg-5">
+
+      <div class="col-lg-6">
         <?php
-        $lpl_photo = lpl_field( 'lpl_photo', $pid, null );
-        if ( $lpl_photo && is_array( $lpl_photo ) ) :
-          $src = esc_url( $lpl_photo['url'] );
-          $alt = esc_attr( $lpl_photo['alt'] ?: 'Le Petit Louvre' );
-          $w   = (int) $lpl_photo['width'];
-          $h   = (int) $lpl_photo['height'];
-        else :
-          $src = $tpl . '/img/lpl-photo.jpg';
-          $alt = 'Plat signature Le Petit Louvre';
-          $w   = 800; $h = 600;
-        endif; ?>
-        <div class="lpl-photo reveal-left d2">
-          <img loading="eager" src="<?php echo $src; ?>" alt="<?php echo $alt; ?>"
-               width="<?php echo $w; ?>" height="<?php echo $h; ?>"
-               loading="eager" decoding="async">
+        $lpl_photo  = lpl_field( 'lpl_photo', $pid, null );
+        $lpl_photo2 = lpl_field( 'lpl_photo2', $pid, null );
+        $src1 = $lpl_photo && is_array( $lpl_photo ) ? esc_url( $lpl_photo['url'] ) : $tpl . '/img/lpl-photo.jpg';
+        $alt1 = $lpl_photo && is_array( $lpl_photo ) ? esc_attr( $lpl_photo['alt'] ?: 'Terrasse du restaurant Le Petit Louvre à Arcachon' ) : 'Terrasse du restaurant Le Petit Louvre à Arcachon';
+        $src2 = $lpl_photo2 && is_array( $lpl_photo2 ) ? esc_url( $lpl_photo2['url'] ) : $tpl . '/img/plat-21-opt.jpg';
+        $alt2 = $lpl_photo2 && is_array( $lpl_photo2 ) ? esc_attr( $lpl_photo2['alt'] ?: 'Plat du chef — cuisine gastronomique Le Petit Louvre Arcachon' ) : 'Plat du chef — cuisine gastronomique Le Petit Louvre Arcachon';
+        ?>
+        <div class="lpl-images reveal-left d2" role="img" aria-label="Restaurant Le Petit Louvre — terrasse et cuisine">
+          <img class="lpl-bg active" src="<?php echo $src1; ?>" alt="<?php echo $alt1; ?>" loading="eager" decoding="async">
+          <img class="lpl-bg"        src="<?php echo $src2; ?>" alt="<?php echo $alt2; ?>" loading="lazy"  decoding="async">
         </div>
       </div>
-      <div class="col-lg-7">
+
+      <div class="col-lg-6">
         <div class="lpl-text reveal-right d3">
           <?php
           $lpl_body = lpl_field( 'lpl_body', $pid, '' );
           if ( $lpl_body ) :
             echo wp_kses_post( $lpl_body );
           else : ?>
-            <p>Le Petit Louvre vous invite à vivre une expérience culinaire raffinée, dans une atmosphère unique où l'élégance rencontre l'émotion.</p>
-            <p>Idéalement situé au cœur d'Arcachon, Le Petit Louvre incarne l'esprit de la gastronomie parisienne mélangé à la tradition : une cuisine authentique, exigeante et profondément ancrée dans le goût.</p>
-            <p>Derrière son nom discret se révèle un lieu au design contemporain et soigné, où chaque détail a été pensé pour créer une ambiance chaleureuse, zen et résolument haut de gamme.</p>
-            <p>Aux fourneaux, le chef imagine des plats d'exception, alliant tradition et création, pour offrir une cuisine précise, inspirée et généreuse, aussi belle à regarder qu'à savourer.</p>
+            <p>Au Petit Louvre, chaque moment se partage autour d'une cuisine sincère, d'un verre entre amis ou d'un dîner qui se prolonge.</p>
+            <p>Entre tradition et modernité, le restaurant fait vivre depuis 1880 une atmosphère conviviale et élégante au cœur d'Arcachon, où l'on vient autant pour l'assiette que pour le plaisir d'être ensemble.</p>
+            <p>Une adresse vivante, pensée pour savourer simplement les bons moments.</p>
           <?php endif; ?>
         </div>
       </div>
+
     </div>
   </div>
 </section>
