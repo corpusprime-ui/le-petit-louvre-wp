@@ -218,13 +218,16 @@ if ( $active_menu_id ) {
   <!-- Illustrations décoratives en parallaxe -->
   <img loading="lazy" id="carte-illu-1" class="carte-illu carte-illu--r1"
        src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/moules.png"
-       alt="" aria-hidden="true" loading="lazy">
+       width="483" height="555"
+       alt="" aria-hidden="true">
   <img loading="lazy" id="carte-illu-2" class="carte-illu carte-illu--l"
        src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/le-petit-louvre-illu.png"
-       alt="" aria-hidden="true" loading="lazy">
+       width="414" height="616"
+       alt="" aria-hidden="true">
   <img loading="lazy" id="carte-illu-3" class="carte-illu carte-illu--r2"
        src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/apero.png"
-       alt="" aria-hidden="true" loading="lazy">
+       width="346" height="555"
+       alt="" aria-hidden="true">
 
   <div class="container">
 

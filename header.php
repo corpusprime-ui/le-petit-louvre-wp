@@ -36,6 +36,7 @@
   <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
     <img class="nav-logo-sticky"
          src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg"
+         width="110" height="106"
          alt="Le Petit Louvre">
   </a>
 

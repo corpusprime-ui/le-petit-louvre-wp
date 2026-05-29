@@ -150,6 +150,7 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
   <a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="Accueil Le Petit Louvre">
     <img class="overlay-logo"
          src="<?php echo esc_url( get_template_directory_uri() ); ?>/img/logo.svg"
+         width="110" height="106"
          alt="Le Petit Louvre">
   </a>
   <div class="overlay-sep"></div>

@@ -953,6 +953,51 @@ acf_add_local_field_group( [
     ],
 ] );
 
+/* ══════════════════════════════════════════════════════════════
+   RÉSERVATION — ⑥ Bloc Terrasse
+══════════════════════════════════════════════════════════════ */
+acf_add_local_field_group( [
+    'key'        => 'group_resa_terrasse',
+    'title'      => '⑥ Réservation — Bloc Terrasse',
+    'menu_order' => 60,
+    'location'   => $resa_page_location,
+    'fields'     => [
+
+        [
+            'key'           => 'field_resa_terrasse_label',
+            'label'         => 'Label (capslock)',
+            'name'          => 'resa_terrasse_label',
+            'type'          => 'text',
+            'default_value' => 'La terrasse',
+            'instructions'  => 'Petit texte en haut à gauche du bloc.',
+        ],
+        [
+            'key'           => 'field_resa_terrasse_titre',
+            'label'         => 'Titre',
+            'name'          => 'resa_terrasse_titre',
+            'type'          => 'text',
+            'default_value' => 'Pas besoin de réserver — venez directement !',
+        ],
+        [
+            'key'           => 'field_resa_terrasse_texte',
+            'label'         => 'Texte descriptif',
+            'name'          => 'resa_terrasse_texte',
+            'type'          => 'textarea',
+            'rows'          => 2,
+            'default_value' => 'Notre terrasse est ouverte sans réservation. Présentez-vous sur place, nous vous installons avec plaisir dès qu\'une table se libère.',
+        ],
+        [
+            'key'           => 'field_resa_terrasse_badge',
+            'label'         => 'Badge (coin droit)',
+            'name'          => 'resa_terrasse_badge',
+            'type'          => 'text',
+            'default_value' => 'Sans réservation',
+            'instructions'  => 'Texte de la pastille verte. Laisser vide pour masquer.',
+        ],
+
+    ],
+] );
+
 
 /* ══════════════════════════════════════════════════════════════
    PAGE CONTACT
@@ -1242,14 +1287,14 @@ acf_add_local_field_group( [
             'type'          => 'checkbox',
             'instructions'  => 'Cochez les modes de paiement acceptés. Ils s\'affichent sous forme de pastilles sur la page Contact.',
             'choices'       => [
-                'amex'         => 'American Express',
-                'mastercard'   => 'Mastercard',
-                'visa'         => 'Visa',
-                'carte_debit'  => 'Carte de débit',
-                'ticket_resto' => 'Ticket Restaurant',
-                'cash'         => 'Cash',
+                'amex'           => 'American Express',
+                'mastercard'     => 'Mastercard',
+                'visa'           => 'Visa',
+                'carte_debit'    => 'Carte de débit',
+                'cheques_vac'    => 'Chèques Vacances',
+                'cash'           => 'Cash',
             ],
-            'default_value' => [ 'amex', 'mastercard', 'visa', 'carte_debit', 'ticket_resto', 'cash' ],
+            'default_value' => [ 'amex', 'mastercard', 'visa', 'carte_debit', 'cheques_vac', 'cash' ],
             'layout'        => 'horizontal',
             'return_format' => 'value',
         ],

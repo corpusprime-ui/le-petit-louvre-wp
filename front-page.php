@@ -213,6 +213,7 @@ $tpl = esc_url( get_template_directory_uri() );
 <section class="section-privatisation" id="privatisation">
   <img loading="lazy" class="olive-branch" id="oliveBranch"
        src="<?php echo $tpl; ?>/img/olive-branch.jpg"
+       width="687" height="686"
        alt="" aria-hidden="true">
   <div class="container" style="max-width:1200px;">
     <div class="row g-5 align-items-center">

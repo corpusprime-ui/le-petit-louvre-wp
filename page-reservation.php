@@ -176,15 +176,23 @@ $tpl      = get_template_directory_uri();
           <path d="M5 17h4M15 17h4"/>
         </svg>
       </div>
+      <?php
+      $t_label = lpl_field( 'resa_terrasse_label', $pid, 'La terrasse' );
+      $t_titre = lpl_field( 'resa_terrasse_titre', $pid, 'Pas besoin de réserver — venez directement !' );
+      $t_texte = lpl_field( 'resa_terrasse_texte', $pid, 'Notre terrasse est ouverte sans réservation. Présentez-vous sur place, nous vous installons avec plaisir dès qu\'une table se libère.' );
+      $t_badge = lpl_field( 'resa_terrasse_badge', $pid, 'Sans réservation' );
+      ?>
       <div class="terrasse-info-body">
-        <p class="terrasse-info-label">La terrasse</p>
-        <p class="terrasse-info-title">Pas besoin de réserver — venez directement !</p>
-        <p class="terrasse-info-text">Notre terrasse est ouverte sans réservation. Présentez-vous sur place, nous vous installons avec plaisir dès qu'une table se libère.</p>
+        <p class="terrasse-info-label"><?php echo esc_html( $t_label ); ?></p>
+        <p class="terrasse-info-title"><?php echo esc_html( $t_titre ); ?></p>
+        <p class="terrasse-info-text"><?php echo esc_html( $t_texte ); ?></p>
       </div>
-      <span class="terrasse-info-badge" aria-label="Terrasse sans réservation">
+      <?php if ( $t_badge ) : ?>
+      <span class="terrasse-info-badge" aria-label="<?php echo esc_attr( $t_badge ); ?>">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-        Sans réservation
+        <?php echo esc_html( $t_badge ); ?>
       </span>
+      <?php endif; ?>
     </div>
 
     <div class="zenchef-wrapper reveal d4">
@@ -233,6 +241,14 @@ $tpl      = get_template_directory_uri();
             <circle cx="20" cy="17" r="10" fill="#eb001b"/>
             <circle cx="34" cy="17" r="10" fill="#f79e1b"/>
             <path d="M27 9a10 10 0 0 1 0 16 10 10 0 0 1 0-16z" fill="#ff5f00"/>
+          </svg>
+        </span>
+        <!-- Chèques Vacances -->
+        <span class="pay-chip" aria-label="Chèques Vacances">
+          <svg width="40" height="24" viewBox="0 0 60 34" fill="none" aria-hidden="true">
+            <rect width="60" height="34" rx="4" fill="#e8f5e9"/>
+            <text x="30" y="14" text-anchor="middle" fill="#1b5e20" font-size="8" font-weight="800" font-family="Arial,sans-serif">CHÈQUES</text>
+            <text x="30" y="26" text-anchor="middle" fill="#1b5e20" font-size="8" font-weight="800" font-family="Arial,sans-serif">VACANCES</text>
           </svg>
         </span>
         <!-- Espèces -->

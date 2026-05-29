@@ -264,12 +264,12 @@ $c_maps_link       = get_field( 'contact_maps_link' )        ?: 'https://www.goo
 /* Recrutement */
 /* ── Moyens de paiement & services ── */
 $paiements_all = [
-    'amex'         => 'American Express',
-    'mastercard'   => 'Mastercard',
-    'visa'         => 'Visa',
-    'carte_debit'  => 'Carte de débit',
-    'ticket_resto' => 'Ticket Restaurant',
-    'cash'         => 'Cash',
+    'amex'        => 'American Express',
+    'mastercard'  => 'Mastercard',
+    'visa'        => 'Visa',
+    'carte_debit' => 'Carte de débit',
+    'cheques_vac' => 'Chèques Vacances',
+    'cash'        => 'Cash',
 ];
 $services_all = [
     'pmr'      => [ 'label' => 'Accès PMR',     'icon' => '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>' ],
