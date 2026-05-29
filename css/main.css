@@ -1400,7 +1400,7 @@
       .hero-content { margin-top: 0; transform: translateY(-50px); }
       .hero-title   { font-size: 34px; }
       .hero-tagline { font-size: 18px; letter-spacing: 2px; }
-      .hero-cta     { margin-top: 20px; }
+      .hero-cta     { margin-top: 20px; row-gap: 15px; }
 
       /* Sticky nav — hide links, show burger + logo only */
       .sticky-nav { padding: 0 20px; height: 58px; justify-content: flex-end !important; }
