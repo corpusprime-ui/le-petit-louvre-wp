@@ -52,6 +52,37 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
           <p class="footer-text">
             <?php echo nl2br( esc_html( $f_footer_horaires ) ); ?>
           </p>
+
+          <!-- ── Newsletter ── -->
+          <div class="footer-nl">
+            <p class="footer-nl-label">Newsletter</p>
+            <form class="nl-form" id="footerNl" novalidate>
+              <div class="nl-pill">
+                <input type="email" class="nl-input" id="nlEmail"
+                       placeholder="votre@email.fr"
+                       aria-label="Adresse email pour la newsletter"
+                       autocomplete="email" required>
+                <button type="submit" class="nl-btn" aria-label="S'inscrire à la newsletter">
+                  <!-- Flèche -->
+                  <svg class="nl-icon nl-icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                  <!-- Spinner -->
+                  <svg class="nl-icon nl-icon-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke-opacity="0.25"/>
+                    <path d="M12 3a9 9 0 0 1 9 9"/>
+                  </svg>
+                  <!-- Checkmark -->
+                  <svg class="nl-icon nl-icon-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </button>
+              </div>
+              <p class="nl-msg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+
         </div>
       </div>
 

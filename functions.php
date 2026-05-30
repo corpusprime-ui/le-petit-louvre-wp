@@ -112,8 +112,45 @@ function lpl_enqueue_assets() {
         $v,
         true
     );
+
+    // Données AJAX pour la newsletter (nonce + ajaxurl)
+    wp_localize_script( 'lpl-main', 'lplAjax', [
+        'ajaxurl' => admin_url( 'admin-ajax.php' ),
+        'nonce'   => wp_create_nonce( 'lpl_nl_nonce' ),
+    ] );
 }
 add_action( 'wp_enqueue_scripts', 'lpl_enqueue_assets' );
+
+/* ------------------------------------------
+   Newsletter — Inscription AJAX
+   Stockage dans wp_options (sans plugin)
+   Export : Admin > Outils ou WP-CLI :
+   wp option get lpl_newsletter_emails
+------------------------------------------ */
+add_action( 'wp_ajax_lpl_newsletter_subscribe',        'lpl_newsletter_subscribe' );
+add_action( 'wp_ajax_nopriv_lpl_newsletter_subscribe', 'lpl_newsletter_subscribe' );
+function lpl_newsletter_subscribe() {
+    check_ajax_referer( 'lpl_nl_nonce', 'nonce' );
+
+    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
+    if ( ! is_email( $email ) ) {
+        wp_send_json_error( [ 'message' => 'Email invalide.' ], 400 );
+    }
+
+    /* Stockage dans wp_options (tableau sérialisé) */
+    $list = get_option( 'lpl_newsletter_emails', [] );
+    if ( ! is_array( $list ) ) $list = [];
+
+    if ( ! in_array( $email, $list, true ) ) {
+        $list[] = $email;
+        update_option( 'lpl_newsletter_emails', $list, false );
+    }
+
+    /* Notification email au gérant (décommenter en prod) */
+    // wp_mail( 'reservation@lepetitlouvre.fr', 'Nouvelle inscription newsletter', $email );
+
+    wp_send_json_success( [ 'message' => 'Merci, à bientôt !' ] );
+}
 
 /* ------------------------------------------
    Ajout de l'attribut defer sur les scripts

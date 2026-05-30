@@ -412,4 +412,62 @@
     updateFloatBtn();
   }
 
+  /* ──────────────────────────────────────────
+     NEWSLETTER — Animation + AJAX
+  ────────────────────────────────────────── */
+  const nlForm = document.getElementById('footerNl');
+  if (nlForm) {
+    nlForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const input = this.querySelector('.nl-input');
+      const btn   = this.querySelector('.nl-btn');
+      const msg   = this.querySelector('.nl-msg');
+      const email = input.value.trim();
+
+      /* Validation email basique */
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        input.focus();
+        msg.textContent = 'Entrez un email valide.';
+        msg.classList.add('visible');
+        return;
+      }
+
+      /* ─ État loading ─ */
+      btn.classList.add('is-loading');
+      btn.disabled = true;
+      msg.classList.remove('visible');
+
+      /* AJAX WordPress */
+      const ajaxUrl = (typeof lplAjax !== 'undefined') ? lplAjax.ajaxurl : '/wp-admin/admin-ajax.php';
+      const nonce   = (typeof lplAjax !== 'undefined') ? lplAjax.nonce   : '';
+      const fd = new FormData();
+      fd.append('action', 'lpl_newsletter_subscribe');
+      fd.append('email',  email);
+      fd.append('nonce',  nonce);
+
+      fetch(ajaxUrl, { method: 'POST', body: fd })
+        .then(r => r.json())
+        .then(data => {
+          /* ─ État success ─ */
+          btn.classList.remove('is-loading');
+          btn.classList.add('is-success');
+          input.value = '';
+          msg.textContent = data.data?.message || 'Merci, à bientôt !';
+          msg.classList.add('visible');
+          /* Reset après 5 s */
+          setTimeout(() => {
+            btn.classList.remove('is-success');
+            btn.disabled = false;
+            msg.classList.remove('visible');
+          }, 5000);
+        })
+        .catch(() => {
+          btn.classList.remove('is-loading');
+          btn.disabled = false;
+          msg.textContent = 'Erreur réseau, réessayez.';
+          msg.classList.add('visible');
+        });
+    });
+  }
+
 })();
