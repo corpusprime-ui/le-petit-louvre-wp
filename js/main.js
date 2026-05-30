@@ -419,7 +419,7 @@
   const parallaxImg     = parallaxSection && parallaxSection.querySelector('.contact-banner-photo img');
   if (parallaxImg && !reducedMotion) {
     let rafPending = false;
-    const strength = 70; /* px max de déplacement vertical */
+    const strength = 160; /* px max de déplacement vertical */
 
     const updateParallax = () => {
       const rect     = parallaxSection.getBoundingClientRect();

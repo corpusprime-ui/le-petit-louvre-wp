@@ -915,9 +915,9 @@ $c_recrutement_mailto = 'mailto:' . $c_email
   position: absolute; inset: 0; pointer-events: none; overflow: hidden;
 }
 .contact-banner-photo img {
-  width: 100%; height: 130%; /* débordement pour le déplacement parallaxe */
+  width: 100%; height: 160%; /* débordement pour le déplacement parallaxe */
   object-fit: cover; object-position: center center;
-  position: absolute; top: -15%; left: 0;
+  position: absolute; top: -30%; left: 0;
   will-change: transform;
   transform: translateY(0);
 }
