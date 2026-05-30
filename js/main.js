@@ -413,6 +413,37 @@
   }
 
   /* ──────────────────────────────────────────
+     PARALLAX — Contact banner (section recrutement)
+  ────────────────────────────────────────── */
+  const parallaxSection = document.querySelector('.contact-banner-section');
+  const parallaxImg     = parallaxSection && parallaxSection.querySelector('.contact-banner-photo img');
+  if (parallaxImg && !reducedMotion) {
+    let rafPending = false;
+    const strength = 70; /* px max de déplacement vertical */
+
+    const updateParallax = () => {
+      const rect     = parallaxSection.getBoundingClientRect();
+      const viewH    = window.innerHeight;
+      /* progress : 0 quand la section entre en bas, 1 quand elle sort en haut */
+      const progress = (viewH - rect.top) / (viewH + rect.height);
+      /* shift centré sur 0 : négatif en bas, positif en haut */
+      const shift    = (progress - 0.5) * strength * 2;
+      parallaxImg.style.transform = `translateY(${shift.toFixed(2)}px)`;
+      rafPending = false;
+    };
+
+    const onScroll = () => {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(updateParallax);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateParallax(); /* position initiale */
+  }
+
+  /* ──────────────────────────────────────────
      NEWSLETTER — Animation + AJAX
   ────────────────────────────────────────── */
   const nlForm = document.getElementById('footerNl');
