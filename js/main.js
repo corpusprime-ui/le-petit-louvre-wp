@@ -441,9 +441,10 @@
       const ajaxUrl = (typeof lplAjax !== 'undefined') ? lplAjax.ajaxurl : '/wp-admin/admin-ajax.php';
       const nonce   = (typeof lplAjax !== 'undefined') ? lplAjax.nonce   : '';
       const fd = new FormData();
-      fd.append('action', 'lpl_newsletter_subscribe');
-      fd.append('email',  email);
-      fd.append('nonce',  nonce);
+      fd.append('action',     'lpl_newsletter_subscribe');
+      fd.append('email',      email);
+      fd.append('nonce',      nonce);
+      fd.append('nl_website', ''); /* honeypot — toujours vide côté humain */
 
       fetch(ajaxUrl, { method: 'POST', body: fd })
         .then(r => r.json())

@@ -121,33 +121,85 @@ function lpl_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'lpl_enqueue_assets' );
 
-/* ------------------------------------------
-   Newsletter — Inscription AJAX
-   Stockage dans wp_options (sans plugin)
-   Export : Admin > Outils ou WP-CLI :
-   wp option get lpl_newsletter_emails
------------------------------------------- */
+/* ============================================================
+   NEWSLETTER — Inscription AJAX sécurisée
+   ─────────────────────────────────────────
+   Sécurité :
+     1. Nonce WordPress (CSRF)
+     2. Honeypot champ caché (bots)
+     3. Rate-limit IP : 3 tentatives / heure via transients
+     4. Validation + sanitize email strict
+     5. Dédoublonnage avant stockage
+   Stockage : wp_options → clé lpl_newsletter_emails (tableau)
+   Export WP-CLI : wp option get lpl_newsletter_emails --format=json
+   ============================================================ */
 add_action( 'wp_ajax_lpl_newsletter_subscribe',        'lpl_newsletter_subscribe' );
 add_action( 'wp_ajax_nopriv_lpl_newsletter_subscribe', 'lpl_newsletter_subscribe' );
-function lpl_newsletter_subscribe() {
-    check_ajax_referer( 'lpl_nl_nonce', 'nonce' );
 
-    $email = sanitize_email( wp_unslash( $_POST['email'] ?? '' ) );
-    if ( ! is_email( $email ) ) {
-        wp_send_json_error( [ 'message' => 'Email invalide.' ], 400 );
+function lpl_newsletter_subscribe(): void {
+
+    /* ── 1. Nonce CSRF ─────────────────────────────────────── */
+    if ( ! check_ajax_referer( 'lpl_nl_nonce', 'nonce', false ) ) {
+        wp_send_json_error( [ 'message' => 'Requête invalide.' ], 403 );
     }
 
-    /* Stockage dans wp_options (tableau sérialisé) */
+    /* ── 2. Honeypot anti-bot ──────────────────────────────── */
+    $honeypot = sanitize_text_field( wp_unslash( $_POST['nl_website'] ?? '' ) );
+    if ( $honeypot !== '' ) {
+        /* Bot détecté : réponse silencieuse (ne pas révéler le mécanisme) */
+        wp_send_json_success( [ 'message' => 'Merci, à bientôt !' ] );
+    }
+
+    /* ── 3. Rate-limit par IP (3 req / heure) ─────────────── */
+    $ip      = sanitize_text_field( $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0' );
+    $tk_key  = 'lpl_nl_rl_' . md5( $ip );
+    $hits    = (int) get_transient( $tk_key );
+    if ( $hits >= 3 ) {
+        wp_send_json_error( [ 'message' => 'Trop de tentatives, réessayez dans une heure.' ], 429 );
+    }
+    set_transient( $tk_key, $hits + 1, HOUR_IN_SECONDS );
+
+    /* ── 4. Validation email ───────────────────────────────── */
+    $raw_email = wp_unslash( $_POST['email'] ?? '' );
+    $email     = sanitize_email( $raw_email );
+
+    if ( ! is_email( $email ) ) {
+        wp_send_json_error( [ 'message' => 'Adresse email invalide.' ], 400 );
+    }
+
+    /* Longueur max raisonnable (RFC 5321 : 254 chars) */
+    if ( strlen( $email ) > 254 ) {
+        wp_send_json_error( [ 'message' => 'Adresse email trop longue.' ], 400 );
+    }
+
+    /* ── 5. Stockage dédoublonné ───────────────────────────── */
     $list = get_option( 'lpl_newsletter_emails', [] );
     if ( ! is_array( $list ) ) $list = [];
 
-    if ( ! in_array( $email, $list, true ) ) {
+    $already = in_array( $email, $list, true );
+    if ( ! $already ) {
         $list[] = $email;
         update_option( 'lpl_newsletter_emails', $list, false );
     }
 
-    /* Notification email au gérant (décommenter en prod) */
-    // wp_mail( 'reservation@lepetitlouvre.fr', 'Nouvelle inscription newsletter', $email );
+    /* ── 6. Email de confirmation au visiteur ──────────────── */
+    if ( ! $already ) {
+        $subject = 'Bienvenue dans la newsletter du Petit Louvre';
+        $body    = "Bonjour,\n\nVotre inscription à la newsletter du Petit Louvre est confirmée.\n"
+                 . "Vous recevrez nos actualités, événements et offres spéciales.\n\n"
+                 . "À très bientôt au Petit Louvre, 14 Pl. Lucien de Gracia, Arcachon.\n\n"
+                 . "— L'équipe du Petit Louvre";
+        $headers = [ 'Content-Type: text/plain; charset=UTF-8' ];
+        wp_mail( $email, $subject, $body, $headers );
+
+        /* ── Notification interne au gérant ─────────────────── */
+        wp_mail(
+            'reservation@lepetitlouvre.fr',
+            'Nouvelle inscription newsletter : ' . $email,
+            "Un nouveau visiteur vient de s'inscrire à la newsletter.\n\nEmail : $email\nDate : " . current_time( 'mysql' ),
+            [ 'Content-Type: text/plain; charset=UTF-8' ]
+        );
+    }
 
     wp_send_json_success( [ 'message' => 'Merci, à bientôt !' ] );
 }

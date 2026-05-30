@@ -57,6 +57,9 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
           <div class="footer-nl">
             <p class="footer-nl-label">Newsletter</p>
             <form class="nl-form" id="footerNl" novalidate>
+              <!-- Honeypot anti-bot : invisible pour les humains -->
+              <input type="text" name="nl_website" class="nl-honeypot"
+                     tabindex="-1" autocomplete="off" aria-hidden="true">
               <div class="nl-pill">
                 <input type="email" class="nl-input" id="nlEmail"
                        placeholder="votre@email.fr"
