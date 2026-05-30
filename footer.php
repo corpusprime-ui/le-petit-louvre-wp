@@ -61,10 +61,12 @@ $f_float_label      = get_field( 'opt_float_label',      'option' ) ?: 'Réserve
               <input type="text" name="nl_website" class="nl-honeypot"
                      tabindex="-1" autocomplete="off" aria-hidden="true">
               <div class="nl-pill">
-                <input type="email" class="nl-input" id="nlEmail"
-                       placeholder="votre@email.fr"
-                       aria-label="Adresse email pour la newsletter"
-                       autocomplete="email" required>
+                <div class="nl-field-wrap">
+                  <input type="email" class="nl-input" id="nlEmail"
+                         aria-label="Adresse email pour la newsletter"
+                         autocomplete="email" required>
+                  <label for="nlEmail" class="nl-label" aria-hidden="true">votre@email.fr</label>
+                </div>
                 <button type="submit" class="nl-btn" aria-label="S'inscrire à la newsletter">
                   <!-- Flèche -->
                   <svg class="nl-icon nl-icon-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

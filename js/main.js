@@ -417,6 +417,15 @@
   ────────────────────────────────────────── */
   const nlForm = document.getElementById('footerNl');
   if (nlForm) {
+    /* ─ Label flottant : disparaît à la frappe, revient si champ vide ─ */
+    const nlLabel = nlForm.querySelector('.nl-label');
+    const nlInputEl = nlForm.querySelector('.nl-input');
+    if (nlLabel && nlInputEl) {
+      const syncLabel = () => nlLabel.classList.toggle('nl-hidden', nlInputEl.value.length > 0);
+      nlInputEl.addEventListener('input',  syncLabel);
+      nlInputEl.addEventListener('change', syncLabel);
+    }
+
     nlForm.addEventListener('submit', function (e) {
       e.preventDefault();
       const input = this.querySelector('.nl-input');
@@ -453,6 +462,7 @@
           btn.classList.remove('is-loading');
           btn.classList.add('is-success');
           input.value = '';
+          if (nlLabel) nlLabel.classList.remove('nl-hidden'); /* label revient */
           msg.textContent = data.data?.message || 'Merci, à bientôt !';
           msg.classList.add('visible');
           /* Reset après 5 s */
